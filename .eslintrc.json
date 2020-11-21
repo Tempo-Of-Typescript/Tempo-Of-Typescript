@@ -6,13 +6,12 @@
   },
   "extends": [
     "plugin:react/recommended",
-    //"airbnb",
     "prettier",
     "prettier/react"
   ],
   "parserOptions": {
     "ecmaFeatures": {
-      "jsx": true
+      "tsx": true
     },
     "ecmaVersion": 12,
     "sourceType": "module"
