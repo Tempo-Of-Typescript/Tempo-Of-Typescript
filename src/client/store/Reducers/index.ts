@@ -16,7 +16,7 @@ import reducerPlaceHolderReducer from './reducerPlaceHolder1/reducer'
 // }
 
 export interface ApplicationState {
-  something: "somethingSomeday";
+  thisShouldBeReducerType: "seeAboveExample";
 }
 
 /*
