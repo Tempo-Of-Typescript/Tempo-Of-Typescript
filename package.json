@@ -4,7 +4,6 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "watch:ts:dev": "tsc",
     "build:dev": "webpack --watch --mode=development",
     "start:dev": "npm run build:dev & ts-node-dev src/server/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
