@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "compile": "npm run watch:js:dev",
+    "prettier": "prettier --config .prettierrc.json 'src/**/*' --write",
     "watch:ts:dev": "tsc",
     "build:dev": "webpack --watch --mode=development",
     "start:dev": "npm run build:dev & ts-node-dev src/server/index.ts",
@@ -40,6 +41,8 @@
     "@types/react-router-dom": "^5.1.6",
     "@types/redux-logger": "^3.0.8",
     "@types/validator": "^13.1.0",
+    "@typescript-eslint/eslint-plugin": "^4.8.1",
+    "@typescript-eslint/parser": "^4.8.1",
     "babel-loader": "^8.2.1",
     "chalk": "^4.1.0",
     "eslint": "^7.12.1",
@@ -76,4 +79,3 @@
     "*.{ts,tsx,js}": "eslint"
   }
 }
- 
