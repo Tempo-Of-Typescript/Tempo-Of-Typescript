@@ -15,16 +15,15 @@ import reducerPlaceHolderReducer from './reducerPlaceHolder1/reducer'
 //   reducer1Type: reducerPlaceHolder1
 // }
 
-export interface ApplicationState {
-  thisShouldBeReducerType: "seeAboveExample";
-}
-
-/*
-    export const reducers: Reducer<ApplicationState> = combineReducers<ApplicationState>({
-        reducer : reducerPlaceHolderReducer
-    });
-*/
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface ApplicationState {}
 
 export const reducers: Reducer<ApplicationState> = combineReducers<ApplicationState>(
   {}
 );
+
+// export const reducers: Reducer<ApplicationState> = combineReducers<ApplicationState>(
+// {
+//ONCE WE MAKE A REDUCERS UNCOMMENT THIS
+// }
+// );

@@ -4,8 +4,6 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "compile": "npm run watch:js:dev",
-    "prettier": "prettier --config .prettierrc.json 'src/**/*' --write",
     "watch:ts:dev": "tsc",
     "build:dev": "webpack --watch --mode=development",
     "start:dev": "npm run build:dev & ts-node-dev src/server/index.ts",
