@@ -23,6 +23,13 @@ app.get("/", (req: Request, res: Response, next: NextFunction) => {
   }
 });
 
-app.use((err: ErrorRequestHandler, req: Request, res: Response) => {
-  res.status(500).send(err);
-});
+app.use(
+  (
+    err: ErrorRequestHandler,
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    res.status(500).send(err);
+  }
+);
