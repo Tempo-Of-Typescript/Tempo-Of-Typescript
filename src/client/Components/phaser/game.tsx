@@ -3,12 +3,11 @@ import MainScene from "./MainScene";
 
 export const game: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
-  width: "89%",
-  height: "90%",
+  width: "100%",
+  height: "100%",
   physics: {
     default: "arcade",
     arcade: {
-      gravity: { y: 0 },
       debug: true,
     },
   },
