@@ -1,19 +1,22 @@
 import Phaser from "phaser";
 import MainScene from "./MainScene";
 
+const CANVAS_WIDTH = 1000;
+const CANVAS_HEIGHT = 600;
+
 export const game: Phaser.Types.Core.GameConfig = {
+  title: "Tempo_of_TypeScript",
   type: Phaser.AUTO,
-  width: "89%",
-  height: "90%",
+  scene: [MainScene],
+  scale: {
+    width: CANVAS_WIDTH,
+    height: CANVAS_HEIGHT,
+  },
   physics: {
     default: "arcade",
     arcade: {
       gravity: { y: 0 },
-      debug: true,
+      debug: false,
     },
   },
-
-  scene: [MainScene],
 };
-
-console.log("game", game);
