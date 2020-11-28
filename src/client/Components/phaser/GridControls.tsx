@@ -7,6 +7,7 @@ export class GridControls {
     private gridPhysics: GridPhysics
   ) {}
 
+  //Keyboard inputs
   update(): void {
     const cursors = this.input.keyboard.createCursorKeys();
     if (cursors.left?.isDown) {
