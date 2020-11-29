@@ -12,7 +12,7 @@ export class GridPhysics {
 
   //the number of pixels added to the player position per second
   //affects movement speed
-  private readonly speedPixelsPerSecond: number = MainScene.TILE_SIZE * 8;
+  private readonly speedPixelsPerSecond: number = MainScene.TILE_SIZE * 4;
 
   //keeps track of the pixels of tiles walked on, so we don't exceed tile border
   private tileSizePixelsWalked = 0;

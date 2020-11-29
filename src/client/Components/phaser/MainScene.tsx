@@ -18,8 +18,8 @@ export default class MainScene extends Phaser.Scene {
   public preload(): void {
     //load map into the game (tile-sheet and JSON for collision info)
     //using Phaser methods
-    this.load.image("tiles", "assets/cloud_tileset.png");
-    this.load.tilemapTiledJSON("cloud-city-map", "assets/cloud_city.json");
+    this.load.image("tiles", "assets/ToTS-sheet.png");
+    this.load.tilemapTiledJSON("temple-map", "assets/ToTS_dungeon.json");
 
     //load player into the map
     this.load.spritesheet("player", "assets/sprites/characters.png", {
@@ -30,12 +30,12 @@ export default class MainScene extends Phaser.Scene {
 
   public create(): void {
     //creates the map we want by parsing the JSON file and filling with sprites
-    const cloudCityTilemap = this.make.tilemap({ key: "cloud-city-map" });
-    cloudCityTilemap.addTilesetImage("Cloud City", "tiles");
+    const cloudCityTilemap = this.make.tilemap({ key: "temple-map" });
+    cloudCityTilemap.addTilesetImage("Temple of TS", "tiles");
 
     //adds map depth for each layer we have
     for (let i = 0; i < cloudCityTilemap.layers.length; i++) {
-      const layer = cloudCityTilemap.createStaticLayer(i, "Cloud City", 0, 0);
+      const layer = cloudCityTilemap.createStaticLayer(i, "Temple of TS", 0, 0);
       layer.setDepth(i);
       layer.scale = 3;
     }
@@ -48,7 +48,7 @@ export default class MainScene extends Phaser.Scene {
 
     this.gridPhysics = new GridPhysics(
       //arguments for new Player are (spritesheet, characterIndex, startTilePosX, startTilePosY)
-      new Player(playerSprite, 4, 8, 8),
+      new Player(playerSprite, 4, 31, 56),
       cloudCityTilemap
     );
     this.gridControls = new GridControls(this.input, this.gridPhysics);

@@ -100,6 +100,7 @@ export class Player {
   }
 
   //shifting the character sprite to match the tile sprite
+  //tile size is 48px but character width is 52, so we adjust X and Y
   private playerOffsetX(): number {
     return MainScene.TILE_SIZE / 2;
   }
