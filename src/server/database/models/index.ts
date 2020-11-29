@@ -1,4 +1,4 @@
-import { UserFactory } from "./src/User";
-import { SessionsFactory } from "./src/Sessions";
+import { User } from "./src/User";
+import { Sessions } from "./src/Sessions";
 
-export { UserFactory, SessionsFactory };
+export { User, Sessions };

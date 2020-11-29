@@ -1,30 +1,39 @@
-import { BuildOptions, DataTypes, Model, Sequelize } from "sequelize";
+import {
+  Model,
+  Column,
+  Table,
+  CreatedAt,
+  UpdatedAt,
+  BelongsTo,
+  ForeignKey,
+} from "sequelize-typescript";
+import { User } from "../index";
 
-export interface SessionAttributes {
+interface ISessions {
   id: number;
   sessionUUID: string;
+  createdAt: Date;
+  updatedAt: Date;
+  userId: number;
 }
-export interface SessionsModel
-  extends Model<SessionAttributes>,
-    SessionAttributes {}
-export class Sesssions extends Model<SessionsModel, SessionAttributes> {}
 
-export type SessionsStatic = typeof Model & {
-  //ignored because our new input is always going to be an object
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  new (values?: object, options?: BuildOptions): SessionsModel;
-};
+@Table
+export class Sessions extends Model<ISessions> {
+  @Column
+  sessionUUID!: string;
 
-export function SessionsFactory(sequelize: Sequelize): SessionsStatic {
-  return <SessionsStatic>sequelize.define("sessions", {
-    id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
-    },
-    sessionUUID: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-  });
+  @CreatedAt
+  @Column
+  createdAt!: Date;
+
+  @UpdatedAt
+  @Column
+  updatedAt!: Date;
+
+  @ForeignKey(() => User)
+  @Column
+  userId!: number;
+
+  @BelongsTo(() => User)
+  user?: User;
 }

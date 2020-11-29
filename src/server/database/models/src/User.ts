@@ -1,34 +1,41 @@
-import { BuildOptions, DataTypes, Model, Sequelize } from "sequelize";
+import {
+  Table,
+  Model,
+  Column,
+  CreatedAt,
+  UpdatedAt,
+  HasMany,
+} from "sequelize-typescript";
+import { Sessions } from "../index";
 
-export interface UserAttributes {
+interface IUser {
   id: number;
   name: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-  tokens?: Array<string>;
+  authToken: number;
+  refreshToken: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
-export interface UserModel extends Model<UserAttributes>, UserAttributes {}
-export class User extends Model<UserModel, UserAttributes> {}
 
-export type UserStatic = typeof Model & {
-  //ignored because our new input is always going to be an object
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  new (values?: object, options?: BuildOptions): UserModel;
-};
+@Table
+export class User extends Model<IUser> {
+  @Column
+  name!: string;
 
-export function UserFactory(sequelize: Sequelize): UserStatic {
-  return <UserStatic>sequelize.define("users", {
-    id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
-    },
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    tokens: {
-      type: DataTypes.ARRAY(DataTypes.STRING),
-    },
-  });
+  @Column
+  authToken!: string;
+
+  @Column
+  refreshToken!: string;
+
+  @CreatedAt
+  @Column
+  createdAt!: Date;
+
+  @UpdatedAt
+  @Column
+  updatedAt!: Date;
+
+  @HasMany(() => Sessions)
+  sessions?: Sessions[];
 }
