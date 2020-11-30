@@ -1,5 +1,6 @@
 import MainScene from "./MainScene";
 import { Direction } from "./Direction";
+import { LEFT } from "phaser";
 
 interface FrameRow {
   leftFoot: number;
@@ -28,11 +29,12 @@ export class Player {
 
   //maps direction to the character sprite sheet
   //each index represents a row of the sprite sheet
+
   private directionToFrameRow: { [key in Direction]?: number } = {
-    [Direction.DOWN]: 0,
-    [Direction.LEFT]: 1,
-    [Direction.RIGHT]: 2,
-    [Direction.UP]: 3,
+    [Direction.DOWN]: 2,
+    [Direction.LEFT]: 2,
+    [Direction.RIGHT]: 1,
+    [Direction.UP]: 2,
   };
 
   //         ^^^ config information ^^^
@@ -126,8 +128,8 @@ export class Player {
     const startFrame = framesInSameRowBefore + rows * framesInRow;
     return {
       leftFoot: startFrame,
-      standing: startFrame + 1,
-      rightFoot: startFrame + 2,
+      standing: startFrame + 2,
+      rightFoot: startFrame + 1,
     };
   }
 }
