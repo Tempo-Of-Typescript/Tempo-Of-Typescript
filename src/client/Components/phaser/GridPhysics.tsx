@@ -23,7 +23,7 @@ export class GridPhysics {
   private decimalPlacesLeft = 0;
 
   //convert pressed direction to Phaser Vector2 coordinates
-  /*    
+  /*
     Vector2.UP: (x = 0, y = -1)
     Vector2.DOWN: (x = 0, y = 1)
     Vector2.LEFT: (x = -1, y = 0)
