@@ -49,7 +49,13 @@ export class GridPhysics {
   public lastDirectionQueue = ["none", "none"];
 
   moveToBeat(): void {
-    this.canMove = !this.canMove;
+    this.canMove = true;
+    console.log("now you can move!");
+
+    setTimeout(() => {
+      this.canMove = false;
+      console.log("cant move!");
+    }, 200);
   }
 
   //the main method for moving the character
