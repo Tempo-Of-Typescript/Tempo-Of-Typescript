@@ -2,6 +2,7 @@ import Phaser from "phaser";
 import { Player } from "./Player";
 import { GridControls } from "./GridControls";
 import { GridPhysics } from "./GridPhysics";
+import { createMonsterAnims } from "./EnemyAnimations";
 
 export default class MainScene extends Phaser.Scene {
   //scalar config of the tile sizes
@@ -26,6 +27,12 @@ export default class MainScene extends Phaser.Scene {
       frameWidth: Player.SPRITE_FRAME_WIDTH,
       frameHeight: Player.SPRITE_FRAME_HEIGHT,
     });
+
+    this.load.atlas(
+      "monster",
+      "assets/enemies/lizard.png",
+      "assets/enemies/lizard.json"
+    );
   }
 
   public create(): void {
@@ -44,6 +51,15 @@ export default class MainScene extends Phaser.Scene {
     const playerSprite = this.physics.add.sprite(0, 0, "player");
     playerSprite.setDepth(2);
 
+    //creates enemy - lizard
+    const monster = this.add.sprite(
+      0,
+      0,
+      "monster",
+      "lizard_m_idle_anim_f0.png"
+    );
+
+    // this.cameras.main.startFollow(playerSprite);
     this.cameras.main.startFollow(playerSprite);
 
     this.gridPhysics = new GridPhysics(
@@ -52,6 +68,18 @@ export default class MainScene extends Phaser.Scene {
       cloudCityTilemap
     );
     this.gridControls = new GridControls(this.input, this.gridPhysics);
+
+    //gridphysics for enemy to spawn at particular spot
+    new GridPhysics(
+      //arguments for new Player are (spritesheet, characterIndex, startTilePosX, startTilePosY)
+      new Player(monster, 4, 28, 48), //coordinates where enemy spawns
+      cloudCityTilemap
+    );
+
+    //refactored animations to separate file - EnemyAnimations.tsx
+    createMonsterAnims(this.anims);
+
+    monster.anims.play("lizard-run");
   }
 
   //Phaser calls update with 2 arguments: time and delta.
