@@ -33,6 +33,10 @@ export default class MainScene extends Phaser.Scene {
       "assets/enemies/lizard.png",
       "assets/enemies/lizard.json"
     );
+
+    setInterval(() => {
+      this.gridPhysics?.moveToBeat();
+    }, 1000);
   }
 
   public create(): void {

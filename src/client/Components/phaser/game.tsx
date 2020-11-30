@@ -5,6 +5,16 @@ import MainScene from "./MainScene";
 const CANVAS_WIDTH = 1000;
 const CANVAS_HEIGHT = 600;
 
+// interface GameConfig {
+//   game: Phaser.Types.Core.GameConfig
+// }
+
+// interface RenderConfig {
+//   game2: Phaser.Types.Core.RenderConfig
+// }
+
+// interface mixedInterface extends GameConfig, RenderConfig {}
+
 //Config settings of the game
 export const game: Phaser.Types.Core.GameConfig = {
   title: "Tempo_of_TypeScript",
