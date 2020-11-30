@@ -22,7 +22,7 @@ export default class MainScene extends Phaser.Scene {
     this.load.tilemapTiledJSON("temple-map", "assets/ToTS_dungeon.json");
 
     //load player into the map
-    this.load.spritesheet("player", "assets/sprites/characters.png", {
+    this.load.spritesheet("player", "assets/sprites/knight_spritesheet.png", {
       frameWidth: Player.SPRITE_FRAME_WIDTH,
       frameHeight: Player.SPRITE_FRAME_HEIGHT,
     });
@@ -48,7 +48,7 @@ export default class MainScene extends Phaser.Scene {
 
     this.gridPhysics = new GridPhysics(
       //arguments for new Player are (spritesheet, characterIndex, startTilePosX, startTilePosY)
-      new Player(playerSprite, 1, 29, 57),
+      new Player(playerSprite, 0, 29, 57),
       cloudCityTilemap
     );
     this.gridControls = new GridControls(this.input, this.gridPhysics);

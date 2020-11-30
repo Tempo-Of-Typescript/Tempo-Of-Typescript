@@ -11,20 +11,20 @@ export class Player {
   //         vvv config information vvv
 
   //dimensions of our character from the spritesheet
-  public static readonly SPRITE_FRAME_WIDTH = 52;
-  public static readonly SPRITE_FRAME_HEIGHT = 72;
+  public static readonly SPRITE_FRAME_WIDTH = 16;
+  public static readonly SPRITE_FRAME_HEIGHT = 28;
 
   //scale factor needed to scale the character to match the tile size
   //tile size is 48, which has scale factor or 3 (16 x 3)
   //player sprite scale is 2, so we multiply by 1.5 to get 3
-  public static readonly SCALE_FACTOR = 1.5;
+  public static readonly SCALE_FACTOR = 3;
 
   //number of characters in each row
-  private static readonly CHARS_IN_ROW = 4;
+  private static readonly CHARS_IN_ROW = 1;
   //number of movement frames per chracter per row
   private static readonly FRAMES_PER_CHAR_ROW = 3;
   //number of movements
-  private static readonly FRAMES_PER_CHAR_COL = 4;
+  private static readonly FRAMES_PER_CHAR_COL = 3;
 
   //maps direction to the character sprite sheet
   //each index represents a row of the sprite sheet
