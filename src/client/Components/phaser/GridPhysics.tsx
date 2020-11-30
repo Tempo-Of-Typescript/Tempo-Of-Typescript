@@ -1,6 +1,7 @@
 import MainScene from "./MainScene";
 import { Direction } from "./Direction";
 import { Player } from "./Player";
+import e from "express";
 
 //Creates a 2D vector ([x], [y])
 const Vector2 = Phaser.Math.Vector2;
@@ -42,6 +43,9 @@ export class GridPhysics {
     private tileMap: Phaser.Tilemaps.Tilemap
   ) {}
 
+  //queue that holds the player's current and last direction
+  public lastDirectionQueue = ["none", "none"];
+
   //the main method for moving the character
   movePlayer(direction: Direction): void {
     //if player is holding down the keys, keep going
@@ -52,6 +56,23 @@ export class GridPhysics {
       this.player.setStandingFrame(direction);
     } else {
       this.startMoving(direction);
+
+      //since the sprite only faces left or right, we change the queue to record current direction
+      if (direction === "left" || direction === "right") {
+        this.lastDirectionQueue[0] = this.lastDirectionQueue[1];
+        this.lastDirectionQueue[1] = direction;
+      }
+      //this refers to the current direction the player is facing
+      this.player.currentDirection = this.lastDirectionQueue[1];
+
+      //manipulate the up and down frames based on which direction player is facing
+      if (this.player.currentDirection === "left") {
+        this.player.directionToFrameRow[Direction.UP] = 2;
+        this.player.directionToFrameRow[Direction.DOWN] = 2;
+      } else {
+        this.player.directionToFrameRow[Direction.UP] = 1;
+        this.player.directionToFrameRow[Direction.DOWN] = 1;
+      }
     }
   }
 

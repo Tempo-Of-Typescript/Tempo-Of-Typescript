@@ -1,6 +1,5 @@
 import MainScene from "./MainScene";
 import { Direction } from "./Direction";
-import { LEFT } from "phaser";
 
 interface FrameRow {
   leftFoot: number;
@@ -16,8 +15,7 @@ export class Player {
   public static readonly SPRITE_FRAME_HEIGHT = 28;
 
   //scale factor needed to scale the character to match the tile size
-  //tile size is 48, which has scale factor or 3 (16 x 3)
-  //player sprite scale is 2, so we multiply by 1.5 to get 3
+  //this will change how much of the tile the character takes up
   public static readonly SCALE_FACTOR = 3;
 
   //number of characters in each row
@@ -30,8 +28,10 @@ export class Player {
   //maps direction to the character sprite sheet
   //each index represents a row of the sprite sheet
 
-  private directionToFrameRow: { [key in Direction]?: number } = {
-    [Direction.DOWN]: 2,
+  public currentDirection = "left";
+
+  public directionToFrameRow: { [key in Direction]?: number } = {
+    [Direction.DOWN]: 1,
     [Direction.LEFT]: 2,
     [Direction.RIGHT]: 1,
     [Direction.UP]: 2,
@@ -76,13 +76,19 @@ export class Player {
     );
   }
 
-  //set animation of resting
+  //reset to standing frame when finished moving
   setStandingFrame(direction: Direction): void {
     if (this.isCurrentFrameStanding(direction)) {
       this.lastFootLeft = !this.lastFootLeft;
     }
     this.sprite.setFrame(this.framesOfDirection(direction).standing);
   }
+
+  //set idle animation
+  // setIdle(direction: Direction): void {
+  //   const frameRow = this.framesOfDirection(direction);
+  //   console.log(direction)
+  // }
 
   //get tile position for handling collisions
   //makes sure player isn't walking on air or a hole
@@ -126,6 +132,7 @@ export class Player {
       this.directionToFrameRow[direction]! +
       playerCharRow * Player.FRAMES_PER_CHAR_COL;
     const startFrame = framesInSameRowBefore + rows * framesInRow;
+
     return {
       leftFoot: startFrame,
       standing: startFrame + 2,
