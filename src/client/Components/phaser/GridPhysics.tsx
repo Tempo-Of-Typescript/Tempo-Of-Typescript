@@ -8,7 +8,9 @@ const Vector2 = Phaser.Math.Vector2;
 type Vector2 = Phaser.Math.Vector2;
 
 export class GridPhysics {
-  private canMove = true;
+  //boolean checking if the player/enemies can move
+  //ties to the moveToBeat method
+  private canMove = false;
 
   //the current direction the character is moving, default is NONE (facing forward)
   private movementDirection = Direction.NONE;
@@ -48,6 +50,7 @@ export class GridPhysics {
   //queue that holds the player's current and last direction
   public lastDirectionQueue = ["none", "none"];
 
+  //allows the player/enemies to send inputs for 200ms in each beat
   moveToBeat(): void {
     this.canMove = true;
     console.log("now you can move!");

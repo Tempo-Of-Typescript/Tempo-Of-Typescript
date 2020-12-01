@@ -9,6 +9,9 @@ export default class MainScene extends Phaser.Scene {
   //depends on the sprite map we are using
   static readonly TILE_SIZE = 48;
 
+  //hardcoded BPM (beats per minute) of a song
+  private BPM = 120;
+
   private gridControls?: GridControls;
   private gridPhysics?: GridPhysics;
 
@@ -34,19 +37,23 @@ export default class MainScene extends Phaser.Scene {
       "assets/enemies/lizard.json"
     );
 
+    //converts the song's BPM to milliseconds
+    const beatsPerSecondInMS = (60 / this.BPM) * 1000;
+
+    //sets the rythm of the gameplay based on the available BPM
     setInterval(() => {
       this.gridPhysics?.moveToBeat();
-    }, 500);
+    }, beatsPerSecondInMS);
   }
 
   public create(): void {
     //creates the map we want by parsing the JSON file and filling with sprites
-    const cloudCityTilemap = this.make.tilemap({ key: "temple-map" });
-    cloudCityTilemap.addTilesetImage("Temple of TS", "tiles");
+    const dungeonMap = this.make.tilemap({ key: "temple-map" });
+    dungeonMap.addTilesetImage("Temple of TS", "tiles");
 
     //adds map depth for each layer we have
-    for (let i = 0; i < cloudCityTilemap.layers.length; i++) {
-      const layer = cloudCityTilemap.createStaticLayer(i, "Temple of TS", 0, 0);
+    for (let i = 0; i < dungeonMap.layers.length; i++) {
+      const layer = dungeonMap.createStaticLayer(i, "Temple of TS", 0, 0);
       layer.setDepth(i);
       layer.scale = 3;
     }
@@ -69,7 +76,7 @@ export default class MainScene extends Phaser.Scene {
     this.gridPhysics = new GridPhysics(
       //arguments for new Player are (spritesheet, characterIndex, startTilePosX, startTilePosY)
       new Player(playerSprite, 0, 29, 57),
-      cloudCityTilemap
+      dungeonMap
     );
     this.gridControls = new GridControls(this.input, this.gridPhysics);
 
@@ -77,7 +84,7 @@ export default class MainScene extends Phaser.Scene {
     new GridPhysics(
       //arguments for new Player are (spritesheet, characterIndex, startTilePosX, startTilePosY)
       new Player(monster, 4, 28, 48), //coordinates where enemy spawns
-      cloudCityTilemap
+      dungeonMap
     );
 
     //refactored animations to separate file - EnemyAnimations.tsx
