@@ -36,7 +36,7 @@ export default class MainScene extends Phaser.Scene {
 
     setInterval(() => {
       this.gridPhysics?.moveToBeat();
-    }, 1000);
+    }, 500);
   }
 
   public create(): void {
