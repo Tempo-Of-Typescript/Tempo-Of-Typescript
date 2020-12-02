@@ -10,6 +10,10 @@ export const game: Phaser.Types.Core.GameConfig = {
   title: "Tempo_of_TypeScript",
   type: Phaser.AUTO,
   scene: [MainScene],
+  backgroundColor: "#181818",
+  render: {
+    pixelArt: true,
+  },
   scale: {
     width: CANVAS_WIDTH,
     height: CANVAS_HEIGHT,

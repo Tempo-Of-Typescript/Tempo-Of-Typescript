@@ -11,28 +11,30 @@ export class Player {
   //         vvv config information vvv
 
   //dimensions of our character from the spritesheet
-  public static readonly SPRITE_FRAME_WIDTH = 52;
-  public static readonly SPRITE_FRAME_HEIGHT = 72;
+  public static readonly SPRITE_FRAME_WIDTH = 16;
+  public static readonly SPRITE_FRAME_HEIGHT = 28;
 
   //scale factor needed to scale the character to match the tile size
-  //tile size is 48, which has scale factor or 3 (16 x 3)
-  //player sprite scale is 2, so we multiply by 1.5 to get 3
-  public static readonly SCALE_FACTOR = 1.5;
+  //this will change how much of the tile the character takes up
+  public static readonly SCALE_FACTOR = 3;
 
   //number of characters in each row
-  private static readonly CHARS_IN_ROW = 4;
+  private static readonly CHARS_IN_ROW = 1;
   //number of movement frames per chracter per row
   private static readonly FRAMES_PER_CHAR_ROW = 3;
   //number of movements
-  private static readonly FRAMES_PER_CHAR_COL = 4;
+  private static readonly FRAMES_PER_CHAR_COL = 3;
 
   //maps direction to the character sprite sheet
   //each index represents a row of the sprite sheet
-  private directionToFrameRow: { [key in Direction]?: number } = {
-    [Direction.DOWN]: 0,
-    [Direction.LEFT]: 1,
-    [Direction.RIGHT]: 2,
-    [Direction.UP]: 3,
+
+  public currentDirection = "left";
+
+  public directionToFrameRow: { [key in Direction]?: number } = {
+    [Direction.DOWN]: 1,
+    [Direction.LEFT]: 2,
+    [Direction.RIGHT]: 1,
+    [Direction.UP]: 2,
   };
 
   //         ^^^ config information ^^^
@@ -74,13 +76,19 @@ export class Player {
     );
   }
 
-  //set animation of resting
+  //reset to standing frame when finished moving
   setStandingFrame(direction: Direction): void {
     if (this.isCurrentFrameStanding(direction)) {
       this.lastFootLeft = !this.lastFootLeft;
     }
     this.sprite.setFrame(this.framesOfDirection(direction).standing);
   }
+
+  //set idle animation
+  // setIdle(direction: Direction): void {
+  //   const frameRow = this.framesOfDirection(direction);
+  //   console.log(direction)
+  // }
 
   //get tile position for handling collisions
   //makes sure player isn't walking on air or a hole
@@ -100,6 +108,7 @@ export class Player {
   }
 
   //shifting the character sprite to match the tile sprite
+  //tile size is 48px but character width is 52, so we adjust X and Y
   private playerOffsetX(): number {
     return MainScene.TILE_SIZE / 2;
   }
@@ -123,10 +132,11 @@ export class Player {
       this.directionToFrameRow[direction]! +
       playerCharRow * Player.FRAMES_PER_CHAR_COL;
     const startFrame = framesInSameRowBefore + rows * framesInRow;
+
     return {
       leftFoot: startFrame,
-      standing: startFrame + 1,
-      rightFoot: startFrame + 2,
+      standing: startFrame + 2,
+      rightFoot: startFrame + 1,
     };
   }
 }
