@@ -10,8 +10,8 @@ class Routes extends React.Component {
   render() {
     return (
       <Router>
-        <div className="game-window">
-          <IonPhaser game={game} />
+        <div className="game-container">
+          <IonPhaser className="game-window" game={game} />
         </div>
         <Footer />
       </Router>
