@@ -15,6 +15,14 @@ export default class MainScene extends Phaser.Scene {
   private gridControls?: GridControls;
   private gridPhysics?: GridPhysics;
 
+  private healthText?: Phaser.GameObjects.Image;
+
+  private textStyle = {
+    fill: "#FFFFFF",
+    fontSize: "20px",
+    backgroundColor: "#000000",
+  };
+
   constructor() {
     super("main-scene");
   }
@@ -23,6 +31,10 @@ export default class MainScene extends Phaser.Scene {
     //load map into the game (tile-sheet and JSON for collision info)
     //using Phaser methods
     this.load.image("tiles", "assets/ToTS-sheet.png");
+    this.load.spritesheet("music", "assets/sprites/music_note_001.png", {
+      frameWidth: 30,
+      frameHeight: 30,
+    });
     this.load.tilemapTiledJSON("temple-map", "assets/ToTS_dungeon.json");
 
     //load player into the map
@@ -43,6 +55,8 @@ export default class MainScene extends Phaser.Scene {
     //sets the rythm of the gameplay based on the available BPM
     setInterval(() => {
       this.gridPhysics?.moveToBeat();
+      this.healthText!.x += beatsPerSecondInMS / 4;
+      if (this.healthText!.x > 900) this.healthText!.x = 100;
     }, beatsPerSecondInMS);
   }
 
@@ -91,6 +105,11 @@ export default class MainScene extends Phaser.Scene {
     createMonsterAnims(this.anims);
 
     monster.anims.play("lizard-run");
+
+    this.healthText = this.add
+      .image(500, 550, "music")
+      .setScrollFactor(0)
+      .setDepth(3);
   }
 
   //Phaser calls update with 2 arguments: time and delta.

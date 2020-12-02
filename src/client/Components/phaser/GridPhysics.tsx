@@ -53,11 +53,9 @@ export class GridPhysics {
   //allows the player/enemies to send inputs for 200ms in each beat
   moveToBeat(): void {
     this.canMove = true;
-    console.log("now you can move!");
 
     setTimeout(() => {
       this.canMove = false;
-      console.log("cant move!");
     }, 200);
   }
 
