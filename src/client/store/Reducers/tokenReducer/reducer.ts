@@ -1,7 +1,8 @@
 import { ITokenState, ITokenActions, SET_TOKENS } from "./type";
 
 const initalState = {
-  tokens: [""],
+  authToken: "",
+  refreshToken: "",
 };
 export function tokenReducer(
   state = initalState,
@@ -9,7 +10,7 @@ export function tokenReducer(
 ): ITokenState {
   switch (action.type) {
     case SET_TOKENS:
-      return { ...state, ...action.payload };
+      return action.payload;
     default:
       return state;
   }

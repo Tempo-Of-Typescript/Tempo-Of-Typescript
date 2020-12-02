@@ -9,15 +9,26 @@ router.post(
   "/pageLoad",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      if (req.cookies.length > 0 && req.cookies) {
+      console.log("reeee", req.cookies.sessionId);
+      if (req.cookies.sessionId) {
         const foundSessions = await Sessions.findOne({
           where: {
             sessionUUID: req.cookies.sessionId,
           },
         });
+        console.log(foundSessions);
         if (foundSessions) {
-          //sending back a users tokens and shit
-          res.sendStatus(200);
+          const foundUser = await User.findOne({
+            where: {
+              id: foundSessions.userId,
+            },
+          });
+          if (foundUser) {
+            res.send({
+              authToken: foundUser.authToken,
+              refreshToken: foundUser.refreshToken,
+            });
+          }
         } else {
           res.status(404);
           next(new Error("User not found"));
@@ -26,7 +37,8 @@ router.post(
         const newUserUUID = uuidv4();
         const newUser = await User.create({
           name: newUserUUID,
-          authToken: "something bish",
+          authToken: "spotify not setup",
+          refreshToken: "spotify not setup",
         });
         const newSession = await Sessions.create({ sessionUUID: newUserUUID });
         await newUser.$add("Sessions", newSession);

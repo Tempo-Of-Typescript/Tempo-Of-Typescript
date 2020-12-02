@@ -23,7 +23,7 @@ app.use(express.static(staticPath));
 
 //routes
 import routes from "./routes";
-app.use("/api", routes);
+app.use(routes);
 
 app.get("/", (req: Request, res: Response, next: NextFunction) => {
   try {

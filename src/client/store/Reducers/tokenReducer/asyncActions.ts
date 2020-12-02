@@ -12,9 +12,9 @@ export const getSessionsTokens = (): ThunkAction<
 > => {
   return async (dispatch: Dispatch): Promise<void> => {
     //do something with databases here
-    const data = await axios.post("/api/auth/sessionProvider/pageLoad/");
+    const { data } = await axios.post("/auth/sessionProvider/pageLoad/");
     console.log("data from axios call");
     console.log(data);
-    //dispatch(_getTokens(['something']))
+    dispatch(_getTokens(data));
   };
 };

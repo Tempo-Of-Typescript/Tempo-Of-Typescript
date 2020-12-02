@@ -5,13 +5,14 @@ import { HashRouter as Router, Route } from "react-router-dom";
 import { ThunkDispatch } from "redux-thunk";
 import { IRootState as AppState } from "../store/Reducers/index";
 import { getSessionsTokens } from "../store/Reducers/tokenReducer/asyncActions";
+import { SpotifyLogin } from "./Spotify_Components/SpotifyLogin";
 
 interface AppProps {
   fetchTokens: () => void;
 }
 
 const mapStateToProps = (state: AppState) => ({
-  token: state.token,
+  tokens: state.spotifyAuthTokens,
 });
 
 const mapDispatchToProps = (
@@ -28,7 +29,7 @@ class Routes extends React.Component<AppProps, AppState> {
   render() {
     return (
       <Router>
-        <div>We started capstone!! Woohoo</div>
+        <SpotifyLogin />
       </Router>
     );
   }

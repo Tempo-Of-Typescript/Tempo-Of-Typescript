@@ -3,9 +3,9 @@ import { tokenReducer } from "./tokenReducer/reducer";
 import { ITokenState } from "./tokenReducer/type";
 
 export interface IRootState {
-  token: ITokenState;
+  spotifyAuthTokens: ITokenState;
 }
 
 export const rootState = combineReducers({
-  token: tokenReducer,
+  spotifyAuthTokens: tokenReducer,
 });

@@ -2,9 +2,10 @@ export const SET_TOKENS = "SET_TOKENS";
 
 export interface ITokenActions {
   type: typeof SET_TOKENS;
-  payload: Array<string>;
+  payload: ITokenState;
 }
 
 export interface ITokenState {
-  tokens: Array<string>;
+  authToken: string;
+  refreshToken: string;
 }
