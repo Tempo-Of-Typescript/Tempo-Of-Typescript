@@ -3,6 +3,7 @@ import { Player } from "./Player";
 import { GridControls } from "./GridControls";
 import { GridPhysics } from "./GridPhysics";
 import { createMonsterAnims } from "./EnemyAnimations";
+import Weapon from "./Weapon";
 
 export default class MainScene extends Phaser.Scene {
   //scalar config of the tile sizes
@@ -14,6 +15,11 @@ export default class MainScene extends Phaser.Scene {
 
   private gridControls?: GridControls;
   private gridPhysics?: GridPhysics;
+
+  private textGroup?: Phaser.GameObjects.Group;
+  private healthText?: Phaser.GameObjects.Text;
+  private scoreText?: Phaser.GameObjects.Text;
+  private weapon?: Weapon;
 
   constructor() {
     super("main-scene");
@@ -73,6 +79,33 @@ export default class MainScene extends Phaser.Scene {
     // this.cameras.main.startFollow(playerSprite);
     this.cameras.main.startFollow(playerSprite);
 
+    //Style for our text boxes
+    const textStyle = {
+      fill: "#FFFFFF",
+      fontSize: "20px",
+      backgroundColor: "#000000",
+    };
+
+    //Group for the text boxes - may not need them grouped, but just in case it is useful later
+    this.textGroup = this.add.group();
+
+    //Player health text box, includes styling and scroll factor of 0 to make the box follow the camera dynamically
+    this.healthText = this.add
+      .text(775, 15, `Player health: ${gameState.health}`, textStyle)
+      .setScrollFactor(0);
+
+    //Player score text box, includes styling and scroll factor of 0 to make the box follow the camera dynamically
+    this.scoreText = this.add
+      .text(15, 15, `Player Score: ${gameState.score}`, textStyle)
+      .setScrollFactor(0);
+
+    //Add text boxes to group
+    this.textGroup.add(this.healthText);
+    this.textGroup.add(this.scoreText);
+
+    //Set textGroup to third layer
+    this.textGroup.setDepth(3);
+
     this.gridPhysics = new GridPhysics(
       //arguments for new Player are (spritesheet, characterIndex, startTilePosX, startTilePosY)
       new Player(playerSprite, 0, 29, 57),
@@ -91,6 +124,15 @@ export default class MainScene extends Phaser.Scene {
     createMonsterAnims(this.anims);
 
     monster.anims.play("lizard-run");
+
+    this.weapon = new Weapon(this.input, false);
+
+    // const hitbox = this.add.rectangle(
+    //   16,
+    //   16,
+    //   16,
+    //   16
+    // );
   }
 
   //Phaser calls update with 2 arguments: time and delta.
@@ -101,3 +143,12 @@ export default class MainScene extends Phaser.Scene {
     this.gridPhysics?.update(delta);
   }
 }
+
+//declare the gameState globally
+interface looseObj {
+  [key: string]: any;
+}
+const gameState: looseObj = {
+  health: 20, // TODO: Decrease every time an enemy collides with player && increase every time player walks over/attacks a heart
+  score: 0, // TODO: Increase every time an enemy collides with sword animation or walks over/attacks a gem
+};
