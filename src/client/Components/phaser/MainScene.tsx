@@ -10,7 +10,7 @@ export default class MainScene extends Phaser.Scene {
   static readonly TILE_SIZE = 48;
 
   //hardcoded BPM (beats per minute) of a song
-  private BPM = 120;
+  private BPM = 50;
 
   private gridControls?: GridControls;
   private gridPhysics?: GridPhysics;
@@ -23,6 +23,7 @@ export default class MainScene extends Phaser.Scene {
   private beat6?: Phaser.GameObjects.Image;
   private beat7?: Phaser.GameObjects.Image;
   private beat8?: Phaser.GameObjects.Image;
+  private background?: Phaser.GameObjects.Image;
 
   constructor() {
     super("main-scene");
@@ -32,9 +33,13 @@ export default class MainScene extends Phaser.Scene {
     //load map into the game (tile-sheet and JSON for collision info)
     //using Phaser methods
     this.load.image("tiles", "assets/ToTS-sheet.png");
-    this.load.spritesheet("music", "assets/sprites/music_note_001.png", {
+    this.load.spritesheet("music", "assets/sprites/Treble_001.png", {
+      frameWidth: 26,
+      frameHeight: 61,
+    });
+    this.load.spritesheet("background", "assets/sprites/background.png", {
       frameWidth: 30,
-      frameHeight: 30,
+      frameHeight: 65,
     });
     this.load.tilemapTiledJSON("temple-map", "assets/ToTS_dungeon.json");
 
@@ -52,7 +57,7 @@ export default class MainScene extends Phaser.Scene {
 
     //converts the song's BPM to milliseconds
     const beatsPerSecondInMS = (60 / this.BPM) * 1000;
-    const speedCursorNeedsToMove = (beatsPerSecondInMS * 5) / 100;
+    const speedCursorNeedsToMove = (beatsPerSecondInMS * 2.5) / 100;
 
     //sets the rythm of the gameplay based on the available BPM
     setInterval(() => {
@@ -60,21 +65,21 @@ export default class MainScene extends Phaser.Scene {
     }, beatsPerSecondInMS);
 
     setInterval(() => {
-      this.beat1!.x += 5;
+      this.beat1!.x += 2.5;
       if (this.beat1!.x > 200) this.beat1!.x = 100;
-      this.beat2!.x += 5;
+      this.beat2!.x += 2.5;
       if (this.beat2!.x > 300) this.beat2!.x = 200;
-      this.beat3!.x += 5;
+      this.beat3!.x += 2.5;
       if (this.beat3!.x > 400) this.beat3!.x = 300;
-      this.beat4!.x += 5;
+      this.beat4!.x += 2.5;
       if (this.beat4!.x > 500) this.beat4!.x = 400;
-      this.beat5!.x += 5;
+      this.beat5!.x += 2.5;
       if (this.beat5!.x > 600) this.beat5!.x = 500;
-      this.beat6!.x += 5;
+      this.beat6!.x += 2.5;
       if (this.beat6!.x > 700) this.beat6!.x = 600;
-      this.beat7!.x += 5;
+      this.beat7!.x += 2.5;
       if (this.beat7!.x > 800) this.beat7!.x = 700;
-      this.beat8!.x += 5;
+      this.beat8!.x += 2.5;
       if (this.beat8!.x > 900) this.beat8!.x = 800;
     }, speedCursorNeedsToMove);
   }
@@ -128,35 +133,46 @@ export default class MainScene extends Phaser.Scene {
     this.beat1 = this.add
       .image(100, 550, "music")
       .setScrollFactor(0)
-      .setDepth(3);
+      .setDepth(4);
     this.beat2 = this.add
       .image(200, 550, "music")
       .setScrollFactor(0)
-      .setDepth(3);
+      .setDepth(4);
     this.beat3 = this.add
       .image(300, 550, "music")
       .setScrollFactor(0)
-      .setDepth(3);
+      .setDepth(4);
     this.beat4 = this.add
       .image(400, 550, "music")
       .setScrollFactor(0)
-      .setDepth(3);
+      .setDepth(4);
     this.beat5 = this.add
       .image(500, 550, "music")
       .setScrollFactor(0)
-      .setDepth(3);
+      .setDepth(4);
     this.beat6 = this.add
       .image(600, 550, "music")
       .setScrollFactor(0)
-      .setDepth(3);
+      .setDepth(4);
     this.beat7 = this.add
       .image(700, 550, "music")
       .setScrollFactor(0)
-      .setDepth(3);
+      .setDepth(4);
     this.beat8 = this.add
       .image(800, 550, "music")
       .setScrollFactor(0)
+      .setDepth(4);
+    this.background = this.add
+      .image(500, 550, "background")
+      .setScrollFactor(0)
       .setDepth(3);
+
+    this.beat1.alpha = 0.2;
+    this.beat8.alpha = 0.2;
+    this.beat2.alpha = 0.5;
+    this.beat7.alpha = 0.5;
+    this.beat3.alpha = 0.8;
+    this.beat6.alpha = 0.8;
   }
 
   //Phaser calls update with 2 arguments: time and delta.
