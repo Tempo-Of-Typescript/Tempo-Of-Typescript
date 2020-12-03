@@ -1,11 +1,12 @@
 import React from "react";
 import { Action } from "redux";
 import { connect } from "react-redux";
-import { HashRouter as Router, Route } from "react-router-dom";
 import { ThunkDispatch } from "redux-thunk";
 import { IRootState as AppState } from "../store/Reducers/index";
 import { getSessionsTokens } from "../store/Reducers/tokenReducer/asyncActions";
-import { SpotifyLogin } from "./Spotify_Components/SpotifyLogin";
+import { GameContainer } from "./Containers/GameContainer";
+import { RoutesContainer } from "./Containers/RoutesContainer";
+import Footer from "./Footer";
 
 interface AppProps {
   fetchTokens: () => void;
@@ -28,9 +29,11 @@ class Routes extends React.Component<AppProps, AppState> {
 
   render() {
     return (
-      <Router>
-        <SpotifyLogin />
-      </Router>
+      <>
+        <RoutesContainer />
+        <GameContainer />
+        <Footer />
+      </>
     );
   }
 }

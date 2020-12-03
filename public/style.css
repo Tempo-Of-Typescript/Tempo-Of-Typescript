@@ -1,0 +1,32 @@
+* {
+  box-sizing: border-box;
+  font-family: "Press Start 2P", cursive;
+  margin: 0;
+}
+
+.game-container {
+  display: flex;
+  justify-content: center;
+}
+
+.game-window {
+  padding-top: 10rem;
+  display: flex;
+  justify-content: center;
+}
+
+canvas {
+  border: solid rgb(53, 53, 53) 0.25rem;
+  border-radius: 1rem 1rem;
+  box-shadow: 2px 5px 5px #888888;
+}
+.footer {
+  font-size: 0.3rem;
+  position: fixed;
+  bottom: 0;
+  padding: 0.5rem;
+  width: 100%;
+  background-color: #333333;
+  color: white;
+  text-align: center;
+}
