@@ -15,13 +15,14 @@ export default class MainScene extends Phaser.Scene {
   private gridControls?: GridControls;
   private gridPhysics?: GridPhysics;
 
-  private healthText?: Phaser.GameObjects.Image;
-
-  private textStyle = {
-    fill: "#FFFFFF",
-    fontSize: "20px",
-    backgroundColor: "#000000",
-  };
+  private beat1?: Phaser.GameObjects.Image;
+  private beat2?: Phaser.GameObjects.Image;
+  private beat3?: Phaser.GameObjects.Image;
+  private beat4?: Phaser.GameObjects.Image;
+  private beat5?: Phaser.GameObjects.Image;
+  private beat6?: Phaser.GameObjects.Image;
+  private beat7?: Phaser.GameObjects.Image;
+  private beat8?: Phaser.GameObjects.Image;
 
   constructor() {
     super("main-scene");
@@ -51,13 +52,31 @@ export default class MainScene extends Phaser.Scene {
 
     //converts the song's BPM to milliseconds
     const beatsPerSecondInMS = (60 / this.BPM) * 1000;
+    const speedCursorNeedsToMove = (beatsPerSecondInMS * 5) / 100;
 
     //sets the rythm of the gameplay based on the available BPM
     setInterval(() => {
       this.gridPhysics?.moveToBeat();
-      this.healthText!.x += beatsPerSecondInMS / 4;
-      if (this.healthText!.x > 900) this.healthText!.x = 100;
     }, beatsPerSecondInMS);
+
+    setInterval(() => {
+      this.beat1!.x += 5;
+      if (this.beat1!.x > 200) this.beat1!.x = 100;
+      this.beat2!.x += 5;
+      if (this.beat2!.x > 300) this.beat2!.x = 200;
+      this.beat3!.x += 5;
+      if (this.beat3!.x > 400) this.beat3!.x = 300;
+      this.beat4!.x += 5;
+      if (this.beat4!.x > 500) this.beat4!.x = 400;
+      this.beat5!.x += 5;
+      if (this.beat5!.x > 600) this.beat5!.x = 500;
+      this.beat6!.x += 5;
+      if (this.beat6!.x > 700) this.beat6!.x = 600;
+      this.beat7!.x += 5;
+      if (this.beat7!.x > 800) this.beat7!.x = 700;
+      this.beat8!.x += 5;
+      if (this.beat8!.x > 900) this.beat8!.x = 800;
+    }, speedCursorNeedsToMove);
   }
 
   public create(): void {
@@ -106,8 +125,36 @@ export default class MainScene extends Phaser.Scene {
 
     monster.anims.play("lizard-run");
 
-    this.healthText = this.add
+    this.beat1 = this.add
+      .image(100, 550, "music")
+      .setScrollFactor(0)
+      .setDepth(3);
+    this.beat2 = this.add
+      .image(200, 550, "music")
+      .setScrollFactor(0)
+      .setDepth(3);
+    this.beat3 = this.add
+      .image(300, 550, "music")
+      .setScrollFactor(0)
+      .setDepth(3);
+    this.beat4 = this.add
+      .image(400, 550, "music")
+      .setScrollFactor(0)
+      .setDepth(3);
+    this.beat5 = this.add
       .image(500, 550, "music")
+      .setScrollFactor(0)
+      .setDepth(3);
+    this.beat6 = this.add
+      .image(600, 550, "music")
+      .setScrollFactor(0)
+      .setDepth(3);
+    this.beat7 = this.add
+      .image(700, 550, "music")
+      .setScrollFactor(0)
+      .setDepth(3);
+    this.beat8 = this.add
+      .image(800, 550, "music")
       .setScrollFactor(0)
       .setDepth(3);
   }
