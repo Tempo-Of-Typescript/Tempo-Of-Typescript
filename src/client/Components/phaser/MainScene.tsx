@@ -43,6 +43,12 @@ export default class MainScene extends Phaser.Scene {
       "assets/enemies/lizard.json"
     );
 
+    //load the sword into the map
+    this.load.spritesheet("sword", "assets/sprites/smallSword.png", {
+      frameWidth: 48,
+      frameHeight: 48,
+    });
+
     //converts the song's BPM to milliseconds
     const beatsPerSecondInMS = (60 / this.BPM) * 1000;
 
@@ -119,20 +125,31 @@ export default class MainScene extends Phaser.Scene {
       new Player(monster, 4, 28, 48), //coordinates where enemy spawns
       dungeonMap
     );
+    monster.setDepth(2);
 
     //refactored animations to separate file - EnemyAnimations.tsx
     createMonsterAnims(this.anims);
 
     monster.anims.play("lizard-run");
 
-    this.weapon = new Weapon(this.input, false);
+    // Create the hitbox and bring it to sprite layer
+    const hitbox = this.physics.add.sprite(0, 0, "sword");
+    hitbox.setDepth(2);
 
-    // const hitbox = this.add.rectangle(
-    //   16,
-    //   16,
-    //   16,
-    //   16
-    // );
+    // Add the overlap physics to destroy an enemy
+    this.physics.add.overlap(monster, hitbox, () => {
+      console.log("hello there");
+    });
+
+    //   (enemy) => {
+    //     console.log('enemy', enemy)
+    //     enemy.destroy();
+    //     gameState.score += 1;
+    //     gameState.scoreText.setText(`Player Score: ${gameState.score}`)
+    // }
+
+    // Create the weapon functionality
+    this.weapon = new Weapon(this.input, false, hitbox, playerSprite);
   }
 
   //Phaser calls update with 2 arguments: time and delta.
@@ -141,6 +158,7 @@ export default class MainScene extends Phaser.Scene {
   public update(_time: number, delta: number): void {
     this.gridControls?.update();
     this.gridPhysics?.update(delta);
+    this.weapon?.update();
   }
 }
 

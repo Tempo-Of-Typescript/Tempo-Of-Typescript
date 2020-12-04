@@ -1,46 +1,43 @@
 import Phaser from "phaser";
-import MainScene from "./MainScene";
 
-export default class Weapon extends Phaser.Scene {
+export default class Weapon {
   constructor(
     public input: Phaser.Input.InputPlugin,
     private isAttacking: boolean,
-    private hitbox?: Phaser.GameObjects.Rectangle
-  ) {
-    super("main-scene");
-  }
-  public create(): void {
-    this.hitbox = this.add?.rectangle(16, 16, 16, 16);
-    console.log("not there", this.add);
-  }
+    private hitbox?: Phaser.GameObjects.Sprite,
+    private player?: Phaser.Physics.Arcade.Sprite
+  ) {}
   public attack(directionOffsetX: number, directionOffsetY: number): void {
-    // this.hitbox = this.add?.rectangle(
-    //   directionOffsetX,
-    //   directionOffsetY,
-    //   16,
-    //   16
-    // );
-    console.log("here", this.hitbox);
     //check if currently in an attack already
     if (!this.isAttacking) {
       //play the attack animation - TODO: implement animations
-      //this.animations.play('attack');
-      // this.isAttacking = true;
-      //create the hitbox - TODO: allow creation of rectangles
-      //add the overlap physics to destroy an enemy
-      // this.physics.add.overlap(this.enemies, this.hitbox, function(enemy) {
-      //     enemy.destroy();
-      //     gameState.score += 1;
-      //     gameState.scoreText.setText(`Player Score: ${gameState.score}`)
-      // })
+      // this.animations.play('attack');
+      // this.isAttacking = true
+
+      //move the hitbox - the physics should kill the enemy
+      this.hitbox?.setPosition(directionOffsetX, directionOffsetY);
+      console.log("hitting position", this.hitbox?.x, this.hitbox?.y);
+
+      //return the hitbox to the starting location
+      //this.hitbox?.setPosition(0, 0);
+
       //TODO: return the animation to idle and:
       // this.attacking = false;
     }
   }
   update() {
     const cursors = this.input.keyboard.createCursorKeys();
-    if (cursors.space?.isDown) {
-      this.attack(16, 16);
+    if (cursors.space?.isDown && cursors.up?.isDown) {
+      this.attack(this.player!.x, this.player!.y - 48);
+    }
+    if (cursors.space?.isDown && cursors.down?.isDown) {
+      this.attack(this.player!.x, this.player!.y + 48);
+    }
+    if (cursors.space?.isDown && cursors.left?.isDown) {
+      this.attack(this.player!.x - 48, this.player!.y);
+    }
+    if (cursors.space?.isDown && cursors.right?.isDown) {
+      this.attack(this.player!.x + 48, this.player!.y);
     }
   }
 }

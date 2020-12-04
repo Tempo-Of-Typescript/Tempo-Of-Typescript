@@ -1,7 +1,6 @@
 import MainScene from "./MainScene";
 import { Direction } from "./Direction";
 import { Player } from "./Player";
-import e from "express";
 
 //Creates a 2D vector ([x], [y])
 const Vector2 = Phaser.Math.Vector2;
@@ -53,11 +52,11 @@ export class GridPhysics {
   //allows the player/enemies to send inputs for 200ms in each beat
   moveToBeat(): void {
     this.canMove = true;
-    console.log("now you can move!");
+    //console.log("now you can move!");
 
     setTimeout(() => {
       this.canMove = false;
-      console.log("cant move!");
+      //console.log("cant move!");
     }, 200);
   }
 
