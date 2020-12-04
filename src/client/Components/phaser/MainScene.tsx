@@ -25,6 +25,12 @@ export default class MainScene extends Phaser.Scene {
   private beat8?: Phaser.GameObjects.Image;
   private background?: Phaser.GameObjects.Image;
 
+  private playerSprite?: Phaser.Physics.Arcade.Sprite;
+  private monster?: Phaser.Physics.Arcade.Sprite;
+  private lives = 3;
+  private overlapping?: Phaser.Physics.Arcade.Collider;
+  private executed = true;
+
   constructor() {
     super("main-scene");
   }
@@ -173,6 +179,41 @@ export default class MainScene extends Phaser.Scene {
     this.beat7.alpha = 0.5;
     this.beat3.alpha = 0.8;
     this.beat6.alpha = 0.8;
+
+    //enemy and player collides - player loses one life
+
+    //   this.overlapping = this.physics.add.overlap(
+    //     this.playerSprite,
+    //     this.monster,
+    //     this.collisionCheck.bind(this)
+    //   );
+    // }
+
+    // public collisionCheck(): void {
+    //   if (this.executed) {
+    //     this.lives--;
+    //     this.physics.world.removeCollider(this.overlapping);
+    //     console.log(this.lives);
+    //     return;
+    //   }
+    //   console.log("overlap");
+    //   this.executed = true;
+    //   this.physics.world.addCollider(this.playerSprite, this.monster);
+    // }
+    this.overlapping = this.physics.add.collider(
+      this.playerSprite,
+      this.monster,
+      this.collisionCheck,
+      () => {
+        return this.executed;
+      },
+      this
+    );
+  }
+
+  public collisionCheck(): void {
+    this.executed = false;
+    console.log("objects collided!", this.executed);
   }
 
   //Phaser calls update with 2 arguments: time and delta.
