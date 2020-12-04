@@ -12,17 +12,19 @@ export default class Weapon {
     if (!this.isAttacking) {
       //play the attack animation - TODO: implement animations
       // this.animations.play('attack');
-      // this.isAttacking = true
+      this.isAttacking = true;
 
       //move the hitbox - the physics should kill the enemy
       this.hitbox?.setPosition(directionOffsetX, directionOffsetY);
       console.log("hitting position", this.hitbox?.x, this.hitbox?.y);
 
-      //return the hitbox to the starting location
-      //this.hitbox?.setPosition(0, 0);
+      //return the hitbox to the starting location after .5 seconds
+      setTimeout(() => {
+        this.hitbox?.setPosition(0, 0);
+        this.isAttacking = false;
+      }, 500);
 
-      //TODO: return the animation to idle and:
-      // this.attacking = false;
+      //TODO: return the animation to idle
     }
   }
   update() {

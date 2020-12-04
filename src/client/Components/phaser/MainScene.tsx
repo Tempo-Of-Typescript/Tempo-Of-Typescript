@@ -4,6 +4,7 @@ import { GridControls } from "./GridControls";
 import { GridPhysics } from "./GridPhysics";
 import { createMonsterAnims } from "./EnemyAnimations";
 import Weapon from "./Weapon";
+import { game } from "./game";
 
 export default class MainScene extends Phaser.Scene {
   //scalar config of the tile sizes
@@ -17,12 +18,11 @@ export default class MainScene extends Phaser.Scene {
   private gridPhysics?: GridPhysics;
 
   private textGroup?: Phaser.GameObjects.Group;
-  private healthText?: Phaser.GameObjects.Text;
-  private scoreText?: Phaser.GameObjects.Text;
   private weapon?: Weapon;
 
   constructor() {
     super("main-scene");
+    this.death = this.death.bind(this);
   }
 
   public preload(): void {
@@ -75,7 +75,7 @@ export default class MainScene extends Phaser.Scene {
     playerSprite.setDepth(2);
 
     //creates enemy - lizard
-    const monster = this.add.sprite(
+    const monster = this.physics.add.sprite(
       0,
       0,
       "monster",
@@ -96,18 +96,18 @@ export default class MainScene extends Phaser.Scene {
     this.textGroup = this.add.group();
 
     //Player health text box, includes styling and scroll factor of 0 to make the box follow the camera dynamically
-    this.healthText = this.add
+    const healthText = this.add
       .text(775, 15, `Player health: ${gameState.health}`, textStyle)
       .setScrollFactor(0);
 
     //Player score text box, includes styling and scroll factor of 0 to make the box follow the camera dynamically
-    this.scoreText = this.add
+    const scoreText = this.add
       .text(15, 15, `Player Score: ${gameState.score}`, textStyle)
       .setScrollFactor(0);
 
     //Add text boxes to group
-    this.textGroup.add(this.healthText);
-    this.textGroup.add(this.scoreText);
+    this.textGroup.add(healthText);
+    this.textGroup.add(scoreText);
 
     //Set textGroup to third layer
     this.textGroup.setDepth(3);
@@ -137,21 +137,40 @@ export default class MainScene extends Phaser.Scene {
     hitbox.setDepth(2);
 
     // Add the overlap physics to destroy an enemy
-    this.physics.add.overlap(monster, hitbox, () => {
-      console.log("hello there");
+    this.physics.add.overlap(monster, hitbox, function (enemy) {
+      enemy.destroy();
+      gameState.score += 1;
+      scoreText.setText(`Player Score: ${gameState.score}`);
     });
 
-    //   (enemy) => {
-    //     console.log('enemy', enemy)
-    //     enemy.destroy();
-    //     gameState.score += 1;
-    //     gameState.scoreText.setText(`Player Score: ${gameState.score}`)
-    // }
+    // Add collider physics between an enemy and player
+    this.physics.add.collider(playerSprite, monster, () => {
+      gameState.health -= 1;
+      healthText.setText(`Player Health: ${gameState.health}`);
+
+      if (gameState.health <= 0) {
+        this.death(); // Currently only turns off the physics for the player and doesn't stop player from moving.
+      }
+    });
 
     // Create the weapon functionality
     this.weapon = new Weapon(this.input, false, hitbox, playerSprite);
   }
-
+  public death(): void {
+    this.physics.pause();
+    this.add
+      .text(325, 200, "YOU DIED", {
+        fontSize: "80px",
+        fill: "#8b0000",
+        fontStyle: "bold",
+      })
+      .setScrollFactor(0)
+      .setDepth(3);
+    this.add
+      .text(430, 350, "Click to Restart", { fontSize: "15px", fill: "#FFFFFF" })
+      .setScrollFactor(0)
+      .setDepth(3);
+  }
   //Phaser calls update with 2 arguments: time and delta.
   //Time is the current time of buttons being pressed.
   //Delta is the time in ms since the last frame.
