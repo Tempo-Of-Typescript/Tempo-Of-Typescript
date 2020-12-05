@@ -4,6 +4,25 @@ import { GridControls } from "./GridControls";
 import { GridPhysics } from "./GridPhysics";
 import { createMonsterAnims } from "./EnemyAnimations";
 import Weapon from "./Weapon";
+import { BelongsToManyAssociation } from "sequelize-typescript";
+
+//declare the gameState globally
+interface looseObj {
+  [key: string]: number;
+}
+const gameState: looseObj = {
+  health: 20, // TODO: Decrease every time an enemy collides with player && increase every time player walks over/attacks a heart
+  score: 0, // TODO: Increase every time an enemy collides with sword animation or walks over/attacks a gem
+};
+
+//loose function which is used to check if callback is fired once, instead of multiple times
+interface funcType {
+  apply(...args: any): void;
+}
+
+// interface beatMeter {
+//   beat: Phaser.GameObjects.Image,
+// }
 
 export default class MainScene extends Phaser.Scene {
   //scalar config of the tile sizes
@@ -11,15 +30,28 @@ export default class MainScene extends Phaser.Scene {
   static readonly TILE_SIZE = 48;
 
   //hardcoded BPM (beats per minute) of a song
-  private BPM = 120;
+  private BPM = 160;
 
   private gridControls?: GridControls;
   private gridPhysics?: GridPhysics;
 
+  // private beatMap: Array<beatMeter> = []
+
+  //working on refactoring this!!!!
+  private beat1?: Phaser.GameObjects.Image;
+  private beat2?: Phaser.GameObjects.Image;
+  private beat3?: Phaser.GameObjects.Image;
+  private beat4?: Phaser.GameObjects.Image;
+  private beat5?: Phaser.GameObjects.Image;
+  private beat6?: Phaser.GameObjects.Image;
+  private beat7?: Phaser.GameObjects.Image;
+  private beat8?: Phaser.GameObjects.Image;
+
+  private background?: Phaser.GameObjects.Image;
+
   private textGroup?: Phaser.GameObjects.Group;
   private weapon?: Weapon;
-
-  private scene?: Phaser.Scenes.ScenePlugin;
+  private gameScene?: Phaser.Scenes.ScenePlugin;
 
   constructor() {
     super("main-scene");
@@ -30,6 +62,14 @@ export default class MainScene extends Phaser.Scene {
     //load map into the game (tile-sheet and JSON for collision info)
     //using Phaser methods
     this.load.image("tiles", "assets/ToTS-sheet.png");
+    this.load.spritesheet("music", "assets/sprites/Treble_001.png", {
+      frameWidth: 26,
+      frameHeight: 61,
+    });
+    this.load.spritesheet("background", "assets/sprites/background.png", {
+      frameWidth: 5,
+      frameHeight: 65,
+    });
     this.load.tilemapTiledJSON("temple-map", "assets/ToTS_dungeon.json");
 
     //load player into the map
@@ -51,12 +91,33 @@ export default class MainScene extends Phaser.Scene {
     });
 
     //converts the song's BPM to milliseconds
-    const beatsPerSecondInMS = (60 / this.BPM) * 1000;
+    const msPerBeat = (60 / this.BPM) * 1000;
+    const msForOneBeat = (msPerBeat * 2.5) / 100;
 
     //sets the rythm of the gameplay based on the available BPM
     setInterval(() => {
       this.gridPhysics?.moveToBeat();
-    }, beatsPerSecondInMS);
+    }, msPerBeat);
+
+    //working on refactoring this!!!!
+    setInterval(() => {
+      this.beat1!.x += 2.5;
+      if (this.beat1!.x >= 200) this.beat1!.x = 100;
+      this.beat2!.x += 2.5;
+      if (this.beat2!.x >= 300) this.beat2!.x = 200;
+      this.beat3!.x += 2.5;
+      if (this.beat3!.x >= 400) this.beat3!.x = 300;
+      this.beat4!.x += 2.5;
+      if (this.beat4!.x >= 500) this.beat4!.x = 400;
+      this.beat5!.x += 2.5;
+      if (this.beat5!.x >= 600) this.beat5!.x = 500;
+      this.beat6!.x += 2.5;
+      if (this.beat6!.x >= 700) this.beat6!.x = 600;
+      this.beat7!.x += 2.5;
+      if (this.beat7!.x >= 800) this.beat7!.x = 700;
+      this.beat8!.x += 2.5;
+      if (this.beat8!.x >= 900) this.beat8!.x = 800;
+    }, msForOneBeat);
   }
 
   public create(): void {
@@ -136,6 +197,65 @@ export default class MainScene extends Phaser.Scene {
 
     monster.anims.play("lizard-run");
 
+    // for (let i = 1; i <= 8; i++) {
+    //   const alpha = 0.2;
+    //   const location = 100 * i;
+
+    //   const beat: Phaser.GameObjects.Image = this.add
+    //   .image(location, 550, "music")
+    //   .setScrollFactor(0)
+    //   .setDepth(4);
+
+    //   const objectToPush: beatMeter = {beat: beat, alpha: alpha}
+    //   this.beatMap.push(objectToPush)
+    // }
+
+    //working on refactoring this!!!!
+    this.beat1 = this.add
+      .image(100, 550, "music")
+      .setScrollFactor(0)
+      .setDepth(4);
+    this.beat2 = this.add
+      .image(200, 550, "music")
+      .setScrollFactor(0)
+      .setDepth(4);
+    this.beat3 = this.add
+      .image(300, 550, "music")
+      .setScrollFactor(0)
+      .setDepth(4);
+    this.beat4 = this.add
+      .image(400, 550, "music")
+      .setScrollFactor(0)
+      .setDepth(4);
+    this.beat5 = this.add
+      .image(500, 550, "music")
+      .setScrollFactor(0)
+      .setDepth(4);
+    this.beat6 = this.add
+      .image(600, 550, "music")
+      .setScrollFactor(0)
+      .setDepth(4);
+    this.beat7 = this.add
+      .image(700, 550, "music")
+      .setScrollFactor(0)
+      .setDepth(4);
+    this.beat8 = this.add
+      .image(800, 550, "music")
+      .setScrollFactor(0)
+      .setDepth(4);
+    this.background = this.add
+      .image(500, 550, "background")
+      .setScrollFactor(0)
+      .setDepth(3);
+
+    //working on refactoring this!!!!
+    this.beat1.alpha = 0.2;
+    this.beat8.alpha = 0.2;
+    this.beat2.alpha = 0.5;
+    this.beat7.alpha = 0.5;
+    this.beat3.alpha = 0.8;
+    this.beat6.alpha = 0.8;
+
     // Create the hitbox and bring it to sprite layer
     const hitbox = this.physics.add.sprite(0, 0, "sword");
     hitbox.setDepth(2);
@@ -164,9 +284,19 @@ export default class MainScene extends Phaser.Scene {
     // Create the weapon functionality
     this.weapon = new Weapon(this.input, false, hitbox, playerSprite);
   }
+
+  //Phaser calls update with 2 arguments: time and delta.
+  //Time is the current time of buttons being pressed.
+  //Delta is the time in ms since the last frame.
+  public update(_time: number, delta: number): void {
+    this.gridControls?.update();
+    this.gridPhysics?.update(delta);
+    this.weapon?.update();
+  }
+
   public death(): void {
     //pauses the game. TODO: add click button to start a new game.
-    this.scene?.pause();
+    this.gameScene?.pause();
     this.add
       .text(325, 200, "YOU DIED", {
         fontSize: "80px",
@@ -198,14 +328,7 @@ export default class MainScene extends Phaser.Scene {
     };
   }
 
-  //Phaser calls update with 2 arguments: time and delta.
-  //Time is the current time of buttons being pressed.
-  //Delta is the time in ms since the last frame.
-  public update(_time: number, delta: number): void {
-    this.gridControls?.update();
-    this.gridPhysics?.update(delta);
-    this.weapon?.update();
-  }
+  //TODO: Group of enemies
   //spawns group of enemies at random spots
   // public enemies(
   //   x: number,
@@ -224,17 +347,4 @@ export default class MainScene extends Phaser.Scene {
   //   "lizard_m_idle_anim_f0.png"
   // );
   //}
-}
-//declare the gameState globally
-interface looseObj {
-  [key: string]: any;
-}
-const gameState: looseObj = {
-  health: 20, // TODO: Decrease every time an enemy collides with player && increase every time player walks over/attacks a heart
-  score: 0, // TODO: Increase every time an enemy collides with sword animation or walks over/attacks a gem
-};
-
-//loose function which is used to check if callback is fired once, instead of multiple times
-interface funcType {
-  apply(...args: any): void;
 }
