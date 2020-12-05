@@ -10,7 +10,7 @@ export default class MainScene extends Phaser.Scene {
   static readonly TILE_SIZE = 48;
 
   //hardcoded BPM (beats per minute) of a song
-  private BPM = 50;
+  private BPM = 60;
 
   private gridControls?: GridControls;
   private gridPhysics?: GridPhysics;
@@ -38,7 +38,7 @@ export default class MainScene extends Phaser.Scene {
       frameHeight: 61,
     });
     this.load.spritesheet("background", "assets/sprites/background.png", {
-      frameWidth: 30,
+      frameWidth: 5,
       frameHeight: 65,
     });
     this.load.tilemapTiledJSON("temple-map", "assets/ToTS_dungeon.json");
@@ -56,31 +56,31 @@ export default class MainScene extends Phaser.Scene {
     );
 
     //converts the song's BPM to milliseconds
-    const beatsPerSecondInMS = (60 / this.BPM) * 1000;
-    const speedCursorNeedsToMove = (beatsPerSecondInMS * 2.5) / 100;
+    const msPerBeat = (60 / this.BPM) * 1000;
+    const speedCursorNeedsToMove = (msPerBeat * 2.5) / 100;
 
     //sets the rythm of the gameplay based on the available BPM
     setInterval(() => {
       this.gridPhysics?.moveToBeat();
-    }, beatsPerSecondInMS);
+    }, msPerBeat);
 
     setInterval(() => {
       this.beat1!.x += 2.5;
-      if (this.beat1!.x > 200) this.beat1!.x = 100;
+      if (this.beat1!.x >= 200) this.beat1!.x = 100;
       this.beat2!.x += 2.5;
-      if (this.beat2!.x > 300) this.beat2!.x = 200;
+      if (this.beat2!.x >= 300) this.beat2!.x = 200;
       this.beat3!.x += 2.5;
-      if (this.beat3!.x > 400) this.beat3!.x = 300;
+      if (this.beat3!.x >= 400) this.beat3!.x = 300;
       this.beat4!.x += 2.5;
-      if (this.beat4!.x > 500) this.beat4!.x = 400;
+      if (this.beat4!.x >= 500) this.beat4!.x = 400;
       this.beat5!.x += 2.5;
-      if (this.beat5!.x > 600) this.beat5!.x = 500;
+      if (this.beat5!.x >= 600) this.beat5!.x = 500;
       this.beat6!.x += 2.5;
-      if (this.beat6!.x > 700) this.beat6!.x = 600;
+      if (this.beat6!.x >= 700) this.beat6!.x = 600;
       this.beat7!.x += 2.5;
-      if (this.beat7!.x > 800) this.beat7!.x = 700;
+      if (this.beat7!.x >= 800) this.beat7!.x = 700;
       this.beat8!.x += 2.5;
-      if (this.beat8!.x > 900) this.beat8!.x = 800;
+      if (this.beat8!.x >= 900) this.beat8!.x = 800;
     }, speedCursorNeedsToMove);
   }
 
