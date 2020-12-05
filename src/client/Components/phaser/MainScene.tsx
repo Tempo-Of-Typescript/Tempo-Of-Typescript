@@ -113,6 +113,8 @@ export default class MainScene extends Phaser.Scene {
     //Set textGroup to third layer
     this.textGroup.setDepth(3);
 
+    // let group = this.add.group(playerSprite, monster);
+
     this.gridPhysics = new GridPhysics(
       //arguments for new Player are (spritesheet, characterIndex, startTilePosX, startTilePosY)
       new Player(playerSprite, 0, 29, 57),
@@ -126,6 +128,7 @@ export default class MainScene extends Phaser.Scene {
       new Player(monster, 4, 28, 48), //coordinates where enemy spawns
       dungeonMap
     );
+
     monster.setDepth(2);
 
     //refactored animations to separate file - EnemyAnimations.tsx
@@ -163,7 +166,7 @@ export default class MainScene extends Phaser.Scene {
   }
   public death(): void {
     //pauses the game. TODO: add click button to start a new game.
-    this.scene.pause();
+    this.scene?.pause();
     this.add
       .text(325, 200, "YOU DIED", {
         fontSize: "80px",
@@ -183,10 +186,11 @@ export default class MainScene extends Phaser.Scene {
   //this function makes sure callback on collider (enemy vs player) fires only once
   //player loses one life
   //TODO: define interface for function type and pass it to the below function - work in progress...
-  public collisionCheck(callback?: Function, context = this): any {
+
+  public collisionCheck(callback?: funcType, context = this): any {
     let once = false;
 
-    return (...args: any[]) => {
+    return (...args: funcType[]) => {
       if (!once) {
         once = true;
         callback?.apply(context, args);
@@ -202,6 +206,24 @@ export default class MainScene extends Phaser.Scene {
     this.gridPhysics?.update(delta);
     this.weapon?.update();
   }
+  //spawns group of enemies at random spots
+  // public enemies(
+  //   x: number,
+  //   y: number,
+  //   name: string,
+  //   animation?: string
+  // ): void {}
+
+  //TODO: Make group of enemies, add them to random spots.
+  //for(let monster in monsters){
+  //arrOfObjects(name, image, location, x, y, size)
+  // const monster = this.physics.add.sprite(
+  //   0,
+  //   0,
+  //   "monster",
+  //   "lizard_m_idle_anim_f0.png"
+  // );
+  //}
 }
 //declare the gameState globally
 interface looseObj {
@@ -211,3 +233,8 @@ const gameState: looseObj = {
   health: 20, // TODO: Decrease every time an enemy collides with player && increase every time player walks over/attacks a heart
   score: 0, // TODO: Increase every time an enemy collides with sword animation or walks over/attacks a gem
 };
+
+//loose function which is used to check if callback is fired once, instead of multiple times
+interface funcType {
+  apply(...args: any): void;
+}
