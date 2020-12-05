@@ -4,7 +4,7 @@ export default class StartScene extends Phaser.Scene {
   constructor() {
     super({ key: "StartScene" });
   }
-  create() {
+  create(): void {
     this.add.text(
       300,
       300,

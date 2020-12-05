@@ -19,7 +19,7 @@ export default class MainScene extends Phaser.Scene {
   private textGroup?: Phaser.GameObjects.Group;
   private weapon?: Weapon;
 
-  private scene?: Phaser.Scene;
+  private scene?: Phaser.Scenes.ScenePlugin;
 
   constructor() {
     super("main-scene");
@@ -149,7 +149,7 @@ export default class MainScene extends Phaser.Scene {
       playerSprite,
       monster,
       this.collisionCheck(() => {
-        gameState.health -= 20;
+        gameState.health -= 1;
         healthText.setText(`Player Health: ${gameState.health}`);
 
         if (gameState.health <= 0) {
@@ -163,7 +163,7 @@ export default class MainScene extends Phaser.Scene {
   }
   public death(): void {
     //pauses the game. TODO: add click button to start a new game.
-    this.scene?.pause();
+    this.scene.pause();
     this.add
       .text(325, 200, "YOU DIED", {
         fontSize: "80px",
@@ -179,13 +179,11 @@ export default class MainScene extends Phaser.Scene {
     // const deathScene = this.scene.get([MainScene]);
     // deathScene.scene.restart();
   }
+
   //this function makes sure callback on collider (enemy vs player) fires only once
   //player loses one life
+  //TODO: define interface for function type and pass it to the below function - work in progress...
   public collisionCheck(callback?: Function, context = this): any {
-    if (typeof callback !== "function") {
-      callback = () => {};
-    }
-
     let once = false;
 
     return (...args: any[]) => {
@@ -205,7 +203,6 @@ export default class MainScene extends Phaser.Scene {
     this.weapon?.update();
   }
 }
-
 //declare the gameState globally
 interface looseObj {
   [key: string]: any;
