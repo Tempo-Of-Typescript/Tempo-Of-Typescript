@@ -4,7 +4,6 @@ import { GridControls } from "./GridControls";
 import { GridPhysics } from "./GridPhysics";
 import { createMonsterAnims } from "./EnemyAnimations";
 import Weapon from "./Weapon";
-import { game } from "./game";
 
 export default class MainScene extends Phaser.Scene {
   //scalar config of the tile sizes
@@ -19,6 +18,8 @@ export default class MainScene extends Phaser.Scene {
 
   private textGroup?: Phaser.GameObjects.Group;
   private weapon?: Weapon;
+
+  private scene?: Phaser.Scene;
 
   constructor() {
     super("main-scene");
@@ -137,27 +138,32 @@ export default class MainScene extends Phaser.Scene {
     hitbox.setDepth(2);
 
     // Add the overlap physics to destroy an enemy
-    this.physics.add.overlap(monster, hitbox, function (enemy) {
-      enemy.destroy();
+    this.physics.add.collider(monster, hitbox, () => {
+      monster.destroy();
       gameState.score += 1;
       scoreText.setText(`Player Score: ${gameState.score}`);
     });
 
     // Add collider physics between an enemy and player
-    this.physics.add.collider(playerSprite, monster, () => {
-      gameState.health -= 1;
-      healthText.setText(`Player Health: ${gameState.health}`);
+    this.physics.add.collider(
+      playerSprite,
+      monster,
+      this.collisionCheck(() => {
+        gameState.health -= 20;
+        healthText.setText(`Player Health: ${gameState.health}`);
 
-      if (gameState.health <= 0) {
-        this.death(); // Currently only turns off the physics for the player and doesn't stop player from moving.
-      }
-    });
+        if (gameState.health <= 0) {
+          this.death(); // Currently only turns off the physics for the player and doesn't stop player from moving.
+        }
+      })
+    );
 
     // Create the weapon functionality
     this.weapon = new Weapon(this.input, false, hitbox, playerSprite);
   }
   public death(): void {
-    this.physics.pause();
+    //pauses the game. TODO: add click button to start a new game.
+    this.scene?.pause();
     this.add
       .text(325, 200, "YOU DIED", {
         fontSize: "80px",
@@ -170,7 +176,26 @@ export default class MainScene extends Phaser.Scene {
       .text(430, 350, "Click to Restart", { fontSize: "15px", fill: "#FFFFFF" })
       .setScrollFactor(0)
       .setDepth(3);
+    // const deathScene = this.scene.get([MainScene]);
+    // deathScene.scene.restart();
   }
+  //this function makes sure callback on collider (enemy vs player) fires only once
+  //player loses one life
+  public collisionCheck(callback?: Function, context = this): any {
+    if (typeof callback !== "function") {
+      callback = () => {};
+    }
+
+    let once = false;
+
+    return (...args: any[]) => {
+      if (!once) {
+        once = true;
+        callback?.apply(context, args);
+      }
+    };
+  }
+
   //Phaser calls update with 2 arguments: time and delta.
   //Time is the current time of buttons being pressed.
   //Delta is the time in ms since the last frame.

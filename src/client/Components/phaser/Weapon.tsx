@@ -27,7 +27,7 @@ export default class Weapon {
       //TODO: return the animation to idle
     }
   }
-  update() {
+  update(): void {
     const cursors = this.input.keyboard.createCursorKeys();
     if (cursors.space?.isDown && cursors.up?.isDown) {
       this.attack(this.player!.x, this.player!.y - 48);
