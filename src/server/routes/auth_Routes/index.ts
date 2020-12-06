@@ -2,7 +2,7 @@ import express from "express";
 
 const router = express.Router();
 
-import { router as sessionRouter } from "./sessionProvider/sessionRoutes";
-router.use("/sessionProvider", sessionRouter);
+import { router as spotifyRoutes } from "./spotifyAuth";
+router.use("/spotifyRoutes", spotifyRoutes);
 
 export default router;

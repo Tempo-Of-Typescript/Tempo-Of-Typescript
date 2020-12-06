@@ -1,20 +1,19 @@
 import { Action, Dispatch } from "redux";
 import { ThunkAction } from "redux-thunk";
-import { _getTokens } from "./actions";
+import { _getLoginStatus } from "./actions";
 import { IRootState } from "../index";
 import axios from "axios";
 
-export const getSessionsTokens = (): ThunkAction<
+export const getLoginStatus = (): ThunkAction<
   Promise<void>,
   IRootState,
   null,
   Action
 > => {
   return async (dispatch: Dispatch): Promise<void> => {
-    //do something with databases here
-    const { data } = await axios.post("/auth/sessionProvider/pageLoad/");
+    const { data } = await axios.get("/auth/spotifyRoutes/test");
     console.log("data from axios call");
     console.log(data);
-    dispatch(_getTokens(data));
+    dispatch(_getLoginStatus(data));
   };
 };

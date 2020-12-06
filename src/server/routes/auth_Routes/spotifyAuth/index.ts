@@ -4,29 +4,35 @@ import qs from "qs";
 import env from "dotenv";
 env.config();
 
-const router = express.Router();
+export const router = express.Router();
+
+router.get("/test", (req, res, next) => {
+  res.send(false);
+});
 
 router.get("/login", (req, res, next) => {
-  try {
-    if (!process.env.REDIRECT_URI) {
-      throw new Error("process env redirectURI missing");
-    }
-    const envRedirectURI: string = process.env.REDIRECT_URI;
+  console.log("current user:", req.currentUser.id);
+  res.status(200).send({ message: "reeeeeeee" });
+  // try {
+  //   if (!process.env.REDIRECT_URI) {
+  //     throw new Error("process env redirectURI missing");
+  //   }
+  //   const envRedirectURI: string = process.env.REDIRECT_URI;
 
-    const scopes = "user-read-private user-read-email";
-    const redirectUri =
-      "https://accounts.spotify.com/authorize" +
-      "?response_type=code" +
-      "&client_id=" +
-      process.env.CLIENT_ID +
-      (scopes ? "&scope=" + encodeURIComponent(scopes) : "") +
-      "&redirect_uri=" +
-      encodeURIComponent(envRedirectURI);
+  //   const scopes = "user-read-private user-read-email";
+  //   const redirectUri =
+  //     "https://accounts.spotify.com/authorize" +
+  //     "?response_type=code" +
+  //     "&client_id=" +
+  //     process.env.CLIENT_ID +
+  //     (scopes ? "&scope=" + encodeURIComponent(scopes) : "") +
+  //     "&redirect_uri=" +
+  //     encodeURIComponent(envRedirectURI);
 
-    res.redirect(redirectUri);
-  } catch (err) {
-    next(err);
-  }
+  //   res.redirect(redirectUri);
+  // } catch (err) {
+  //   next(err);
+  // }
 });
 
 // router.get('/callback', async(req,res,next)=>{

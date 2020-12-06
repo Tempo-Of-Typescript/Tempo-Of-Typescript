@@ -1,11 +1,11 @@
 import { combineReducers } from "redux";
-import { tokenReducer } from "./tokenReducer/reducer";
-import { ITokenState } from "./tokenReducer/type";
+import { LoginReducer } from "./loginReducer/reducer";
+import { ILoginState } from "./loginReducer/type";
 
 export interface IRootState {
-  spotifyAuthTokens: ITokenState;
+  loggedinStatus: ILoginState;
 }
 
 export const rootState = combineReducers({
-  spotifyAuthTokens: tokenReducer,
+  loggedInStatus: LoginReducer,
 });

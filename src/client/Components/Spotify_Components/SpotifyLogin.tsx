@@ -1,22 +1,12 @@
 import React from "react";
+import { withRouter, RouteComponentProps } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { IRootState } from "../../store/Reducers/index";
+//import { IRootState } from "../../store/Reducers/index";
 
-export const SpotifyLogin: React.FC = () => {
-  const { spotifyAuthTokens } = useSelector((state: IRootState) => {
-    return {
-      spotifyAuthTokens: state.spotifyAuthTokens,
-    };
-  });
-
+const SpotifyLogin: React.FC<RouteComponentProps> = (): JSX.Element => {
   const dispatch = useDispatch();
 
-  return (
-    <div>
-      <button onClick={() => window.open(window.location.origin)}>
-        Login To Spotify
-      </button>
-      Spotify Login ree
-    </div>
-  );
+  return <div className="spotify-popup-container"></div>;
 };
+
+export default withRouter(SpotifyLogin);

@@ -2,36 +2,36 @@ import React from "react";
 import { Action } from "redux";
 import { connect } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
-import { IRootState as AppState } from "../store/Reducers/index";
-import { getSessionsTokens } from "../store/Reducers/tokenReducer/asyncActions";
 import { GameContainer } from "./Containers/GameContainer";
-import { RoutesContainer } from "./Containers/RoutesContainer";
+import { SpotifyContainer } from "./Containers/SpotifyContainer";
+import { IRootState as AppState } from "../store/Reducers";
+import { getLoginStatus } from "../store/Reducers/loginReducer/asyncActions";
 import Footer from "./Footer";
 
 interface AppProps {
-  fetchTokens: () => void;
+  fetchLoginStatus: () => void;
 }
 
 const mapStateToProps = (state: AppState) => ({
-  tokens: state.spotifyAuthTokens,
+  loggedinStatus: state.loggedinStatus,
 });
 
 const mapDispatchToProps = (
   dispatch: ThunkDispatch<AppState, null, Action>
 ) => ({
-  fetchTokens: () => dispatch(getSessionsTokens()),
+  fetchLoginStatus: () => dispatch(getLoginStatus()),
 });
 
-class Routes extends React.Component<AppProps, AppState> {
+class Routes extends React.Component<AppProps> {
   componentDidMount() {
-    this.props.fetchTokens();
+    this.props.fetchLoginStatus();
   }
 
   render() {
     return (
       <>
-        <RoutesContainer />
-        <GameContainer />
+        <SpotifyContainer />
+        {/* <GameContainer /> */}
         <Footer />
       </>
     );

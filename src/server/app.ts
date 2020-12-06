@@ -18,11 +18,14 @@ app.use(json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieparser());
 
+import { cookieGiver } from "./middleware/cookieGiver";
+app.use(cookieGiver);
+
 const staticPath: string = path.join(__dirname, "../../", "public");
 app.use(express.static(staticPath));
 
 //routes
-import routes from "./routes";
+import routes from "./routes/index";
 app.use(routes);
 
 app.get("/", (req: Request, res: Response, next: NextFunction) => {
