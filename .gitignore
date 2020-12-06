@@ -7,3 +7,7 @@ polyfills-core-js.bundle.js
 polyfills-css-shim.bundle.js
 polyfills-dom.bundle.js
 vendors-node_modules_ion-phaser_core_dist_esm-es5_ion-phaser_entry_js.bundle.js
+<<<<<<< HEAD
+=======
+.env
+>>>>>>> 6c0b917e416d8a9c610c6991ee77a12798e7c762
