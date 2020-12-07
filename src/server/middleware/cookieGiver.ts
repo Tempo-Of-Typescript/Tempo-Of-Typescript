@@ -7,6 +7,7 @@ export const cookieGiver = express.Router();
 
 cookieGiver.use(async (req: Request, res: Response, next: NextFunction) => {
   try {
+    console.log(req.cookies);
     if (req.cookies.sessionId) {
       const foundSession = await Sessions.findOne({
         where: {
@@ -30,11 +31,7 @@ cookieGiver.use(async (req: Request, res: Response, next: NextFunction) => {
       });
       const newSession = await Sessions.create({ sessionUUID: newUserUUID });
       await newUser.$add("Sessions", newSession);
-      res.cookie("sessionId", newUserUUID, {
-        httpOnly: true,
-        sameSite: true,
-      });
-      console.log(newUser);
+      res.cookie("sessionId", newUserUUID);
       req.currentUser = newUser;
       next();
     }

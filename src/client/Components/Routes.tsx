@@ -2,18 +2,19 @@ import React from "react";
 import { Action } from "redux";
 import { connect } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
-import { GameContainer } from "./Containers/GameContainer";
-import { SpotifyContainer } from "./Containers/SpotifyContainer";
 import { IRootState as AppState } from "../store/Reducers";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { getLoginStatus } from "../store/Reducers/loginReducer/asyncActions";
+import SpotifyLogin from "./Spotify_Components/SpotifyLogin";
+import { Home } from "./Home";
 import Footer from "./Footer";
 
 interface AppProps {
   fetchLoginStatus: () => void;
 }
 
-const mapStateToProps = (state: AppState) => ({
-  loggedinStatus: state.loggedinStatus,
+const mapStateToProps = ({ loggedinStatus }: AppState) => ({
+  loggedinStatus,
 });
 
 const mapDispatchToProps = (
@@ -22,7 +23,7 @@ const mapDispatchToProps = (
   fetchLoginStatus: () => dispatch(getLoginStatus()),
 });
 
-class Routes extends React.Component<AppProps> {
+class Routes extends React.Component<AppProps & AppState> {
   componentDidMount() {
     this.props.fetchLoginStatus();
   }
@@ -30,8 +31,10 @@ class Routes extends React.Component<AppProps> {
   render() {
     return (
       <>
-        <SpotifyContainer />
-        {/* <GameContainer /> */}
+        <Router>
+          <Route exact path="/" component={Home} />
+          <Route path="/spotifyLogin" component={SpotifyLogin} />
+        </Router>
         <Footer />
       </>
     );

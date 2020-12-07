@@ -30,7 +30,6 @@ app.use(routes);
 
 app.get("/", (req: Request, res: Response, next: NextFunction) => {
   try {
-    console.log("reeee");
     res.sendFile(path.join(staticPath, "index.html"));
   } catch (err) {
     next(err);

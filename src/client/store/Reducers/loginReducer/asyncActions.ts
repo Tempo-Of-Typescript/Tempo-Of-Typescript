@@ -11,7 +11,7 @@ export const getLoginStatus = (): ThunkAction<
   Action
 > => {
   return async (dispatch: Dispatch): Promise<void> => {
-    const { data } = await axios.get("/auth/spotifyRoutes/test");
+    const { data } = await axios.get("/auth/spotifyRoutes/loginStatus");
     console.log("data from axios call");
     console.log(data);
     dispatch(_getLoginStatus(data));

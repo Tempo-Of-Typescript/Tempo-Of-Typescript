@@ -12,7 +12,7 @@ import { Sessions } from "../index";
 interface IUser {
   id: number;
   name: string;
-  authToken: number;
+  accessToken: number;
   refreshToken: string;
   createdAt: Date;
   updatedAt: Date;
@@ -25,7 +25,7 @@ export class User extends Model<IUser> {
 
   @Default("not logged in")
   @Column
-  authToken!: string;
+  accessToken!: string;
 
   @Default("not logged in")
   @Column
