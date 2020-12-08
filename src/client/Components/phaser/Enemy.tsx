@@ -1,39 +1,18 @@
 import Phaser from "phaser";
-import { Direction } from "./Direction";
+import { GridPhysics } from "./GridPhysics";
+import { Player } from "./Player";
 
 //Handles enemy movements - in progress
-export default class Monster extends Phaser.Physics.Arcade.Sprite {
-  private direction = Direction.RIGHT;
-  constructor(
-    scene: Phaser.Scene,
-    x: number,
-    y: number,
-    texture: string,
-    frame?: string | number
-  ) {
-    super(scene, x, y, texture, frame);
-    this.anims.play("lizard-idle");
-  }
-
-  preUpdate(time: number, deltaTime: number): void {
-    super.preUpdate(time, deltaTime);
-
-    const speed = 40;
-
-    //enemy moves based on direction
-    switch (this.direction) {
-      case Direction.UP:
-        this.setVelocity(0, -speed);
-        break;
-      case Direction.DOWN:
-        this.setVelocity(0, speed);
-        break;
-      case Direction.LEFT:
-        this.setVelocity(-speed, 0);
-        break;
-      case Direction.RIGHT:
-        this.setVelocity(speed, 0);
-        break;
-    }
-  }
-}
+export const enemy = (
+  sprite: Phaser.Physics.Arcade.Sprite,
+  charIdx: number,
+  startTilePosX: number,
+  startTilePosY: number,
+  map: Phaser.Tilemaps.Tilemap
+): void => {
+  new GridPhysics(
+    //arguments for new Player are (spritesheet, characterIndex, startTilePosX, startTilePosY)
+    new Player(sprite, charIdx, startTilePosX, startTilePosY), //coordinates where enemy spawns
+    map
+  );
+};

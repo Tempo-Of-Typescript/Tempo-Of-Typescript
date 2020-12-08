@@ -4,17 +4,24 @@ import { GridControls } from "./GridControls";
 import { GridPhysics } from "./GridPhysics";
 import { createMonsterAnims } from "./EnemyAnimations";
 import Weapon from "./Weapon";
-import { BelongsToManyAssociation } from "sequelize-typescript";
+import { enemy } from "./Enemy";
 
 //declare the gameState globally
 interface looseObj {
   [key: string]: number;
 }
+
 const gameState: looseObj = {
   health: 20, // TODO: Decrease every time an enemy collides with player && increase every time player walks over/attacks a heart
   score: 0, // TODO: Increase every time an enemy collides with sword animation or walks over/attacks a gem
 };
 
+//type for ...args in collisionCheck function below
+interface checkFunc {
+  apply(context: any, args: any): void;
+}
+
+// callback?.apply(context, args);
 // interface beatMeter {
 //   beat: Phaser.GameObjects.Image,
 // }
@@ -48,6 +55,12 @@ export default class MainScene extends Phaser.Scene {
   private weapon?: Weapon;
   private gameScene?: Phaser.Scenes.ScenePlugin;
 
+  public playerSprite?: Phaser.Physics.Arcade.Sprite;
+
+  public lizard?: Phaser.Physics.Arcade.Sprite;
+  public chort?: Phaser.Physics.Arcade.Sprite;
+  public ogre?: Phaser.Physics.Arcade.Sprite;
+
   constructor() {
     super("main-scene");
     this.death = this.death.bind(this);
@@ -73,10 +86,23 @@ export default class MainScene extends Phaser.Scene {
       frameHeight: Player.SPRITE_FRAME_HEIGHT,
     });
 
+    //load enemies into the map
     this.load.atlas(
       "monster",
       "assets/enemies/lizard.png",
       "assets/enemies/lizard.json"
+    );
+
+    this.load.atlas(
+      "chort",
+      "assets/enemies/chort.png",
+      "assets/enemies/chort.json"
+    );
+
+    this.load.atlas(
+      "ogre",
+      "assets/enemies/texture.png",
+      "assets/enemies/texture.json"
     );
 
     //load the sword into the map
@@ -128,19 +154,28 @@ export default class MainScene extends Phaser.Scene {
     }
 
     //load character into game
-    const playerSprite = this.physics.add.sprite(0, 0, "player");
-    playerSprite.setDepth(2);
+    this.playerSprite = this.physics.add.sprite(0, 0, "player");
+    this.playerSprite.setDepth(2);
 
-    //creates enemy - lizard
-    const monster = this.physics.add.sprite(
+    //creates enemies
+    this.lizard = this.physics.add.sprite(
       0,
       0,
       "monster",
       "lizard_m_idle_anim_f0.png"
     );
 
-    // this.cameras.main.startFollow(playerSprite);
-    this.cameras.main.startFollow(playerSprite);
+    this.chort = this.physics.add.sprite(
+      0,
+      0,
+      "chort",
+      "chort_idle_anim_f2.png"
+    );
+
+    this.ogre = this.physics.add.sprite(0, 0, "ogre", "ogre_run_anim_f1.png");
+
+    //camera follows the player along the gameplay
+    this.cameras.main.startFollow(this.playerSprite);
 
     //Style for our text boxes
     const textStyle = {
@@ -168,39 +203,6 @@ export default class MainScene extends Phaser.Scene {
 
     //Set textGroup to third layer
     this.textGroup.setDepth(3);
-
-    this.gridPhysics = new GridPhysics(
-      //arguments for new Player are (spritesheet, characterIndex, startTilePosX, startTilePosY)
-      new Player(playerSprite, 0, 29, 57),
-      dungeonMap
-    );
-    this.gridControls = new GridControls(this.input, this.gridPhysics);
-
-    //gridphysics for enemy to spawn at particular spot
-    new GridPhysics(
-      //arguments for new Player are (spritesheet, characterIndex, startTilePosX, startTilePosY)
-      new Player(monster, 4, 28, 48), //coordinates where enemy spawns
-      dungeonMap
-    );
-    monster.setDepth(2);
-
-    //refactored animations to separate file - EnemyAnimations.tsx
-    createMonsterAnims(this.anims);
-
-    monster.anims.play("lizard-run");
-
-    // for (let i = 1; i <= 8; i++) {
-    //   const alpha = 0.2;
-    //   const location = 100 * i;
-
-    //   const beat: Phaser.GameObjects.Image = this.add
-    //   .image(location, 550, "music")
-    //   .setScrollFactor(0)
-    //   .setDepth(4);
-
-    //   const objectToPush: beatMeter = {beat: beat, alpha: alpha}
-    //   this.beatMap.push(objectToPush)
-    // }
 
     //working on refactoring this!!!!
     this.beat1 = this.add
@@ -248,21 +250,52 @@ export default class MainScene extends Phaser.Scene {
     this.beat3.alpha = 0.8;
     this.beat6.alpha = 0.8;
 
+    this.gridPhysics = new GridPhysics(
+      //arguments for new Player are (spritesheet, characterIndex, startTilePosX, startTilePosY)
+      new Player(this.playerSprite, 0, 29, 57),
+      dungeonMap
+    );
+    this.gridControls = new GridControls(this.input, this.gridPhysics);
+
+    //adds enemy to provided coordinates. TODO: Add more enemies to different locations
+    enemy(this.lizard, 2, 28, 48, dungeonMap);
+    enemy(this.chort, 3, 29, 25, dungeonMap);
+    enemy(this.ogre, 4, 29, 40, dungeonMap);
+
+    //adds animations to enemies
+    createMonsterAnims(this.anims);
+
+    // for (let i = 1; i <= 8; i++) {
+    //   const alpha = 0.2;
+    //   const location = 100 * i;
+
+    //   const beat: Phaser.GameObjects.Image = this.add
+    //   .image(location, 550, "music")
+    //   .setScrollFactor(0)
+    //   .setDepth(4);
+
+    //   const objectToPush: beatMeter = {beat: beat, alpha: alpha}
+    //   this.beatMap.push(objectToPush)
+    // }
+
     // Create the hitbox and bring it to sprite layer
     const hitbox = this.physics.add.sprite(0, 0, "sword");
     hitbox.setDepth(2);
 
-    // Add the overlap physics to destroy an enemy
-    this.physics.add.collider(monster, hitbox, () => {
-      monster.destroy();
-      gameState.score += 1;
-      scoreText.setText(`Player Score: ${gameState.score}`);
+    // collider physics to destroy an enemy - hide enemy.
+    this.physics.add.collider(this.lizard, hitbox, () => {
+      const enemyHide = this.lizard?.setActive(false).setVisible(false);
+      if (enemyHide) {
+        gameState.score += 1;
+        scoreText.setText(`Player Score: ${gameState.score}`);
+      }
+      gameState.score -= 1;
     });
 
-    // Add collider physics between an enemy and player
+    // collider physics between an enemy and player
     this.physics.add.collider(
-      playerSprite,
-      monster,
+      this.playerSprite,
+      this.lizard,
       this.collisionCheck(() => {
         gameState.health -= 1;
         healthText.setText(`Player Health: ${gameState.health}`);
@@ -274,7 +307,7 @@ export default class MainScene extends Phaser.Scene {
     );
 
     // Create the weapon functionality
-    this.weapon = new Weapon(this.input, false, hitbox, playerSprite);
+    this.weapon = new Weapon(this.input, false, hitbox, this.playerSprite);
   }
 
   //Phaser calls update with 2 arguments: time and delta.
@@ -307,11 +340,11 @@ export default class MainScene extends Phaser.Scene {
 
   //this function makes sure callback on collider (enemy vs player) fires only once
   //player loses one life
-  //TODO: define interface for function type and pass it to the below function - work in progress...
-  public collisionCheck(callback?: any, context = this): any {
+
+  public collisionCheck(callback?: checkFunc, context = this): any {
     let once = false;
 
-    return (...args: any[]) => {
+    return (...args: checkFunc[]) => {
       if (!once) {
         once = true;
         callback?.apply(context, args);
