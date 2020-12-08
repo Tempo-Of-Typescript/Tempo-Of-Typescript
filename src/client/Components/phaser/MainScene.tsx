@@ -24,7 +24,7 @@ export default class MainScene extends Phaser.Scene {
   static readonly TILE_SIZE = 48;
 
   //hardcoded BPM (beats per minute) of a song
-  private BPM = 60;
+  private Songs = [{ bpm: 100, duration: 20000 }];
 
   private gridControls?: GridControls;
   private gridPhysics?: GridPhysics;
@@ -86,7 +86,6 @@ export default class MainScene extends Phaser.Scene {
   }
 
   public create(): void {
-    console.log(this.BPM);
     //creates the map we want by parsing the JSON file and filling with sprites
     const dungeonMap = this.make.tilemap({ key: "temple-map" });
     dungeonMap.addTilesetImage("Temple of TS", "tiles");
@@ -157,63 +156,54 @@ export default class MainScene extends Phaser.Scene {
     this.beat3.alpha = 0.8;
     this.beat6.alpha = 0.8;
 
-    //converts the song's BPM to milliseconds
-    const msPerBeat = (60 / this.BPM) * 1000;
-    const msForOneBeat = (msPerBeat * 2.5) / 100;
+    for (const song of this.Songs) {
+      const BPM = song.bpm;
 
-    //sets the rythm of the gameplay based on the available BPM
-    const playerTimer = this.time.addEvent({
-      delay: msPerBeat,
-      callback: () => console.log(this.gridPhysics?.moveToBeat()),
-      loop: true,
-    });
+      //converts the song's BPM to milliseconds
+      const msPerBeat = (60 / BPM) * 1000;
+      const msForOneBeat = (msPerBeat * 2.5) / 100;
 
-    //working on refactoring this!!!!
-    const beatTimer = this.time.addEvent({
-      delay: msForOneBeat,
-      callback: () => {
-        this.beat1!.x += 2.5;
-        if (this.beat1!.x >= 200) this.beat1!.x = 100;
-        this.beat2!.x += 2.5;
-        if (this.beat2!.x >= 300) this.beat2!.x = 200;
-        this.beat3!.x += 2.5;
-        if (this.beat3!.x >= 400) this.beat3!.x = 300;
-        this.beat4!.x += 2.5;
-        if (this.beat4!.x >= 500) this.beat4!.x = 400;
-        this.beat5!.x += 2.5;
-        if (this.beat5!.x >= 600) this.beat5!.x = 500;
-        this.beat6!.x += 2.5;
-        if (this.beat6!.x >= 700) this.beat6!.x = 600;
-        this.beat7!.x += 2.5;
-        if (this.beat7!.x >= 800) this.beat7!.x = 700;
-        this.beat8!.x += 2.5;
-        if (this.beat8!.x >= 900) this.beat8!.x = 800;
-      },
-      loop: true,
-    });
+      //sets the rythm of the gameplay based on the available BPM
+      const playerTimer = this.time.addEvent({
+        delay: msPerBeat,
+        callback: () => this.gridPhysics?.moveToBeat(),
+        loop: true,
+      });
 
-    const beatTimer = this.time.addEvent({
-      delay: msForOneBeat,
-      callback: () => {
-        this.beat1!.x += 2.5;
-        if (this.beat1!.x >= 200) this.beat1!.x = 100;
-        this.beat2!.x += 2.5;
-        if (this.beat2!.x >= 300) this.beat2!.x = 200;
-        this.beat3!.x += 2.5;
-        if (this.beat3!.x >= 400) this.beat3!.x = 300;
-        this.beat4!.x += 2.5;
-        if (this.beat4!.x >= 500) this.beat4!.x = 400;
-        this.beat5!.x += 2.5;
-        if (this.beat5!.x >= 600) this.beat5!.x = 500;
-        this.beat6!.x += 2.5;
-        if (this.beat6!.x >= 700) this.beat6!.x = 600;
-        this.beat7!.x += 2.5;
-        if (this.beat7!.x >= 800) this.beat7!.x = 700;
-        this.beat8!.x += 2.5;
-        if (this.beat8!.x >= 900) this.beat8!.x = 800;
-      },
-      loop: true,
-    });
+      //working on refactoring this!!!!
+      const beatTimer = this.time.addEvent({
+        delay: msForOneBeat,
+        callback: () => {
+          this.beat1!.x += 2.5;
+          if (this.beat1!.x >= 200) this.beat1!.x = 100;
+          this.beat2!.x += 2.5;
+          if (this.beat2!.x >= 300) this.beat2!.x = 200;
+          this.beat3!.x += 2.5;
+          if (this.beat3!.x >= 400) this.beat3!.x = 300;
+          this.beat4!.x += 2.5;
+          if (this.beat4!.x >= 500) this.beat4!.x = 400;
+          this.beat5!.x += 2.5;
+          if (this.beat5!.x >= 600) this.beat5!.x = 500;
+          this.beat6!.x += 2.5;
+          if (this.beat6!.x >= 700) this.beat6!.x = 600;
+          this.beat7!.x += 2.5;
+          if (this.beat7!.x >= 800) this.beat7!.x = 700;
+          this.beat8!.x += 2.5;
+          if (this.beat8!.x >= 900) this.beat8!.x = 800;
+        },
+        loop: true,
+      });
+    }
+
+    // const someTimer = this.time.addEvent({
+    //   delay: 3000,
+    //   callback: () => {
+    //     console.log(this.BPM)
+    //     this.BPM = 20000
+    //     console.log(this.BPM)
+    //   },
+    //   loop: false,
+    // });
 
     //load character into game
     const playerSprite = this.physics.add.sprite(0, 0, "player");

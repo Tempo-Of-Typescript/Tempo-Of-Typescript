@@ -1,7 +1,6 @@
 import MainScene from "./MainScene";
 import { Direction } from "./Direction";
 import { Player } from "./Player";
-import e from "express";
 
 //Creates a 2D vector ([x], [y])
 const Vector2 = Phaser.Math.Vector2;
