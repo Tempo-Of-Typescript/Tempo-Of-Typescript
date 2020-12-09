@@ -4,7 +4,6 @@ import { GridControls } from "./GridControls";
 import { GridPhysics } from "./GridPhysics";
 import { createMonsterAnims } from "./EnemyAnimations";
 import Weapon from "./Weapon";
-import { BelongsToManyAssociation } from "sequelize-typescript";
 
 //declare the gameState globally
 interface looseObj {
@@ -25,7 +24,7 @@ export default class MainScene extends Phaser.Scene {
   static readonly TILE_SIZE = 48;
 
   //hardcoded BPM (beats per minute) of a song
-  private BPM = 160;
+  private BPM = 100;
 
   private gridControls?: GridControls;
   private gridPhysics?: GridPhysics;
@@ -84,35 +83,6 @@ export default class MainScene extends Phaser.Scene {
       frameWidth: 48,
       frameHeight: 48,
     });
-
-    //converts the song's BPM to milliseconds
-    const msPerBeat = (60 / this.BPM) * 1000;
-    const msForOneBeat = (msPerBeat * 2.5) / 100;
-
-    //sets the rythm of the gameplay based on the available BPM
-    setInterval(() => {
-      this.gridPhysics?.moveToBeat();
-    }, msPerBeat);
-
-    //working on refactoring this!!!!
-    setInterval(() => {
-      this.beat1!.x += 2.5;
-      if (this.beat1!.x >= 200) this.beat1!.x = 100;
-      this.beat2!.x += 2.5;
-      if (this.beat2!.x >= 300) this.beat2!.x = 200;
-      this.beat3!.x += 2.5;
-      if (this.beat3!.x >= 400) this.beat3!.x = 300;
-      this.beat4!.x += 2.5;
-      if (this.beat4!.x >= 500) this.beat4!.x = 400;
-      this.beat5!.x += 2.5;
-      if (this.beat5!.x >= 600) this.beat5!.x = 500;
-      this.beat6!.x += 2.5;
-      if (this.beat6!.x >= 700) this.beat6!.x = 600;
-      this.beat7!.x += 2.5;
-      if (this.beat7!.x >= 800) this.beat7!.x = 700;
-      this.beat8!.x += 2.5;
-      if (this.beat8!.x >= 900) this.beat8!.x = 800;
-    }, msForOneBeat);
   }
 
   public create(): void {
@@ -126,6 +96,88 @@ export default class MainScene extends Phaser.Scene {
       layer.setDepth(i);
       layer.scale = 3;
     }
+
+    //create sprites for the beats on the beat meter
+    this.beat1 = this.add
+      .image(100, 550, "music")
+      .setScrollFactor(0)
+      .setDepth(4);
+    this.beat2 = this.add
+      .image(200, 550, "music")
+      .setScrollFactor(0)
+      .setDepth(4);
+    this.beat3 = this.add
+      .image(300, 550, "music")
+      .setScrollFactor(0)
+      .setDepth(4);
+    this.beat4 = this.add
+      .image(400, 550, "music")
+      .setScrollFactor(0)
+      .setDepth(4);
+    this.beat5 = this.add
+      .image(500, 550, "music")
+      .setScrollFactor(0)
+      .setDepth(4);
+    this.beat6 = this.add
+      .image(600, 550, "music")
+      .setScrollFactor(0)
+      .setDepth(4);
+    this.beat7 = this.add
+      .image(700, 550, "music")
+      .setScrollFactor(0)
+      .setDepth(4);
+    this.beat8 = this.add
+      .image(800, 550, "music")
+      .setScrollFactor(0)
+      .setDepth(4);
+    this.background = this.add
+      .image(500, 550, "background")
+      .setScrollFactor(0)
+      .setDepth(3);
+
+    //Set transparences for beats on the edge
+    this.beat1.alpha = 0.2;
+    this.beat8.alpha = 0.2;
+    this.beat2.alpha = 0.5;
+    this.beat7.alpha = 0.5;
+    this.beat3.alpha = 0.8;
+    this.beat6.alpha = 0.8;
+
+    //converts the song's BPM to milliseconds
+    const msPerBeat = (60 / this.BPM) * 1000;
+    const msForOneBeat = (msPerBeat * 5.0) / 100;
+
+    //creates a timer to let the player only move during a beat
+    const playerTimer = this.time.addEvent({
+      delay: msPerBeat,
+      callback: () => this.gridPhysics?.moveToBeat(),
+      loop: true,
+    });
+
+    //creates a timer to move each beat note at a specific speed to match BPM
+    const beatTimer = this.time.addEvent({
+      delay: msForOneBeat,
+      callback: () => {
+        console.log(msForOneBeat);
+        this.beat1!.x += 5.0;
+        if (this.beat1!.x >= 200) this.beat1!.x = 100;
+        this.beat2!.x += 5.0;
+        if (this.beat2!.x >= 300) this.beat2!.x = 200;
+        this.beat3!.x += 5.0;
+        if (this.beat3!.x >= 400) this.beat3!.x = 300;
+        this.beat4!.x += 5.0;
+        if (this.beat4!.x >= 500) this.beat4!.x = 400;
+        this.beat5!.x += 5.0;
+        if (this.beat5!.x >= 600) this.beat5!.x = 500;
+        this.beat6!.x += 5.0;
+        if (this.beat6!.x >= 700) this.beat6!.x = 600;
+        this.beat7!.x += 5.0;
+        if (this.beat7!.x >= 800) this.beat7!.x = 700;
+        this.beat8!.x += 5.0;
+        if (this.beat8!.x >= 900) this.beat8!.x = 800;
+      },
+      loop: true,
+    });
 
     //load character into game
     const playerSprite = this.physics.add.sprite(0, 0, "player");
@@ -189,65 +241,6 @@ export default class MainScene extends Phaser.Scene {
 
     monster.anims.play("lizard-run");
 
-    // for (let i = 1; i <= 8; i++) {
-    //   const alpha = 0.2;
-    //   const location = 100 * i;
-
-    //   const beat: Phaser.GameObjects.Image = this.add
-    //   .image(location, 550, "music")
-    //   .setScrollFactor(0)
-    //   .setDepth(4);
-
-    //   const objectToPush: beatMeter = {beat: beat, alpha: alpha}
-    //   this.beatMap.push(objectToPush)
-    // }
-
-    //working on refactoring this!!!!
-    this.beat1 = this.add
-      .image(100, 550, "music")
-      .setScrollFactor(0)
-      .setDepth(4);
-    this.beat2 = this.add
-      .image(200, 550, "music")
-      .setScrollFactor(0)
-      .setDepth(4);
-    this.beat3 = this.add
-      .image(300, 550, "music")
-      .setScrollFactor(0)
-      .setDepth(4);
-    this.beat4 = this.add
-      .image(400, 550, "music")
-      .setScrollFactor(0)
-      .setDepth(4);
-    this.beat5 = this.add
-      .image(500, 550, "music")
-      .setScrollFactor(0)
-      .setDepth(4);
-    this.beat6 = this.add
-      .image(600, 550, "music")
-      .setScrollFactor(0)
-      .setDepth(4);
-    this.beat7 = this.add
-      .image(700, 550, "music")
-      .setScrollFactor(0)
-      .setDepth(4);
-    this.beat8 = this.add
-      .image(800, 550, "music")
-      .setScrollFactor(0)
-      .setDepth(4);
-    this.background = this.add
-      .image(500, 550, "background")
-      .setScrollFactor(0)
-      .setDepth(3);
-
-    //working on refactoring this!!!!
-    this.beat1.alpha = 0.2;
-    this.beat8.alpha = 0.2;
-    this.beat2.alpha = 0.5;
-    this.beat7.alpha = 0.5;
-    this.beat3.alpha = 0.8;
-    this.beat6.alpha = 0.8;
-
     // Create the hitbox and bring it to sprite layer
     const hitbox = this.physics.add.sprite(0, 0, "sword");
     hitbox.setDepth(2);
@@ -277,7 +270,7 @@ export default class MainScene extends Phaser.Scene {
     this.weapon = new Weapon(this.input, false, hitbox, playerSprite);
   }
 
-  //Phaser calls update with 2 arguments: time and delta.
+  //Phaser calls update with 2 optional arguments: time and delta.
   //Time is the current time of buttons being pressed.
   //Delta is the time in ms since the last frame.
   public update(_time: number, delta: number): void {

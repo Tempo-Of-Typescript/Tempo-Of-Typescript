@@ -55,7 +55,7 @@ export class GridPhysics {
 
     setTimeout(() => {
       this.canMove = false;
-    }, 200);
+    }, 100);
   }
 
   //the main method for moving the character
