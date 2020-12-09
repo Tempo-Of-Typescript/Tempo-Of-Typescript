@@ -127,17 +127,19 @@ export default class MainScene extends Phaser.Scene {
       layer.scale = 3;
     }
 
-    //load character into game
+    //load character into game and scale hitbox
     const playerSprite = this.physics.add.sprite(0, 0, "player");
+    playerSprite.setSize(16, 16);
     playerSprite.setDepth(2);
 
-    //creates enemy - lizard
+    //creates enemy - lizard and scales the hitbox
     const monster = this.physics.add.sprite(
       0,
       0,
       "monster",
       "lizard_m_idle_anim_f0.png"
     );
+    monster.setSize(16, 16);
 
     // this.cameras.main.startFollow(playerSprite);
     this.cameras.main.startFollow(playerSprite);
@@ -274,7 +276,13 @@ export default class MainScene extends Phaser.Scene {
     );
 
     // Create the weapon functionality
-    this.weapon = new Weapon(this.input, false, hitbox, playerSprite);
+    this.weapon = new Weapon(
+      this.input,
+      false,
+      hitbox,
+      playerSprite,
+      this.gridPhysics
+    );
   }
 
   //Phaser calls update with 2 arguments: time and delta.
