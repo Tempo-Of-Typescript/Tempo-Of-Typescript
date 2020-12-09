@@ -2,3 +2,9 @@ node_modules
 bundle.js
 bundle.js.map
 srcJS
+.env
+polyfills-core-js.bundle.js
+polyfills-css-shim.bundle.js
+polyfills-dom.bundle.js
+vendors-node_modules_ion-phaser_core_dist_esm-es5_ion-phaser_entry_js.bundle.js
+.env
