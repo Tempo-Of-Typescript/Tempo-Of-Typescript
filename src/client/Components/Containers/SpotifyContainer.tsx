@@ -6,7 +6,7 @@ import SpotifyLogin from "../Spotify_Components/SpotifyLogin";
 import axios from "axios";
 
 export const SpotifyContainer: React.FC = (): JSX.Element => {
-  const { loggedinStatus } = useSelector((state: IRootState) => state);
+  const { loggedInStatus } = useSelector((state: IRootState) => state);
   // const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [toggleLoginScreen, toggleScreen] = useState(false);
 
@@ -16,7 +16,7 @@ export const SpotifyContainer: React.FC = (): JSX.Element => {
   //   }
   // },[spotifyAuthTokens])
 
-  if (loggedinStatus) {
+  if (loggedInStatus) {
     return (
       <div className="spotify-container">
         {/* 

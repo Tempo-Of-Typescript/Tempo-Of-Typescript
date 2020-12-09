@@ -6,9 +6,9 @@ import { SpotifyContainer } from "./Containers/SpotifyContainer";
 import { Link } from "react-router-dom";
 
 export const Home: React.FC = (): JSX.Element => {
-  const { loggedinStatus } = useSelector((state: AppState) => state);
-
-  if (loggedinStatus) {
+  const { loggedInStatus } = useSelector((state: AppState) => state);
+  console.log("logged status", loggedInStatus);
+  if (loggedInStatus) {
     return (
       <>
         <SpotifyContainer />

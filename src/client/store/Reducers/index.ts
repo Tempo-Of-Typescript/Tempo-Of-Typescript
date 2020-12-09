@@ -3,7 +3,7 @@ import { LoginReducer } from "./loginReducer/reducer";
 import { ILoginState } from "./loginReducer/type";
 
 export interface IRootState {
-  loggedinStatus: ILoginState;
+  loggedInStatus: ILoginState;
 }
 
 export const rootState = combineReducers({

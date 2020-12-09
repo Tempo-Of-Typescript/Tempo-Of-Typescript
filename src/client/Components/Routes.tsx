@@ -13,8 +13,8 @@ interface AppProps {
   fetchLoginStatus: () => void;
 }
 
-const mapStateToProps = ({ loggedinStatus }: AppState) => ({
-  loggedinStatus,
+const mapStateToProps = ({ loggedInStatus }: AppState) => ({
+  loggedInStatus,
 });
 
 const mapDispatchToProps = (
