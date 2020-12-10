@@ -60,6 +60,7 @@ export default class MainScene extends Phaser.Scene {
   public lizard?: Phaser.Physics.Arcade.Sprite;
   public chort?: Phaser.Physics.Arcade.Sprite;
   public ogre?: Phaser.Physics.Arcade.Sprite;
+  public demon?: Phaser.Physics.Arcade.Sprite;
 
   constructor() {
     super("main-scene");
@@ -101,8 +102,14 @@ export default class MainScene extends Phaser.Scene {
 
     this.load.atlas(
       "ogre",
-      "assets/enemies/texture.png",
-      "assets/enemies/texture.json"
+      "assets/enemies/ogre.png",
+      "assets/enemies/ogre.json"
+    );
+
+    this.load.atlas(
+      "demon",
+      "assets/enemies/demon.png",
+      "assets/enemies/demon.json"
     );
 
     //load the sword into the map
@@ -170,6 +177,13 @@ export default class MainScene extends Phaser.Scene {
       0,
       "chort",
       "chort_idle_anim_f2.png"
+    );
+
+    this.demon = this.physics.add.sprite(
+      0,
+      0,
+      "demon",
+      "big_demon_idle_anim_f2.png"
     );
 
     this.ogre = this.physics.add.sprite(0, 0, "ogre", "ogre_run_anim_f1.png");
@@ -261,6 +275,7 @@ export default class MainScene extends Phaser.Scene {
     enemy(this.lizard, 2, 28, 48, dungeonMap);
     enemy(this.chort, 3, 29, 25, dungeonMap);
     enemy(this.ogre, 4, 29, 40, dungeonMap);
+    enemy(this.demon, 5, 31, 47, dungeonMap);
 
     //adds animations to enemies
     createMonsterAnims(this.anims);
@@ -284,12 +299,18 @@ export default class MainScene extends Phaser.Scene {
 
     // collider physics to destroy an enemy - hide enemy.
     this.physics.add.collider(this.lizard, hitbox, () => {
-      const enemyHide = this.lizard?.setActive(false).setVisible(false);
-      if (enemyHide) {
-        gameState.score += 1;
-        scoreText.setText(`Player Score: ${gameState.score}`);
-      }
-      gameState.score -= 1;
+      // const enemyHide = this.lizard?.setActive(false).setVisible(false);
+      // this.physics.pause();
+      // if (enemyHide) {
+      this.lizard?.destroy();
+      gameState.score += 1;
+      scoreText.setText(`Player Score: ${gameState.score}`);
+      // }
+      //interval to respawn enemy
+      // setInterval(() => {
+      //   this.lizard?.setActive(true).setVisible(true);
+      // gameState.score -= 1;
+      // });
     });
 
     // collider physics between an enemy and player
@@ -317,6 +338,7 @@ export default class MainScene extends Phaser.Scene {
     this.gridControls?.update();
     this.gridPhysics?.update(delta);
     this.weapon?.update();
+    // console.log(this.data);
   }
 
   public death(): void {
