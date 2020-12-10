@@ -1,5 +1,6 @@
 import Phaser from "phaser";
-import { gameState, collisionCheck } from "./MainScene";
+import { gameState } from "./MainScene";
+import { collisionCheck } from "./UtilityFuncs";
 
 export const collision = (
   add: Phaser.Physics.Arcade.Factory,

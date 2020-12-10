@@ -7,7 +7,7 @@ import Weapon from "./Weapon";
 import { enemy } from "./Enemy";
 import { collision } from "./SpriteCollision";
 import { hitboxCollision } from "./HitboxCollision";
-import Preloader from "./Preloader";
+import preloader from "./Preloader";
 
 //declare the gameState globally
 interface looseObj {
@@ -15,7 +15,7 @@ interface looseObj {
 }
 
 export const gameState: looseObj = {
-  health: 20, // TODO: Decrease every time an enemy collides with player && increase every time player walks over/attacks a heart
+  health: 3, // TODO: Decrease every time an enemy collides with player && increase every time player walks over/attacks a heart
   score: 0, // TODO: Increase every time an enemy collides with sword animation or walks over/attacks a gem
 };
 
@@ -41,9 +41,6 @@ export default class MainScene extends Phaser.Scene {
   private gridPhysics?: GridPhysics;
 
   // private beatMap: Array<beatMeter> = []
-
-  //Preloader
-  public preloader?: Preloader;
 
   //working on refactoring this!!!!
   private beat1?: Phaser.GameObjects.Image;
@@ -76,7 +73,7 @@ export default class MainScene extends Phaser.Scene {
 
   public preload(): void {
     //preloads map assets - sprites, map, text, objects...
-    this.preloader = new Preloader(this.load);
+    preloader(this.load);
 
     //converts the song's BPM to milliseconds
     const msPerBeat = (60 / this.BPM) * 1000;

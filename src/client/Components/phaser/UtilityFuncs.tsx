@@ -1,3 +1,5 @@
+import { checkFunc } from "./MainScene";
+
 //this function makes sure callback on collider (enemy vs player) fires only once
 //player loses one life
 export function collisionCheck(
