@@ -5,19 +5,22 @@ import { GridPhysics } from "./GridPhysics";
 import { createMonsterAnims } from "./EnemyAnimations";
 import Weapon from "./Weapon";
 import { enemy } from "./Enemy";
+import { collision } from "./SpriteCollision";
+import { hitboxCollision } from "./HitboxCollision";
+import Preloader from "./Preloader";
 
 //declare the gameState globally
 interface looseObj {
   [key: string]: number;
 }
 
-const gameState: looseObj = {
+export const gameState: looseObj = {
   health: 20, // TODO: Decrease every time an enemy collides with player && increase every time player walks over/attacks a heart
   score: 0, // TODO: Increase every time an enemy collides with sword animation or walks over/attacks a gem
 };
 
 //type for ...args in collisionCheck function below
-interface checkFunc {
+export interface checkFunc {
   apply(context: any, args: any): void;
 }
 
@@ -39,6 +42,9 @@ export default class MainScene extends Phaser.Scene {
 
   // private beatMap: Array<beatMeter> = []
 
+  //Preloader
+  public preloader?: Preloader;
+
   //working on refactoring this!!!!
   private beat1?: Phaser.GameObjects.Image;
   private beat2?: Phaser.GameObjects.Image;
@@ -54,6 +60,7 @@ export default class MainScene extends Phaser.Scene {
   private textGroup?: Phaser.GameObjects.Group;
   private weapon?: Weapon;
   private gameScene?: Phaser.Scenes.ScenePlugin;
+  public healthText?: Phaser.GameObjects.Text;
 
   public playerSprite?: Phaser.Physics.Arcade.Sprite;
 
@@ -68,55 +75,8 @@ export default class MainScene extends Phaser.Scene {
   }
 
   public preload(): void {
-    //load map into the game (tile-sheet and JSON for collision info)
-    //using Phaser methods
-    this.load.image("tiles", "assets/ToTS-sheet.png");
-    this.load.spritesheet("music", "assets/sprites/Treble_001.png", {
-      frameWidth: 26,
-      frameHeight: 61,
-    });
-    this.load.spritesheet("background", "assets/sprites/background.png", {
-      frameWidth: 5,
-      frameHeight: 65,
-    });
-    this.load.tilemapTiledJSON("temple-map", "assets/ToTS_dungeon.json");
-
-    //load player into the map
-    this.load.spritesheet("player", "assets/sprites/knight_spritesheet.png", {
-      frameWidth: Player.SPRITE_FRAME_WIDTH,
-      frameHeight: Player.SPRITE_FRAME_HEIGHT,
-    });
-
-    //load enemies into the map
-    this.load.atlas(
-      "monster",
-      "assets/enemies/lizard.png",
-      "assets/enemies/lizard.json"
-    );
-
-    this.load.atlas(
-      "chort",
-      "assets/enemies/chort.png",
-      "assets/enemies/chort.json"
-    );
-
-    this.load.atlas(
-      "ogre",
-      "assets/enemies/ogre.png",
-      "assets/enemies/ogre.json"
-    );
-
-    this.load.atlas(
-      "demon",
-      "assets/enemies/demon.png",
-      "assets/enemies/demon.json"
-    );
-
-    //load the sword into the map
-    this.load.spritesheet("sword", "assets/sprites/smallSword.png", {
-      frameWidth: 48,
-      frameHeight: 48,
-    });
+    //preloads map assets - sprites, map, text, objects...
+    this.preloader = new Preloader(this.load);
 
     //converts the song's BPM to milliseconds
     const msPerBeat = (60 / this.BPM) * 1000;
@@ -160,17 +120,19 @@ export default class MainScene extends Phaser.Scene {
       layer.scale = 3;
     }
 
-    //load character into game
+    //load character into game and scale hitbox
     this.playerSprite = this.physics.add.sprite(0, 0, "player");
+    this.playerSprite.setSize(16, 16);
     this.playerSprite.setDepth(2);
 
-    //creates enemies
+    //creates enemy - lizard and scales the hitbox
     this.lizard = this.physics.add.sprite(
       0,
       0,
       "monster",
       "lizard_m_idle_anim_f0.png"
     );
+    this.lizard.setSize(16, 16);
 
     this.chort = this.physics.add.sprite(
       0,
@@ -179,6 +141,8 @@ export default class MainScene extends Phaser.Scene {
       "chort_idle_anim_f2.png"
     );
 
+    this.chort.setSize(16, 16);
+
     this.demon = this.physics.add.sprite(
       0,
       0,
@@ -186,7 +150,11 @@ export default class MainScene extends Phaser.Scene {
       "big_demon_idle_anim_f2.png"
     );
 
+    this.demon.setSize(16, 16);
+
     this.ogre = this.physics.add.sprite(0, 0, "ogre", "ogre_run_anim_f1.png");
+
+    this.ogre.setScale(0.5);
 
     //camera follows the player along the gameplay
     this.cameras.main.startFollow(this.playerSprite);
@@ -202,7 +170,7 @@ export default class MainScene extends Phaser.Scene {
     this.textGroup = this.add.group();
 
     //Player health text box, includes styling and scroll factor of 0 to make the box follow the camera dynamically
-    const healthText = this.add
+    this.healthText = this.add
       .text(775, 15, `Player health: ${gameState.health}`, textStyle)
       .setScrollFactor(0);
 
@@ -212,7 +180,7 @@ export default class MainScene extends Phaser.Scene {
       .setScrollFactor(0);
 
     //Add text boxes to group
-    this.textGroup.add(healthText);
+    this.textGroup.add(this.healthText);
     this.textGroup.add(scoreText);
 
     //Set textGroup to third layer
@@ -271,7 +239,8 @@ export default class MainScene extends Phaser.Scene {
     );
     this.gridControls = new GridControls(this.input, this.gridPhysics);
 
-    //adds enemy to provided coordinates. TODO: Add more enemies to different locations
+    //adds enemy to provided coordinates. TODO: Add more enemies to different locations. TODO: needs refactoring - put into loop
+
     enemy(this.lizard, 2, 28, 48, dungeonMap);
     enemy(this.chort, 3, 29, 25, dungeonMap);
     enemy(this.ogre, 4, 29, 40, dungeonMap);
@@ -297,38 +266,32 @@ export default class MainScene extends Phaser.Scene {
     const hitbox = this.physics.add.sprite(0, 0, "sword");
     hitbox.setDepth(2);
 
-    // collider physics to destroy an enemy - hide enemy.
-    this.physics.add.collider(this.lizard, hitbox, () => {
-      // const enemyHide = this.lizard?.setActive(false).setVisible(false);
-      // this.physics.pause();
-      // if (enemyHide) {
-      this.lizard?.destroy();
-      gameState.score += 1;
-      scoreText.setText(`Player Score: ${gameState.score}`);
-      // }
-      //interval to respawn enemy
-      // setInterval(() => {
-      //   this.lizard?.setActive(true).setVisible(true);
-      // gameState.score -= 1;
-      // });
-    });
+    //this loop handles collision between enemy and player, when player touches enemy - enemy explodes
+    //and player loses one life. TODO: add animations on explosion and make enemy movable with A* pathfinding
+    const enemies = [this.lizard, this.demon, this.chort, this.ogre]; //TODO: add more enemies to array list
 
-    // collider physics between an enemy and player
-    this.physics.add.collider(
-      this.playerSprite,
-      this.lizard,
-      this.collisionCheck(() => {
-        gameState.health -= 1;
-        healthText.setText(`Player Health: ${gameState.health}`);
-
-        if (gameState.health <= 0) {
-          this.death(); // Currently only turns off the physics for the player and doesn't stop player from moving.
-        }
-      })
-    );
+    for (let i = 0; i < enemies.length; i++) {
+      collision(
+        this.physics.add,
+        this.playerSprite,
+        enemies[i],
+        this.healthText,
+        this.death
+      );
+    }
+    //this loop handles collision between enemy and hitbox, once sword touches enemy, enemy dies, player gains +1 score
+    for (let i = 0; i < enemies.length; i++) {
+      hitboxCollision(this.physics.add, enemies[i], hitbox, scoreText);
+    }
 
     // Create the weapon functionality
-    this.weapon = new Weapon(this.input, false, hitbox, this.playerSprite);
+    this.weapon = new Weapon(
+      this.input,
+      false,
+      hitbox,
+      this.playerSprite,
+      this.gridPhysics
+    );
   }
 
   //Phaser calls update with 2 arguments: time and delta.
@@ -358,19 +321,5 @@ export default class MainScene extends Phaser.Scene {
       .setDepth(3);
     // const deathScene = this.scene.get([MainScene]);
     // deathScene.scene.restart();
-  }
-
-  //this function makes sure callback on collider (enemy vs player) fires only once
-  //player loses one life
-
-  public collisionCheck(callback?: checkFunc, context = this): any {
-    let once = false;
-
-    return (...args: checkFunc[]) => {
-      if (!once) {
-        once = true;
-        callback?.apply(context, args);
-      }
-    };
   }
 }
