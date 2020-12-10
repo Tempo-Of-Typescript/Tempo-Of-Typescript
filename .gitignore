@@ -2,6 +2,7 @@ node_modules
 bundle.js
 bundle.js.map
 srcJS
+.env
 polyfills-core-js.bundle.js
 polyfills-css-shim.bundle.js
 polyfills-dom.bundle.js
