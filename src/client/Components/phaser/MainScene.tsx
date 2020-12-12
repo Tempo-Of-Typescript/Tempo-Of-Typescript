@@ -32,6 +32,7 @@ export default class MainScene extends Phaser.Scene {
   // private beatMap: Array<beatMeter> = []
 
   //working on refactoring this!!!!
+  private beat0?: Phaser.GameObjects.Image;
   private beat1?: Phaser.GameObjects.Image;
   private beat2?: Phaser.GameObjects.Image;
   private beat3?: Phaser.GameObjects.Image;
@@ -40,6 +41,7 @@ export default class MainScene extends Phaser.Scene {
   private beat6?: Phaser.GameObjects.Image;
   private beat7?: Phaser.GameObjects.Image;
   private beat8?: Phaser.GameObjects.Image;
+  private beat9?: Phaser.GameObjects.Image;
 
   private background?: Phaser.GameObjects.Image;
 
@@ -98,6 +100,7 @@ export default class MainScene extends Phaser.Scene {
     }
 
     //create sprites for the beats on the beat meter
+    this.beat0 = this.add.image(0, 550, "music").setScrollFactor(0).setDepth(4);
     this.beat1 = this.add
       .image(100, 550, "music")
       .setScrollFactor(0)
@@ -130,22 +133,29 @@ export default class MainScene extends Phaser.Scene {
       .image(800, 550, "music")
       .setScrollFactor(0)
       .setDepth(4);
+    this.beat9 = this.add
+      .image(900, 550, "music")
+      .setScrollFactor(0)
+      .setDepth(4);
     this.background = this.add
       .image(500, 550, "background")
       .setScrollFactor(0)
       .setDepth(3);
 
     //Set transparences for beats on the edge
-    this.beat1.alpha = 0.2;
-    this.beat8.alpha = 0.2;
-    this.beat2.alpha = 0.5;
-    this.beat7.alpha = 0.5;
+    this.beat0.alpha = 0.2;
+    this.beat1.alpha = 0.4;
+    this.beat2.alpha = 0.6;
     this.beat3.alpha = 0.8;
     this.beat6.alpha = 0.8;
+    this.beat7.alpha = 0.6;
+    this.beat8.alpha = 0.4;
+    this.beat9.alpha = 0.2;
 
     //converts the song's BPM to milliseconds
     const msPerBeat = (60 / this.BPM) * 1000;
     const msForOneBeat = (msPerBeat * 5.0) / 100;
+    console.log(msForOneBeat);
 
     //creates a timer to let the player only move during a beat
     const playerTimer = this.time.addEvent({
@@ -158,7 +168,8 @@ export default class MainScene extends Phaser.Scene {
     const beatTimer = this.time.addEvent({
       delay: msForOneBeat,
       callback: () => {
-        console.log(msForOneBeat);
+        this.beat0!.x += 5.0;
+        if (this.beat0!.x >= 100) this.beat0!.x = 0;
         this.beat1!.x += 5.0;
         if (this.beat1!.x >= 200) this.beat1!.x = 100;
         this.beat2!.x += 5.0;
@@ -175,6 +186,8 @@ export default class MainScene extends Phaser.Scene {
         if (this.beat7!.x >= 800) this.beat7!.x = 700;
         this.beat8!.x += 5.0;
         if (this.beat8!.x >= 900) this.beat8!.x = 800;
+        this.beat9!.x += 5.0;
+        if (this.beat9!.x >= 1000) this.beat9!.x = 900;
       },
       loop: true,
     });
