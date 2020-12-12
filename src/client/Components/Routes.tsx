@@ -3,10 +3,10 @@ import { Action } from "redux";
 import { connect } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
 import { IRootState as AppState } from "../store/Reducers";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import { getLoginStatus } from "../store/Reducers/loginReducer/asyncActions";
 import { SpotifyLogin } from "./Spotify_Components/SpotifyLogin";
-import { Home } from "./Home";
+import { LandingPage } from "./LandingPage/";
 import Footer from "./Footer";
 
 interface AppProps {
@@ -33,7 +33,7 @@ class Routes extends React.Component<AppProps & AppState> {
     return (
       <>
         <Router>
-          <Route exact path="/" component={Home} />
+          <Route exact path="/" component={LandingPage} />
           <Route path="/spotifyLogin" component={SpotifyLogin} />
         </Router>
         <Footer />
