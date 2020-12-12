@@ -12,11 +12,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@ion-phaser/react": "^1.2.2",
     "@types/bluebird": "^3.5.33",
     "axios": "^0.21.0",
     "cookie-parser": "^1.4.5",
     "dotenv": "^8.2.0",
-    "@ion-phaser/react": "^1.2.2",
+    "easystarjs": "^0.4.4",
     "express": "^4.17.1",
     "pg": "^8.5.1",
     "phaser": "^3.24.1",

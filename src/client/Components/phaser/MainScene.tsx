@@ -4,6 +4,8 @@ import { GridControls } from "./GridControls";
 import { GridPhysics } from "./GridPhysics";
 import { createMonsterAnims } from "./EnemyAnimations";
 import Weapon from "./Weapon";
+import { Pathfinder } from "./Pathfinder";
+import { FollowPlayer } from "./FollowPlayer";
 
 //declare the gameState globally
 interface looseObj {
@@ -13,10 +15,6 @@ const gameState: looseObj = {
   health: 20, // TODO: Decrease every time an enemy collides with player && increase every time player walks over/attacks a heart
   score: 0, // TODO: Increase every time an enemy collides with sword animation or walks over/attacks a gem
 };
-
-// interface beatMeter {
-//   beat: Phaser.GameObjects.Image,
-// }
 
 export default class MainScene extends Phaser.Scene {
   //scalar config of the tile sizes
@@ -48,6 +46,7 @@ export default class MainScene extends Phaser.Scene {
   private textGroup?: Phaser.GameObjects.Group;
   private weapon?: Weapon;
   private gameScene?: Phaser.Scenes.ScenePlugin;
+  private placeHolderEnemy?: FollowPlayer;
 
   constructor() {
     super("main-scene");
@@ -90,7 +89,7 @@ export default class MainScene extends Phaser.Scene {
   public create(): void {
     //creates the map we want by parsing the JSON file and filling with sprites
     const dungeonMap = this.make.tilemap({ key: "temple-map" });
-    dungeonMap.addTilesetImage("Temple of TS", "tiles");
+    const tiles = dungeonMap.addTilesetImage("Temple of TS", "tiles");
 
     //adds map depth for each layer we have
     for (let i = 0; i < dungeonMap.layers.length; i++) {
@@ -234,12 +233,14 @@ export default class MainScene extends Phaser.Scene {
     //Set textGroup to third layer
     this.textGroup.setDepth(3);
 
+    const mainPlayer = new Player(playerSprite, 0, 29, 57);
     this.gridPhysics = new GridPhysics(
       //arguments for new Player are (spritesheet, characterIndex, startTilePosX, startTilePosY)
-      new Player(playerSprite, 0, 29, 57),
+      mainPlayer,
       dungeonMap
     );
     this.gridControls = new GridControls(this.input, this.gridPhysics);
+    Pathfinder.player = mainPlayer;
 
     //gridphysics for enemy to spawn at particular spot
     new GridPhysics(
@@ -281,6 +282,41 @@ export default class MainScene extends Phaser.Scene {
 
     // Create the weapon functionality
     this.weapon = new Weapon(this.input, false, hitbox, playerSprite);
+
+    const grid = [];
+    for (let y = 0; y < dungeonMap.height; y++) {
+      const col = [];
+      for (let x = 0; x < dungeonMap.width; x++) {
+        col.push(
+          dungeonMap.getTileAt(x, y, false, "ground")
+            ? dungeonMap.getTileAt(x, y, true, "ground").index
+            : 0
+        );
+      }
+      grid.push(col);
+    }
+
+    Pathfinder.setGrid(grid);
+
+    const tileset = dungeonMap.tilesets[0];
+    const prop: any = tileset.tileProperties;
+    const acceptableTiles = [];
+    for (let i = tileset.firstgid - 1; i < tiles.total; i++) {
+      if (!prop.hasOwnProperty!(i)) {
+        acceptableTiles.push(i + 1);
+        continue;
+      }
+      if (!prop[i].collides) {
+        acceptableTiles.push(i + 1);
+        Pathfinder.setCost(i + 1, 1);
+      }
+    }
+
+    Pathfinder.setAcceptableTiles(acceptableTiles);
+
+    this.placeHolderEnemy = new FollowPlayer(this, 34, 46);
+    this.add.existing(this.placeHolderEnemy);
+    this.placeHolderEnemy.setDepth(2);
   }
 
   //Phaser calls update with 2 optional arguments: time and delta.
@@ -290,6 +326,7 @@ export default class MainScene extends Phaser.Scene {
     this.gridControls?.update();
     this.gridPhysics?.update(delta);
     this.weapon?.update();
+    this.placeHolderEnemy?.moveEnemy();
   }
 
   public death(): void {
