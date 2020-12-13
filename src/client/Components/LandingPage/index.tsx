@@ -7,7 +7,7 @@ const landingPage: React.FC<RouteComponentProps> = ({
   history,
 }): JSX.Element => {
   const { loggedInStatus } = useSelector((state: AppState) => state);
-  const linkTo = loggedInStatus ? "/toQueueRoute" : "/auth/spotifyRoutes/login";
+  const linkTo = loggedInStatus ? "/songQueue" : "/auth/spotifyRoutes/login";
   const buttonText = loggedInStatus ? "Pick your songs!" : "Login To Spotify!";
 
   return (

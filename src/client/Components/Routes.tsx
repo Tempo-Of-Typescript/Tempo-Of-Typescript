@@ -5,7 +5,7 @@ import { ThunkDispatch } from "redux-thunk";
 import { IRootState as AppState } from "../store/Reducers";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { getLoginStatus } from "../store/Reducers/loginReducer/asyncActions";
-import { SpotifyLogin } from "./Spotify_Components/SpotifyLogin";
+import { SongSelection } from "./Spotify_Components";
 import { LandingPage } from "./LandingPage/";
 import Footer from "./Footer";
 
@@ -34,7 +34,7 @@ class Routes extends React.Component<AppProps & AppState> {
       <>
         <Router>
           <Route exact path="/" component={LandingPage} />
-          <Route path="/spotifyLogin" component={SpotifyLogin} />
+          <Route path="/songQueue" component={SongSelection} />
         </Router>
         <Footer />
       </>
