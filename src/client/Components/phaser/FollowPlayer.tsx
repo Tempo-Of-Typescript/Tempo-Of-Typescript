@@ -1,3 +1,4 @@
+import { Vector } from "matter";
 import MainScene from "./MainScene";
 import { Pathfinder } from "./Pathfinder";
 
@@ -6,11 +7,13 @@ export class FollowPlayer extends Phaser.GameObjects.Rectangle {
   private _dir: Phaser.Math.Vector2;
   private _thisPos: Phaser.Math.Vector2;
   private _path: { x: number; y: number }[];
+  private _beat: number;
 
   constructor(
     scene: Phaser.Scene,
     startTilePosX: number,
-    startTilePosY: number
+    startTilePosY: number,
+    beatTimer: number
   ) {
     super(
       scene,
@@ -25,10 +28,11 @@ export class FollowPlayer extends Phaser.GameObjects.Rectangle {
     this._dir = new Phaser.Math.Vector2();
     this._thisPos = new Phaser.Math.Vector2();
     this._pathFindingFrequency = 0;
+    this._beat = beatTimer;
     this.findPath();
   }
 
-  moveEnemy() {
+  moveEnemy(): void {
     this._pathFindingFrequency++;
     if (this._pathFindingFrequency > 300) {
       this._pathFindingFrequency = 0;
@@ -37,12 +41,10 @@ export class FollowPlayer extends Phaser.GameObjects.Rectangle {
 
     if (this._path.length) {
       const thisNode = this._path[0];
-
       this._thisPos.setFromObject(this);
       this._dir.setFromObject(thisNode);
       this._dir.subtract(this._thisPos);
       const distance = this._dir.length();
-      this._dir.normalize();
       const amt = this._thisPos.add(this._dir);
       this.setPosition(amt.x, amt.y);
 
@@ -50,23 +52,27 @@ export class FollowPlayer extends Phaser.GameObjects.Rectangle {
         this._path.shift();
       }
     }
+
+    setTimeout(() => {
+      console.log("doing");
+    }, this._beat);
   }
 
-  findPath() {
-    const e = this.getTilePos();
-    const p = Pathfinder.player?.getTilePos();
+  findPath(): void {
+    const enemyLocation = this.getTilePos();
+    const playerLocation = Pathfinder.player?.getTilePos();
     Pathfinder.findPath(
-      e.x,
-      e.y,
-      p!.x,
-      p!.y,
+      enemyLocation.x,
+      enemyLocation.y,
+      playerLocation!.x,
+      playerLocation!.y,
       (path: { x: number; y: number }[]) => {
-        this._path = path.map((p) => this.tilePosToXY(p.x, p.y));
+        this._path = path.map((tile) => this.tilePosToXY(tile.x, tile.y));
       }
     );
   }
 
-  tilePosToXY(x: number, y: number) {
+  tilePosToXY(x: number, y: number): Vector {
     return {
       x: x * MainScene.TILE_SIZE + this.playerOffsetX(),
       y: y * MainScene.TILE_SIZE + this.playerOffsetY(),

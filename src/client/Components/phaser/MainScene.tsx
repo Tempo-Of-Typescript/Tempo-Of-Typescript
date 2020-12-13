@@ -154,12 +154,14 @@ export default class MainScene extends Phaser.Scene {
     //converts the song's BPM to milliseconds
     const msPerBeat = (60 / this.BPM) * 1000;
     const msForOneBeat = (msPerBeat * 5.0) / 100;
-    console.log(msForOneBeat);
 
     //creates a timer to let the player only move during a beat
     const playerTimer = this.time.addEvent({
       delay: msPerBeat,
-      callback: () => this.gridPhysics?.moveToBeat(),
+      callback: () => {
+        this.gridPhysics?.moveToBeat();
+        this.placeHolderEnemy?.moveEnemy();
+      },
       loop: true,
     });
 
@@ -314,7 +316,7 @@ export default class MainScene extends Phaser.Scene {
 
     Pathfinder.setAcceptableTiles(acceptableTiles);
 
-    this.placeHolderEnemy = new FollowPlayer(this, 34, 46);
+    this.placeHolderEnemy = new FollowPlayer(this, 34, 46, msPerBeat);
     this.add.existing(this.placeHolderEnemy);
     this.placeHolderEnemy.setDepth(2);
   }
@@ -326,7 +328,6 @@ export default class MainScene extends Phaser.Scene {
     this.gridControls?.update();
     this.gridPhysics?.update(delta);
     this.weapon?.update();
-    this.placeHolderEnemy?.moveEnemy();
   }
 
   public death(): void {
