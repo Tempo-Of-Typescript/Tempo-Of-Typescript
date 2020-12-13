@@ -9,7 +9,7 @@ const CANVAS_HEIGHT = 600;
 export const game: Phaser.Types.Core.GameConfig = {
   title: "Tempo_of_TypeScript",
   type: Phaser.AUTO,
-  scene: [MainScene],
+  scene: MainScene,
   backgroundColor: "#212121",
   render: {
     pixelArt: true,

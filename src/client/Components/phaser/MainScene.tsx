@@ -41,8 +41,6 @@ export default class MainScene extends Phaser.Scene {
   private beat8?: Phaser.GameObjects.Image;
   private beat9?: Phaser.GameObjects.Image;
 
-  private background?: Phaser.GameObjects.Image;
-
   private textGroup?: Phaser.GameObjects.Group;
   private weapon?: Weapon;
   private gameScene?: Phaser.Scenes.ScenePlugin;

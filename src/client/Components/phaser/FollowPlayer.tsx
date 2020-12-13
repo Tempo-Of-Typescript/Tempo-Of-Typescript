@@ -53,9 +53,9 @@ export class FollowPlayer extends Phaser.GameObjects.Rectangle {
       }
     }
 
-    setTimeout(() => {
-      console.log("doing");
-    }, this._beat);
+    // setTimeout(() => {
+    //   console.log("doing");
+    // }, this._beat);
   }
 
   findPath(): void {
