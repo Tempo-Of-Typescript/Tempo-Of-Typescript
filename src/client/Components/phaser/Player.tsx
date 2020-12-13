@@ -54,7 +54,7 @@ export class Player {
       startTilePosX * MainScene.TILE_SIZE + this.playerOffsetX(),
       startTilePosY * MainScene.TILE_SIZE + this.playerOffsetY()
     );
-    this.sprite.setFrame(this.framesOfDirection(Direction.DOWN).standing);
+    // this.sprite.setFrame(this.framesOfDirection(Direction.DOWN).standing);
   }
 
   //current positon

@@ -1,0 +1,207 @@
+{
+  "frames": {
+    "big_zombie_run_anim_f2.png": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 9.5,
+        "h": 16.5
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 3,
+        "y": 0.5,
+        "w": 9.5,
+        "h": 16.5
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 17
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "big_zombie_run_anim_f1.png": {
+      "frame": {
+        "x": 0,
+        "y": 16.5,
+        "w": 10,
+        "h": 14.5
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 3,
+        "y": 0.5,
+        "w": 10,
+        "h": 14.5
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 17
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "big_zombie_run_anim_f3.png": {
+      "frame": {
+        "x": 9.5,
+        "y": 0,
+        "w": 10,
+        "h": 14.5
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 3,
+        "y": 2.5,
+        "w": 10,
+        "h": 14.5
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 17
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "big_zombie_idle_anim_f0.png": {
+      "frame": {
+        "x": 0,
+        "y": 31,
+        "w": 9,
+        "h": 13.5
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 3.5,
+        "y": 3.5,
+        "w": 9,
+        "h": 13.5
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 17
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "big_zombie_idle_anim_f1.png": {
+      "frame": {
+        "x": 0,
+        "y": 44.5,
+        "w": 9,
+        "h": 13.5
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 3.5,
+        "y": 3.5,
+        "w": 9,
+        "h": 13.5
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 17
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "big_zombie_run_anim_f0.png": {
+      "frame": {
+        "x": 0,
+        "y": 58,
+        "w": 9,
+        "h": 13
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 3.5,
+        "y": 4,
+        "w": 9,
+        "h": 13
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 17
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "big_zombie_idle_anim_f2.png": {
+      "frame": {
+        "x": 0,
+        "y": 71,
+        "w": 10,
+        "h": 12.5
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 3,
+        "y": 4.5,
+        "w": 10,
+        "h": 12.5
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 17
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "big_zombie_idle_anim_f3.png": {
+      "frame": {
+        "x": 9,
+        "y": 31,
+        "w": 9,
+        "h": 12
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 3.5,
+        "y": 5,
+        "w": 9,
+        "h": 12
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 17
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    }
+  },
+  "meta": {
+    "app": "http://free-tex-packer.com",
+    "version": "0.6.6",
+    "image": "big_zombie.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 20,
+      "h": 84
+    },
+    "scale": 0.5
+  }
+}

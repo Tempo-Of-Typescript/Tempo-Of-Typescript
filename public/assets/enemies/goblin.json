@@ -1,0 +1,303 @@
+{
+  "frames": {
+    "goblin_run_anim_f1.png": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 13,
+        "h": 16
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 2,
+        "y": 0,
+        "w": 13,
+        "h": 16
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 16
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "goblin_run_anim_f4.png": {
+      "frame": {
+        "x": 0,
+        "y": 16,
+        "w": 13,
+        "h": 16
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 2,
+        "y": 0,
+        "w": 13,
+        "h": 16
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 16
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "goblin_idle_anim_f0.png": {
+      "frame": {
+        "x": 0,
+        "y": 32,
+        "w": 13,
+        "h": 15
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 2,
+        "y": 1,
+        "w": 13,
+        "h": 15
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 16
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "goblin_idle_anim_f4.png": {
+      "frame": {
+        "x": 0,
+        "y": 47,
+        "w": 13,
+        "h": 15
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 2,
+        "y": 1,
+        "w": 13,
+        "h": 15
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 16
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "goblin_run_anim_f0.png": {
+      "frame": {
+        "x": 0,
+        "y": 62,
+        "w": 13,
+        "h": 15
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 2,
+        "y": 1,
+        "w": 13,
+        "h": 15
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 16
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "goblin_run_anim_f2.png": {
+      "frame": {
+        "x": 0,
+        "y": 77,
+        "w": 13,
+        "h": 15
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 2,
+        "y": 1,
+        "w": 13,
+        "h": 15
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 16
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "goblin_run_anim_f3.png": {
+      "frame": {
+        "x": 0,
+        "y": 92,
+        "w": 13,
+        "h": 15
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 2,
+        "y": 1,
+        "w": 13,
+        "h": 15
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 16
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "goblin_run_anim_f5.png": {
+      "frame": {
+        "x": 0,
+        "y": 107,
+        "w": 13,
+        "h": 15
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 2,
+        "y": 1,
+        "w": 13,
+        "h": 15
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 16
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "goblin_idle_anim_f2.png": {
+      "frame": {
+        "x": 0,
+        "y": 122,
+        "w": 13,
+        "h": 14
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 2,
+        "y": 2,
+        "w": 13,
+        "h": 14
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 16
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "goblin_idle_anim_f3.png": {
+      "frame": {
+        "x": 0,
+        "y": 136,
+        "w": 13,
+        "h": 14
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 2,
+        "y": 2,
+        "w": 13,
+        "h": 14
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 16
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "goblin_idle_anim_f1.png": {
+      "frame": {
+        "x": 0,
+        "y": 32,
+        "w": 13,
+        "h": 15
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 2,
+        "y": 1,
+        "w": 13,
+        "h": 15
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 16
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "goblin_idle_anim_f5.png": {
+      "frame": {
+        "x": 0,
+        "y": 47,
+        "w": 13,
+        "h": 15
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 2,
+        "y": 1,
+        "w": 13,
+        "h": 15
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 16
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    }
+  },
+  "meta": {
+    "app": "http://free-tex-packer.com",
+    "version": "0.6.6",
+    "image": "imp.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 13,
+      "h": 150
+    },
+    "scale": 1
+  }
+}

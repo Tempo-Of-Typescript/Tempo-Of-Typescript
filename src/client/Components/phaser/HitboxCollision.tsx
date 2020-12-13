@@ -3,13 +3,19 @@ import { gameState } from "./MainScene";
 
 export const hitboxCollision = (
   add: Phaser.Physics.Arcade.Factory,
-  enemySprite: Phaser.GameObjects.GameObject,
+  enemySprite: Phaser.GameObjects.Sprite,
   hitbox: Phaser.GameObjects.GameObject,
   scoreText: Phaser.GameObjects.Text
 ): void => {
   add.collider(enemySprite, hitbox, () => {
-    enemySprite.destroy();
+    //TODO: Fix bug with score loop, increment only once
+    enemySprite.setActive(false).setVisible(false);
+
     gameState.score += 1;
     scoreText.setText(`Player Score: ${gameState.score}`);
+
+    setTimeout(() => {
+      enemySprite.setActive(true).setVisible(true);
+    }, 5000);
   });
 };

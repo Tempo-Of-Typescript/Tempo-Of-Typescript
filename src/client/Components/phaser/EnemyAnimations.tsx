@@ -6,7 +6,7 @@ const createMonsterAnims = (
 ): void => {
   anims.create({
     key: "lizard-idle",
-    frames: anims.generateFrameNames("monster", {
+    frames: anims.generateFrameNames("lizard", {
       start: 0,
       end: 3,
       prefix: "lizard_m_idle_anim_f",
@@ -18,7 +18,7 @@ const createMonsterAnims = (
 
   anims.create({
     key: "lizard-run",
-    frames: anims.generateFrameNames("monster", {
+    frames: anims.generateFrameNames("lizard", {
       start: 0,
       end: 3,
       prefix: "lizard_m_run_anim_f",

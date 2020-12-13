@@ -8,6 +8,6 @@ const PORT = process.env.port || 8080;
 
 const dropTables = process.env.DEV_MODE === "true" ? true : false;
 
-db.sync({ force: dropTables }).then(() => {
+db.sync({ force: false }).then(() => {
   app.listen(PORT, () => console.log(green("listening on port", PORT)));
 });
