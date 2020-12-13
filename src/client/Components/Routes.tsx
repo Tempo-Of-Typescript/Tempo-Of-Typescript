@@ -8,7 +8,6 @@ import { getLoginStatus } from "../store/Reducers/loginReducer/asyncActions";
 import SpotifyLogin from "./Spotify_Components/SpotifyLogin";
 import { Home } from "./Home";
 import Footer from "./Footer";
-import { GameContainer } from "./Containers/GameContainer";
 
 interface AppProps {
   fetchLoginStatus: () => void;
@@ -33,7 +32,7 @@ class Routes extends React.Component<AppProps & AppState> {
     return (
       <>
         <Router>
-          <Route exact path="/" component={GameContainer} />
+          <Route exact path="/" component={Home} />
           <Route path="/spotifyLogin" component={SpotifyLogin} />
         </Router>
         <Footer />
