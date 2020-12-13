@@ -5,7 +5,7 @@ import { ThunkDispatch } from "redux-thunk";
 import { IRootState as AppState } from "../store/Reducers";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { getLoginStatus } from "../store/Reducers/loginReducer/asyncActions";
-import SpotifyLogin from "./Spotify_Components/SpotifyLogin";
+import { SpotifyLogin } from "./Spotify_Components/SpotifyLogin";
 import { Home } from "./Home";
 import Footer from "./Footer";
 
@@ -13,7 +13,8 @@ interface AppProps {
   fetchLoginStatus: () => void;
 }
 
-const mapStateToProps = ({ loggedInStatus }: AppState) => ({
+const mapStateToProps = ({ songQueue, loggedInStatus }: AppState) => ({
+  songQueue,
   loggedInStatus,
 });
 
