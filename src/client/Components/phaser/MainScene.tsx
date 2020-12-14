@@ -338,6 +338,7 @@ export default class MainScene extends Phaser.Scene {
       this.masked_orc,
       this.tree,
       this.wogol,
+      this.skelet,
     ];
 
     for (let i = 0; i < enemies.length; i++) {
