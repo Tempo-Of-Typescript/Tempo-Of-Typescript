@@ -10,6 +10,7 @@ import { enemy } from "./Enemy";
 import { collision } from "./SpriteCollision";
 import { hitboxCollision } from "./HitboxCollision";
 import preloader from "./Preloader";
+import { store } from "../../store/store";
 
 //declare the gameState globally
 interface looseObj {
@@ -31,12 +32,8 @@ export default class MainScene extends Phaser.Scene {
   //depends on the sprite map we are using
   static readonly TILE_SIZE = 48;
 
-  private queue = [
-    { timeInMS: 10000, BPM: 100 },
-    { timeInMS: 10000, BPM: 205 },
-    // {timeInMS:1500,BPM: 70},
-    // {timeInMS:9000,BPM: 155},
-  ];
+  private songQueue = store.getState().songQueue;
+  private queue = this.songQueue;
 
   private gridControls?: GridControls;
   private gridPhysics?: GridPhysics;
