@@ -17,7 +17,6 @@ export default class Weapon {
 
       //move the hitbox - the physics should kill the enemy
       this.hitbox?.setPosition(directionOffsetX, directionOffsetY);
-      console.log("hitting position", this.hitbox?.x, this.hitbox?.y);
 
       //return the hitbox to the starting location after .5 seconds
       setTimeout(() => {
