@@ -94,6 +94,12 @@ export default function preloader(load: Phaser.Loader.LoaderPlugin): void {
 
   load.atlas("fairy", "assets/enemies/fairy.png", "assets/enemies/fairy.json");
 
+  load.atlas(
+    "portal",
+    "assets/enemies/portal.png",
+    "assets/enemies/portal.json"
+  );
+
   //load the sword into the map
   load.spritesheet("sword", "assets/sprites/smallSword.png", {
     frameWidth: 48,

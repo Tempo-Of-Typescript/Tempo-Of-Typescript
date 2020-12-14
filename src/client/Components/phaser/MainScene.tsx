@@ -81,6 +81,8 @@ export default class MainScene extends Phaser.Scene {
   public elf?: Phaser.Physics.Arcade.Sprite;
   public fairy?: Phaser.Physics.Arcade.Sprite;
 
+  public portal?: Phaser.Physics.Arcade.Sprite;
+
   constructor() {
     super("mainscene");
     this.death = this.death.bind(this);
@@ -145,6 +147,8 @@ export default class MainScene extends Phaser.Scene {
     this.elf = this.physics.add.sprite(0, 0, "elf");
 
     this.fairy = this.physics.add.sprite(0, 0, "fairy");
+
+    this.portal = this.physics.add.sprite(0, 0, "portal");
 
     //camera follows the player along the gameplay
     this.cameras.main.startFollow(this.playerSprite);
@@ -255,6 +259,7 @@ export default class MainScene extends Phaser.Scene {
     enemy(this.child_mushroom, 18, 29, 47, dungeonMap);
     enemy(this.mushroom, 19, 32, 7, dungeonMap);
     enemy(this.bandit, 20, 8, 50, dungeonMap);
+    enemy(this.portal, 21, -100, -100, dungeonMap);
 
     //creates animations for enemies
     createSpriteAnims(this.anims);
@@ -278,6 +283,9 @@ export default class MainScene extends Phaser.Scene {
     this.bird.anims.play("bird-idle");
     this.elf.anims.play("elf-idle");
     this.fairy.anims.play("fairy-idle");
+
+    //creates explosion animation when enemy dies
+    this.portal.anims.play("portal-spawn");
 
     // Create the hitbox and bring it to sprite layer
     const hitbox = this.physics.add.sprite(0, 0, "sword");
@@ -312,14 +320,21 @@ export default class MainScene extends Phaser.Scene {
         this.physics.add,
         this.playerSprite,
         enemies[i],
-        this.healthText
+        this.healthText,
+        this.portal
         // this.death
       );
     }
 
     //this loop handles collision between enemy and hitbox, once sword touches enemy, enemy dies, player gains +1 score
     for (let i = 0; i < enemies.length; i++) {
-      hitboxCollision(this.physics.add, enemies[i], hitbox, scoreText);
+      hitboxCollision(
+        this.physics.add,
+        enemies[i],
+        hitbox,
+        scoreText,
+        this.portal
+      );
     }
 
     // Create the weapon functionality
