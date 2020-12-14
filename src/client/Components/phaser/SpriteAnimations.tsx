@@ -421,6 +421,18 @@ const createSpriteAnims = (anims: Phaser.Animations.AnimationManager): void => {
     repeat: -1,
     frameRate: 10,
   });
+
+  anims.create({
+    key: "portal-spawn",
+    frames: anims.generateFrameNames("portal", {
+      start: 1,
+      end: 4,
+      prefix: "explosion_",
+      suffix: ".png",
+    }),
+    repeat: -1,
+    frameRate: 10,
+  });
 };
 
 export { createSpriteAnims };
