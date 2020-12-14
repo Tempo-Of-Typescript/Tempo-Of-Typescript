@@ -25,8 +25,8 @@ export default class MainScene extends Phaser.Scene {
   private BPM = 100;
 
   private queue = [
-    { timeInMS: 3000, BPM: 100 },
-    { timeInMS: 3000, BPM: 205 },
+    { timeInMS: 10000, BPM: 100 },
+    { timeInMS: 10000, BPM: 205 },
     // {timeInMS:1500,BPM: 70},
     // {timeInMS:9000,BPM: 155},
   ];
@@ -286,12 +286,19 @@ export default class MainScene extends Phaser.Scene {
     this.placeHolderEnemy.setDepth(2);
 
     while (this.queue.length) {
-      const songDuration = this.queue[0].timeInMS;
-      const songBPM = this.queue[0].BPM;
+      const currentSong = this.queue.shift();
+      let songDuration;
+      let msPerBeat;
+      let msForOneBeat;
 
-      //converts the song's BPM to milliseconds
-      const msPerBeat = (60 / songBPM) * 1000;
-      const msForOneBeat = (msPerBeat * 5.0) / 100;
+      if (currentSong) {
+        songDuration = currentSong.timeInMS;
+        const songBPM = currentSong.BPM;
+        //converts the song's BPM to milliseconds
+        msPerBeat = (60 / songBPM) * 1000;
+        msForOneBeat = (msPerBeat * 5.0) / 100;
+        this.queue.push(currentSong);
+      }
 
       //creates a timer to let the player only move during a beat
       const playerTimer = this.time.addEvent({
@@ -327,14 +334,12 @@ export default class MainScene extends Phaser.Scene {
           this.beat9!.x += 5.0;
           if (this.beat9!.x >= 1000) this.beat9!.x = 900;
         },
-        loop: false,
+        loop: true,
       });
 
-      await this.delay(songDuration);
-
-      const removedSong = this.queue.shift();
-      if (removedSong) this.queue.push(removedSong);
-      console.log(msForOneBeat);
+      if (songDuration) await this.delay(songDuration);
+      beatTimer.paused = true;
+      playerTimer.paused = true;
     }
   }
 
