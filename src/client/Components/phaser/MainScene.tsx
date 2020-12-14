@@ -24,6 +24,13 @@ export default class MainScene extends Phaser.Scene {
   //hardcoded BPM (beats per minute) of a song
   private BPM = 100;
 
+  private queue = [
+    { timeInMS: 3000, BPM: 100 },
+    { timeInMS: 3000, BPM: 205 },
+    // {timeInMS:1500,BPM: 70},
+    // {timeInMS:9000,BPM: 155},
+  ];
+
   private gridControls?: GridControls;
   private gridPhysics?: GridPhysics;
 
@@ -86,7 +93,7 @@ export default class MainScene extends Phaser.Scene {
     });
   }
 
-  public create(): void {
+  public async create(): Promise<void> {
     //creates the map we want by parsing the JSON file and filling with sprites
     const dungeonMap = this.make.tilemap({ key: "temple-map" });
     const tiles = dungeonMap.addTilesetImage("Temple of TS", "tiles");
@@ -150,48 +157,6 @@ export default class MainScene extends Phaser.Scene {
     this.beat7.alpha = 0.6;
     this.beat8.alpha = 0.4;
     this.beat9.alpha = 0.2;
-
-    //converts the song's BPM to milliseconds
-    const msPerBeat = (60 / this.BPM) * 1000;
-    const msForOneBeat = (msPerBeat * 5.0) / 100;
-
-    //creates a timer to let the player only move during a beat
-    const playerTimer = this.time.addEvent({
-      delay: msPerBeat,
-      callback: () => {
-        this.gridPhysics?.moveToBeat();
-        this.placeHolderEnemy?.moveEnemy();
-      },
-      loop: true,
-    });
-
-    //creates a timer to move each beat note at a specific speed to match BPM
-    const beatTimer = this.time.addEvent({
-      delay: msForOneBeat,
-      callback: () => {
-        this.beat0!.x += 5.0;
-        if (this.beat0!.x >= 100) this.beat0!.x = 0;
-        this.beat1!.x += 5.0;
-        if (this.beat1!.x >= 200) this.beat1!.x = 100;
-        this.beat2!.x += 5.0;
-        if (this.beat2!.x >= 300) this.beat2!.x = 200;
-        this.beat3!.x += 5.0;
-        if (this.beat3!.x >= 400) this.beat3!.x = 300;
-        this.beat4!.x += 5.0;
-        if (this.beat4!.x >= 500) this.beat4!.x = 400;
-        this.beat5!.x += 5.0;
-        if (this.beat5!.x >= 600) this.beat5!.x = 500;
-        this.beat6!.x += 5.0;
-        if (this.beat6!.x >= 700) this.beat6!.x = 600;
-        this.beat7!.x += 5.0;
-        if (this.beat7!.x >= 800) this.beat7!.x = 700;
-        this.beat8!.x += 5.0;
-        if (this.beat8!.x >= 900) this.beat8!.x = 800;
-        this.beat9!.x += 5.0;
-        if (this.beat9!.x >= 1000) this.beat9!.x = 900;
-      },
-      loop: true,
-    });
 
     //load character into game
     const playerSprite = this.physics.add.sprite(0, 0, "player");
@@ -316,9 +281,61 @@ export default class MainScene extends Phaser.Scene {
 
     Pathfinder.setAcceptableTiles(acceptableTiles);
 
-    this.placeHolderEnemy = new FollowPlayer(this, 34, 46, msPerBeat);
+    this.placeHolderEnemy = new FollowPlayer(this, 34, 46);
     this.add.existing(this.placeHolderEnemy);
     this.placeHolderEnemy.setDepth(2);
+
+    while (this.queue.length) {
+      const songDuration = this.queue[0].timeInMS;
+      const songBPM = this.queue[0].BPM;
+
+      //converts the song's BPM to milliseconds
+      const msPerBeat = (60 / songBPM) * 1000;
+      const msForOneBeat = (msPerBeat * 5.0) / 100;
+
+      //creates a timer to let the player only move during a beat
+      const playerTimer = this.time.addEvent({
+        delay: msPerBeat,
+        callback: () => {
+          this.gridPhysics?.moveToBeat();
+        },
+        loop: true,
+      });
+
+      //creates a timer to move each beat note at a specific speed to match BPM
+      const beatTimer = this.time.addEvent({
+        delay: msForOneBeat,
+        callback: () => {
+          this.beat0!.x += 5.0;
+          if (this.beat0!.x >= 100) this.beat0!.x = 0;
+          this.beat1!.x += 5.0;
+          if (this.beat1!.x >= 200) this.beat1!.x = 100;
+          this.beat2!.x += 5.0;
+          if (this.beat2!.x >= 300) this.beat2!.x = 200;
+          this.beat3!.x += 5.0;
+          if (this.beat3!.x >= 400) this.beat3!.x = 300;
+          this.beat4!.x += 5.0;
+          if (this.beat4!.x >= 500) this.beat4!.x = 400;
+          this.beat5!.x += 5.0;
+          if (this.beat5!.x >= 600) this.beat5!.x = 500;
+          this.beat6!.x += 5.0;
+          if (this.beat6!.x >= 700) this.beat6!.x = 600;
+          this.beat7!.x += 5.0;
+          if (this.beat7!.x >= 800) this.beat7!.x = 700;
+          this.beat8!.x += 5.0;
+          if (this.beat8!.x >= 900) this.beat8!.x = 800;
+          this.beat9!.x += 5.0;
+          if (this.beat9!.x >= 1000) this.beat9!.x = 900;
+        },
+        loop: false,
+      });
+
+      await this.delay(songDuration);
+
+      const removedSong = this.queue.shift();
+      if (removedSong) this.queue.push(removedSong);
+      console.log(msForOneBeat);
+    }
   }
 
   //Phaser calls update with 2 optional arguments: time and delta.
@@ -328,6 +345,13 @@ export default class MainScene extends Phaser.Scene {
     this.gridControls?.update();
     this.gridPhysics?.update(delta);
     this.weapon?.update();
+    this.placeHolderEnemy?.moveEnemy();
+  }
+
+  public delay(time: number): Promise<void> {
+    return new Promise((resolve) => {
+      setTimeout(resolve, time);
+    });
   }
 
   public death(): void {

@@ -7,13 +7,11 @@ export class FollowPlayer extends Phaser.GameObjects.Rectangle {
   private _dir: Phaser.Math.Vector2;
   private _thisPos: Phaser.Math.Vector2;
   private _path: { x: number; y: number }[];
-  private _beat: number;
 
   constructor(
     scene: Phaser.Scene,
     startTilePosX: number,
-    startTilePosY: number,
-    beatTimer: number
+    startTilePosY: number
   ) {
     super(
       scene,
@@ -28,7 +26,7 @@ export class FollowPlayer extends Phaser.GameObjects.Rectangle {
     this._dir = new Phaser.Math.Vector2();
     this._thisPos = new Phaser.Math.Vector2();
     this._pathFindingFrequency = 0;
-    this._beat = beatTimer;
+
     this.findPath();
   }
 
