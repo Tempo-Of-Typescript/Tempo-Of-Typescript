@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { IonPhaser } from "@ion-phaser/react";
 import { game } from "../phaser/game";
 import { IRootState } from "../../store/Reducers/index";
+import { ISongQueueState } from "../../store/Reducers/songQueueReducer/type";
 
 export const GameContainer = (): JSX.Element => {
   const { songQueue } = useSelector((state: IRootState) => state);

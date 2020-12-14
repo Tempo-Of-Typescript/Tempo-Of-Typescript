@@ -54,7 +54,6 @@ export class Player {
       startTilePosX * MainScene.TILE_SIZE + this.playerOffsetX(),
       startTilePosY * MainScene.TILE_SIZE + this.playerOffsetY()
     );
-    this.sprite.setFrame(this.framesOfDirection(Direction.DOWN).standing);
   }
 
   //current positon
@@ -83,12 +82,6 @@ export class Player {
     }
     this.sprite.setFrame(this.framesOfDirection(direction).standing);
   }
-
-  //set idle animation
-  // setIdle(direction: Direction): void {
-  //   const frameRow = this.framesOfDirection(direction);
-  //   console.log(direction)
-  // }
 
   //get tile position for handling collisions
   //makes sure player isn't walking on air or a hole

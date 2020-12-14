@@ -9,7 +9,7 @@ type Vector2 = Phaser.Math.Vector2;
 export class GridPhysics {
   //boolean checking if the player/enemies can move
   //ties to the moveToBeat method
-  private canMove = false;
+  public canMove = false;
 
   //the current direction the character is moving, default is NONE (facing forward)
   private movementDirection = Direction.NONE;
@@ -55,7 +55,7 @@ export class GridPhysics {
 
     setTimeout(() => {
       this.canMove = false;
-    }, 200);
+    }, 100);
   }
 
   //the main method for moving the character
