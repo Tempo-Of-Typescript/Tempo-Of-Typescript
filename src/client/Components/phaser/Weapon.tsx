@@ -1,11 +1,12 @@
 import Phaser from "phaser";
-
+import { GridPhysics } from "./GridPhysics";
 export default class Weapon {
   constructor(
     public input: Phaser.Input.InputPlugin,
     private isAttacking: boolean,
     private hitbox?: Phaser.GameObjects.Sprite,
-    private player?: Phaser.Physics.Arcade.Sprite
+    private player?: Phaser.Physics.Arcade.Sprite,
+    private gridPhysics?: GridPhysics
   ) {}
   public attack(directionOffsetX: number, directionOffsetY: number): void {
     //check if currently in an attack already
@@ -28,17 +29,19 @@ export default class Weapon {
   }
   update(): void {
     const cursors = this.input.keyboard.createCursorKeys();
-    if (cursors.space?.isDown && cursors.up?.isDown) {
-      this.attack(this.player!.x, this.player!.y - 48);
-    }
-    if (cursors.space?.isDown && cursors.down?.isDown) {
-      this.attack(this.player!.x, this.player!.y + 48);
-    }
-    if (cursors.space?.isDown && cursors.left?.isDown) {
-      this.attack(this.player!.x - 48, this.player!.y);
-    }
-    if (cursors.space?.isDown && cursors.right?.isDown) {
-      this.attack(this.player!.x + 48, this.player!.y);
+    if (cursors.space?.isDown && this.gridPhysics?.canMove) {
+      if (cursors.up?.isDown) {
+        this.attack(this.player!.x, this.player!.y - 48);
+      }
+      if (cursors.down?.isDown) {
+        this.attack(this.player!.x, this.player!.y + 48);
+      }
+      if (cursors.left?.isDown) {
+        this.attack(this.player!.x - 48, this.player!.y);
+      }
+      if (cursors.right?.isDown) {
+        this.attack(this.player!.x + 48, this.player!.y);
+      }
     }
   }
 }
