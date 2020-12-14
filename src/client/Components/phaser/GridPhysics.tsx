@@ -43,7 +43,8 @@ export class GridPhysics {
 
   constructor(
     private player: Player,
-    private tileMap: Phaser.Tilemaps.Tilemap
+    private tileMap: Phaser.Tilemaps.Tilemap,
+    public isAlive: boolean
   ) {}
 
   //queue that holds the player's current and last direction
@@ -60,7 +61,7 @@ export class GridPhysics {
 
   //the main method for moving the character
   movePlayer(direction: Direction): void {
-    if (this.canMove) {
+    if (this.canMove && this.isAlive) {
       //if player is holding down the keys, keep going
       if (this.isMoving()) return;
 
@@ -211,5 +212,8 @@ export class GridPhysics {
     return this.movementDirectionVectors[
       this.movementDirection
     ]!.clone().multiply(new Vector2(speed));
+  }
+  public pause(): void {
+    this.isAlive = false;
   }
 }

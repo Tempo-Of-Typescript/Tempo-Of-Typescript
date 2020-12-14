@@ -80,10 +80,12 @@ export default class MainScene extends Phaser.Scene {
     );
 
     //load the sword into the map
-    this.load.spritesheet("sword", "assets/sprites/smallSword.png", {
+    this.load.spritesheet("slash", "assets/sprites/smallSlash.png", {
       frameWidth: 48,
       frameHeight: 48,
     });
+
+    //this.load.atlas("slash", "assets/sprites/slashSheet.png", "assets/sprites/slashSheet.json");
 
     //converts the song's BPM to milliseconds
     const msPerBeat = (60 / this.BPM) * 1000;
@@ -174,7 +176,8 @@ export default class MainScene extends Phaser.Scene {
     this.gridPhysics = new GridPhysics(
       //arguments for new Player are (spritesheet, characterIndex, startTilePosX, startTilePosY)
       new Player(playerSprite, 0, 29, 57),
-      dungeonMap
+      dungeonMap,
+      true
     );
     this.gridControls = new GridControls(this.input, this.gridPhysics);
 
@@ -182,7 +185,8 @@ export default class MainScene extends Phaser.Scene {
     new GridPhysics(
       //arguments for new Player are (spritesheet, characterIndex, startTilePosX, startTilePosY)
       new Player(monster, 4, 28, 48), //coordinates where enemy spawns
-      dungeonMap
+      dungeonMap,
+      true
     );
     monster.setDepth(2);
 
@@ -251,8 +255,15 @@ export default class MainScene extends Phaser.Scene {
     this.beat6.alpha = 0.8;
 
     // Create the hitbox and bring it to sprite layer
-    const hitbox = this.physics.add.sprite(0, 0, "sword");
+    const hitbox = this.physics.add.sprite(0, 0, "slash");
     hitbox.setDepth(2);
+
+    this.anims.create({
+      key: "attack",
+      frames: this.anims.generateFrameNumbers("slash", { start: 3, end: 6 }),
+      frameRate: 10,
+      repeat: 0,
+    });
 
     // Add the overlap physics to destroy an enemy
     this.physics.add.collider(monster, hitbox, () => {
@@ -262,18 +273,14 @@ export default class MainScene extends Phaser.Scene {
     });
 
     // Add collider physics between an enemy and player
-    this.physics.add.collider(
-      playerSprite,
-      monster,
-      this.collisionCheck(() => {
-        gameState.health -= 1;
-        healthText.setText(`Player Health: ${gameState.health}`);
+    this.physics.add.collider(playerSprite, monster, () => {
+      gameState.health -= 1;
+      healthText.setText(`Player Health: ${gameState.health}`);
 
-        if (gameState.health <= 0) {
-          this.death(); // Currently only turns off the physics for the player and doesn't stop player from moving.
-        }
-      })
-    );
+      if (gameState.health <= 0) {
+        this.death(); // Currently only turns off the physics for the player and doesn't stop player from moving.
+      }
+    });
 
     // Create the weapon functionality
     this.weapon = new Weapon(
@@ -292,6 +299,9 @@ export default class MainScene extends Phaser.Scene {
     this.gridControls?.update();
     this.gridPhysics?.update(delta);
     this.weapon?.update();
+    if (gameState.health <= 0) {
+      this.gridPhysics?.pause();
+    }
   }
 
   public death(): void {
