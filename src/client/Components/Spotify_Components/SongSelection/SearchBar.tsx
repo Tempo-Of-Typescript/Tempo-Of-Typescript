@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 
 export const SearchBar: React.FC = (): JSX.Element => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -13,12 +14,20 @@ export const SearchBar: React.FC = (): JSX.Element => {
     e.preventDefault();
   };
 
+  //take this out
+  const tryToDoAxiosCall = async () => {
+    const doTheThing = await axios.get("api/spotify/search/");
+    console.log("we did the thing!");
+  };
+
   console.log("search term is", searchTerm);
   return (
     <div>
       <form onSubmit={(e) => handleSubmit(e)}>
         <input type="text" onChange={(e) => handleChange(e)} />
       </form>
+
+      <button onClick={() => tryToDoAxiosCall()}>tryMe!</button>
     </div>
   );
 };
