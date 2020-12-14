@@ -2,19 +2,13 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { HashRouter as Router, Route, Switch } from "react-router-dom";
 import { IRootState } from "../../store/Reducers";
-import SpotifyLogin from "../Spotify_Components/SpotifyLogin";
+import { SpotifyLogin } from "../Spotify_Components/SpotifyLogin";
 import axios from "axios";
 
 export const SpotifyContainer: React.FC = (): JSX.Element => {
   const { loggedInStatus } = useSelector((state: IRootState) => state);
-  // const [isLoggedIn, setIsLoggedIn] = useState(false)
-  const [toggleLoginScreen, toggleScreen] = useState(false);
 
-  // useEffect(()=>{
-  //   if(spotifyAuthTokens.authToken==='not logged in'){
-  //     setIsLoggedIn(true)
-  //   }
-  // },[spotifyAuthTokens])
+  const [toggleLoginScreen, toggleScreen] = useState(false);
 
   if (loggedInStatus) {
     return (

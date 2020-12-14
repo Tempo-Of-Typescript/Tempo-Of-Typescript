@@ -4,6 +4,8 @@ import { GridControls } from "./GridControls";
 import { GridPhysics } from "./GridPhysics";
 import { createSpriteAnims } from "./SpriteAnimations";
 import Weapon from "./Weapon";
+import { Pathfinder } from "./Pathfinder";
+import { FollowPlayer } from "./FollowPlayer";
 import { enemy } from "./Enemy";
 import { collision } from "./SpriteCollision";
 import { hitboxCollision } from "./HitboxCollision";
@@ -24,25 +26,22 @@ export interface checkFunc {
   apply(context: any, args: any): void;
 }
 
-// callback?.apply(context, args);
-// interface beatMeter {
-//   beat: Phaser.GameObjects.Image,
-// }
-
 export default class MainScene extends Phaser.Scene {
   //scalar config of the tile sizes
   //depends on the sprite map we are using
   static readonly TILE_SIZE = 48;
 
-  //hardcoded BPM (beats per minute) of a song
-  private BPM = 160;
+  private queue = [
+    { timeInMS: 10000, BPM: 100 },
+    { timeInMS: 10000, BPM: 205 },
+    // {timeInMS:1500,BPM: 70},
+    // {timeInMS:9000,BPM: 155},
+  ];
 
   private gridControls?: GridControls;
   private gridPhysics?: GridPhysics;
 
-  // private beatMap: Array<beatMeter> = []
-
-  //working on refactoring this!!!!
+  private beat0?: Phaser.GameObjects.Image;
   private beat1?: Phaser.GameObjects.Image;
   private beat2?: Phaser.GameObjects.Image;
   private beat3?: Phaser.GameObjects.Image;
@@ -51,12 +50,14 @@ export default class MainScene extends Phaser.Scene {
   private beat6?: Phaser.GameObjects.Image;
   private beat7?: Phaser.GameObjects.Image;
   private beat8?: Phaser.GameObjects.Image;
+  private beat9?: Phaser.GameObjects.Image;
 
   private background?: Phaser.GameObjects.Image;
 
   private textGroup?: Phaser.GameObjects.Group;
   private weapon?: Weapon;
   private gameScene?: Phaser.Scenes.ScenePlugin;
+  private placeHolderEnemy?: FollowPlayer;
   public healthText?: Phaser.GameObjects.Text;
 
   public playerSprite?: Phaser.Physics.Arcade.Sprite;
@@ -90,41 +91,12 @@ export default class MainScene extends Phaser.Scene {
   public preload(): void {
     //preloads map assets - sprites, map, text, objects...
     preloader(this.load);
-
-    //converts the song's BPM to milliseconds
-    const msPerBeat = (60 / this.BPM) * 1000;
-    const msForOneBeat = (msPerBeat * 2.5) / 100;
-
-    //sets the rythm of the gameplay based on the available BPM
-    setInterval(() => {
-      this.gridPhysics?.moveToBeat();
-    }, msPerBeat);
-
-    //working on refactoring this!!!!
-    // setInterval(() => {
-    //   this.beat1!.x += 2.5;
-    //   if (this.beat1!.x >= 200) this.beat1!.x = 100;
-    //   this.beat2!.x += 2.5;
-    //   if (this.beat2!.x >= 300) this.beat2!.x = 200;
-    //   this.beat3!.x += 2.5;
-    //   if (this.beat3!.x >= 400) this.beat3!.x = 300;
-    //   this.beat4!.x += 2.5;
-    //   if (this.beat4!.x >= 500) this.beat4!.x = 400;
-    //   this.beat5!.x += 2.5;
-    //   if (this.beat5!.x >= 600) this.beat5!.x = 500;
-    //   this.beat6!.x += 2.5;
-    //   if (this.beat6!.x >= 700) this.beat6!.x = 600;
-    //   this.beat7!.x += 2.5;
-    //   if (this.beat7!.x >= 800) this.beat7!.x = 700;
-    //   this.beat8!.x += 2.5;
-    //   if (this.beat8!.x >= 900) this.beat8!.x = 800;
-    // }, msForOneBeat);
   }
 
-  public create(): void {
+  public async create(): Promise<void> {
     //creates the map we want by parsing the JSON file and filling with sprites
     const dungeonMap = this.make.tilemap({ key: "temple-map" });
-    dungeonMap.addTilesetImage("Temple of TS", "tiles");
+    const tiles = dungeonMap.addTilesetImage("Temple of TS", "tiles");
 
     //adds map depth for each layer we have
     for (let i = 0; i < dungeonMap.layers.length; i++) {
@@ -208,7 +180,8 @@ export default class MainScene extends Phaser.Scene {
     //Set textGroup to third layer
     this.textGroup.setDepth(3);
 
-    //working on refactoring this!!!!
+    //create sprites for the beats on the beat meter
+    this.beat0 = this.add.image(0, 550, "music").setScrollFactor(0).setDepth(4);
     this.beat1 = this.add
       .image(100, 550, "music")
       .setScrollFactor(0)
@@ -241,18 +214,24 @@ export default class MainScene extends Phaser.Scene {
       .image(800, 550, "music")
       .setScrollFactor(0)
       .setDepth(4);
+    this.beat9 = this.add
+      .image(900, 550, "music")
+      .setScrollFactor(0)
+      .setDepth(4);
     this.background = this.add
       .image(500, 550, "background")
       .setScrollFactor(0)
       .setDepth(3);
 
-    //working on refactoring this!!!!
-    this.beat1.alpha = 0.2;
-    this.beat8.alpha = 0.2;
-    this.beat2.alpha = 0.5;
-    this.beat7.alpha = 0.5;
+    //Set transparences for beats on the edge
+    this.beat0.alpha = 0.2;
+    this.beat1.alpha = 0.4;
+    this.beat2.alpha = 0.6;
     this.beat3.alpha = 0.8;
     this.beat6.alpha = 0.8;
+    this.beat7.alpha = 0.6;
+    this.beat8.alpha = 0.4;
+    this.beat9.alpha = 0.2;
 
     this.gridPhysics = new GridPhysics(
       //arguments for new Player are (spritesheet, characterIndex, startTilePosX, startTilePosY)
@@ -305,21 +284,8 @@ export default class MainScene extends Phaser.Scene {
     this.elf.anims.play("elf-idle");
     this.fairy.anims.play("fairy-idle");
 
-    //creates portal for enemy spawns
+    //creates explosion animation when enemy dies
     this.portal.anims.play("portal-spawn");
-
-    // for (let i = 1; i <= 8; i++) {
-    //   const alpha = 0.2;
-    //   const location = 100 * i;
-
-    //   const beat: Phaser.GameObjects.Image = this.add
-    //   .image(location, 550, "music")
-    //   .setScrollFactor(0)
-    //   .setDepth(4);
-
-    //   const objectToPush: beatMeter = {beat: beat, alpha: alpha}
-    //   this.beatMap.push(objectToPush)
-    // }
 
     // Create the hitbox and bring it to sprite layer
     const hitbox = this.physics.add.sprite(0, 0, "sword");
@@ -359,6 +325,7 @@ export default class MainScene extends Phaser.Scene {
         // this.death
       );
     }
+
     //this loop handles collision between enemy and hitbox, once sword touches enemy, enemy dies, player gains +1 score
     for (let i = 0; i < enemies.length; i++) {
       hitboxCollision(
@@ -378,20 +345,119 @@ export default class MainScene extends Phaser.Scene {
       this.playerSprite,
       this.gridPhysics
     );
+
+    const grid = [];
+    for (let y = 0; y < dungeonMap.height; y++) {
+      const col = [];
+      for (let x = 0; x < dungeonMap.width; x++) {
+        col.push(
+          dungeonMap.getTileAt(x, y, false, "ground")
+            ? dungeonMap.getTileAt(x, y, true, "ground").index
+            : 0
+        );
+      }
+      grid.push(col);
+    }
+
+    // Pathfinder.setGrid(grid);
+
+    // const tileset = dungeonMap.tilesets[0];
+    // const prop: any = tileset.tileProperties;
+    // const acceptableTiles = [];
+    // for (let i = tileset.firstgid - 1; i < tiles.total; i++) {
+    //   if (!prop.hasOwnProperty!(i)) {
+    //     acceptableTiles.push(i + 1);
+    //     continue;
+    //   }
+    //   if (!prop[i].collides) {
+    //     acceptableTiles.push(i + 1);
+    //     Pathfinder.setCost(i + 1, 1);
+    //   }
+    // }
+
+    // Pathfinder.setAcceptableTiles(acceptableTiles);
+
+    // this.placeHolderEnemy = new FollowPlayer(this, 34, 46);
+    // this.add.existing(this.placeHolderEnemy);
+    // this.placeHolderEnemy.setDepth(2);
+
+    while (this.queue.length) {
+      const currentSong = this.queue.shift();
+      let songDuration;
+      let msPerBeat;
+      let msForOneBeat;
+
+      if (currentSong) {
+        songDuration = currentSong.timeInMS;
+        const songBPM = currentSong.BPM;
+        //converts the song's BPM to milliseconds
+        msPerBeat = (60 / songBPM) * 1000;
+        msForOneBeat = (msPerBeat * 5.0) / 100;
+        this.queue.push(currentSong);
+      }
+
+      //creates a timer to let the player only move during a beat
+      const playerTimer = this.time.addEvent({
+        delay: msPerBeat,
+        callback: () => {
+          this.gridPhysics?.moveToBeat();
+        },
+        loop: true,
+      });
+
+      //creates a timer to move each beat note at a specific speed to match BPM
+      const beatTimer = this.time.addEvent({
+        delay: msForOneBeat,
+        callback: () => {
+          this.beat0!.x += 5.0;
+          if (this.beat0!.x >= 100) this.beat0!.x = 0;
+          this.beat1!.x += 5.0;
+          if (this.beat1!.x >= 200) this.beat1!.x = 100;
+          this.beat2!.x += 5.0;
+          if (this.beat2!.x >= 300) this.beat2!.x = 200;
+          this.beat3!.x += 5.0;
+          if (this.beat3!.x >= 400) this.beat3!.x = 300;
+          this.beat4!.x += 5.0;
+          if (this.beat4!.x >= 500) this.beat4!.x = 400;
+          this.beat5!.x += 5.0;
+          if (this.beat5!.x >= 600) this.beat5!.x = 500;
+          this.beat6!.x += 5.0;
+          if (this.beat6!.x >= 700) this.beat6!.x = 600;
+          this.beat7!.x += 5.0;
+          if (this.beat7!.x >= 800) this.beat7!.x = 700;
+          this.beat8!.x += 5.0;
+          if (this.beat8!.x >= 900) this.beat8!.x = 800;
+          this.beat9!.x += 5.0;
+          if (this.beat9!.x >= 1000) this.beat9!.x = 900;
+        },
+        loop: true,
+      });
+
+      if (songDuration) await this.delay(songDuration);
+      beatTimer.paused = true;
+      playerTimer.paused = true;
+    }
   }
 
-  //Phaser calls update with 2 arguments: time and delta.
+  //Phaser calls update with 2 optional arguments: time and delta.
   //Time is the current time of buttons being pressed.
   //Delta is the time in ms since the last frame.
   public update(_time: number, delta: number): void {
     this.gridControls?.update();
     this.gridPhysics?.update(delta);
     this.weapon?.update();
+    this.placeHolderEnemy?.moveEnemy();
 
     if (gameState.health <= 0) {
       this.physics.pause();
       this.death(); // Currently only turns off the physics for the player and doesn't stop player from moving.
     }
+  }
+
+  public delay(time: number): Promise<void> {
+    return new Promise((resolve) => {
+      setTimeout(resolve, time);
+    });
   }
 
   public death(): void {
