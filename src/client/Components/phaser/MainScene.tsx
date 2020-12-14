@@ -81,8 +81,8 @@ export default class MainScene extends Phaser.Scene {
 
     //load the sword into the map
     this.load.spritesheet("slash", "assets/sprites/smallSlash.png", {
-      frameWidth: 48,
-      frameHeight: 48,
+      frameWidth: 72,
+      frameHeight: 72,
     });
 
     //this.load.atlas("slash", "assets/sprites/slashSheet.png", "assets/sprites/slashSheet.json");
@@ -256,6 +256,7 @@ export default class MainScene extends Phaser.Scene {
 
     // Create the hitbox and bring it to sprite layer
     const hitbox = this.physics.add.sprite(0, 0, "slash");
+    hitbox.setSize(48, 48);
     hitbox.setDepth(2);
 
     this.anims.create({
@@ -267,7 +268,9 @@ export default class MainScene extends Phaser.Scene {
 
     // Add the overlap physics to destroy an enemy
     this.physics.add.collider(monster, hitbox, () => {
-      monster.destroy();
+      setTimeout(() => {
+        monster.destroy();
+      }, 300);
       gameState.score += 1;
       scoreText.setText(`Player Score: ${gameState.score}`);
     });
