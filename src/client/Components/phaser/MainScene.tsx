@@ -2,27 +2,34 @@ import Phaser from "phaser";
 import { Player } from "./Player";
 import { GridControls } from "./GridControls";
 import { GridPhysics } from "./GridPhysics";
-import { createMonsterAnims } from "./EnemyAnimations";
+import { createSpriteAnims } from "./SpriteAnimations";
 import Weapon from "./Weapon";
 import { Pathfinder } from "./Pathfinder";
 import { FollowPlayer } from "./FollowPlayer";
+import { enemy } from "./Enemy";
+import { collision } from "./SpriteCollision";
+import { hitboxCollision } from "./HitboxCollision";
+import preloader from "./Preloader";
 
 //declare the gameState globally
 interface looseObj {
   [key: string]: number;
 }
-const gameState: looseObj = {
-  health: 20, // TODO: Decrease every time an enemy collides with player && increase every time player walks over/attacks a heart
+
+export const gameState: looseObj = {
+  health: 3, // TODO: Decrease every time an enemy collides with player && increase every time player walks over/attacks a heart
   score: 0, // TODO: Increase every time an enemy collides with sword animation or walks over/attacks a gem
 };
+
+//type for ...args in collisionCheck function below
+export interface checkFunc {
+  apply(context: any, args: any): void;
+}
 
 export default class MainScene extends Phaser.Scene {
   //scalar config of the tile sizes
   //depends on the sprite map we are using
   static readonly TILE_SIZE = 48;
-
-  //hardcoded BPM (beats per minute) of a song
-  private BPM = 100;
 
   private queue = [
     { timeInMS: 10000, BPM: 100 },
@@ -34,9 +41,6 @@ export default class MainScene extends Phaser.Scene {
   private gridControls?: GridControls;
   private gridPhysics?: GridPhysics;
 
-  // private beatMap: Array<beatMeter> = []
-
-  //working on refactoring this!!!!
   private beat0?: Phaser.GameObjects.Image;
   private beat1?: Phaser.GameObjects.Image;
   private beat2?: Phaser.GameObjects.Image;
@@ -54,43 +58,37 @@ export default class MainScene extends Phaser.Scene {
   private weapon?: Weapon;
   private gameScene?: Phaser.Scenes.ScenePlugin;
   private placeHolderEnemy?: FollowPlayer;
+  public healthText?: Phaser.GameObjects.Text;
+
+  public playerSprite?: Phaser.Physics.Arcade.Sprite;
+
+  public lizard?: Phaser.Physics.Arcade.Sprite;
+  public tree?: Phaser.Physics.Arcade.Sprite;
+  public ogre?: Phaser.Physics.Arcade.Sprite;
+  public bandit?: Phaser.Physics.Arcade.Sprite;
+  public centaur?: Phaser.Physics.Arcade.Sprite;
+  public mushroom?: Phaser.Physics.Arcade.Sprite;
+  public masked_orc?: Phaser.Physics.Arcade.Sprite;
+  public gnoll?: Phaser.Physics.Arcade.Sprite;
+  public goblin?: Phaser.Physics.Arcade.Sprite;
+  public golem?: Phaser.Physics.Arcade.Sprite;
+  public gnoll_shaman?: Phaser.Physics.Arcade.Sprite;
+  public child_mushroom?: Phaser.Physics.Arcade.Sprite;
+  public bear?: Phaser.Physics.Arcade.Sprite;
+  public wogol?: Phaser.Physics.Arcade.Sprite;
+  public skelet?: Phaser.Physics.Arcade.Sprite;
+  public bird?: Phaser.Physics.Arcade.Sprite;
+  public elf?: Phaser.Physics.Arcade.Sprite;
+  public fairy?: Phaser.Physics.Arcade.Sprite;
 
   constructor() {
-    super("main-scene");
+    super("mainscene");
     this.death = this.death.bind(this);
   }
 
   public preload(): void {
-    //load map into the game (tile-sheet and JSON for collision info)
-    //using Phaser methods
-    this.load.image("tiles", "assets/ToTS-sheet.png");
-    this.load.spritesheet("music", "assets/sprites/Treble_001.png", {
-      frameWidth: 26,
-      frameHeight: 61,
-    });
-    this.load.spritesheet("background", "assets/sprites/background.png", {
-      frameWidth: 5,
-      frameHeight: 65,
-    });
-    this.load.tilemapTiledJSON("temple-map", "assets/ToTS_dungeon.json");
-
-    //load player into the map
-    this.load.spritesheet("player", "assets/sprites/knight_spritesheet.png", {
-      frameWidth: Player.SPRITE_FRAME_WIDTH,
-      frameHeight: Player.SPRITE_FRAME_HEIGHT,
-    });
-
-    this.load.atlas(
-      "monster",
-      "assets/enemies/lizard.png",
-      "assets/enemies/lizard.json"
-    );
-
-    //load the sword into the map
-    this.load.spritesheet("sword", "assets/sprites/smallSword.png", {
-      frameWidth: 48,
-      frameHeight: 48,
-    });
+    //preloads map assets - sprites, map, text, objects...
+    preloader(this.load);
   }
 
   public async create(): Promise<void> {
@@ -104,6 +102,79 @@ export default class MainScene extends Phaser.Scene {
       layer.setDepth(i);
       layer.scale = 3;
     }
+
+    //load player into game and scale hitbox
+    this.playerSprite = this.physics.add.sprite(0, 0, "player");
+    this.playerSprite.setSize(16, 16);
+    this.playerSprite.setDepth(2);
+
+    //Creates enemies
+
+    this.lizard = this.physics.add.sprite(0, 0, "lizard");
+
+    this.tree = this.physics.add.sprite(0, 0, "tree");
+
+    this.bandit = this.physics.add.sprite(0, 0, "bandit");
+
+    this.ogre = this.physics.add.sprite(0, 0, "ogre");
+
+    this.centaur = this.physics.add.sprite(0, 0, "centaur");
+
+    this.gnoll = this.physics.add.sprite(0, 0, "gnoll");
+
+    this.bear = this.physics.add.sprite(0, 0, "bear");
+
+    this.child_mushroom = this.physics.add.sprite(0, 0, "child_mushroom");
+
+    this.mushroom = this.physics.add.sprite(0, 0, "mushroom");
+
+    this.masked_orc = this.physics.add.sprite(0, 0, "masked_orc");
+
+    this.goblin = this.physics.add.sprite(0, 0, "goblin");
+
+    this.gnoll_shaman = this.physics.add.sprite(0, 0, "gnoll_shaman");
+
+    this.golem = this.physics.add.sprite(0, 0, "golem");
+
+    this.wogol = this.physics.add.sprite(0, 0, "wogol");
+
+    this.skelet = this.physics.add.sprite(0, 0, "skelet");
+
+    this.bird = this.physics.add.sprite(0, 0, "bird");
+
+    this.elf = this.physics.add.sprite(0, 0, "elf");
+
+    this.fairy = this.physics.add.sprite(0, 0, "fairy");
+
+    //camera follows the player along the gameplay
+    this.cameras.main.startFollow(this.playerSprite);
+
+    //Style for our text boxes
+    const textStyle = {
+      fill: "#FFFFFF",
+      fontSize: "20px",
+      backgroundColor: "#000000",
+    };
+
+    //Group for the text boxes - may not need them grouped, but just in case it is useful later
+    this.textGroup = this.add.group();
+
+    //Player health text box, includes styling and scroll factor of 0 to make the box follow the camera dynamically
+    this.healthText = this.add
+      .text(775, 15, `Player health: ${gameState.health}`, textStyle)
+      .setScrollFactor(0);
+
+    //Player score text box, includes styling and scroll factor of 0 to make the box follow the camera dynamically
+    const scoreText = this.add
+      .text(15, 15, `Player Score: ${gameState.score}`, textStyle)
+      .setScrollFactor(0);
+
+    //Add text boxes to group
+    this.textGroup.add(this.healthText);
+    this.textGroup.add(scoreText);
+
+    //Set textGroup to third layer
+    this.textGroup.setDepth(3);
 
     //create sprites for the beats on the beat meter
     this.beat0 = this.add.image(0, 550, "music").setScrollFactor(0).setDepth(4);
@@ -158,103 +229,105 @@ export default class MainScene extends Phaser.Scene {
     this.beat8.alpha = 0.4;
     this.beat9.alpha = 0.2;
 
-    //load character into game
-    const playerSprite = this.physics.add.sprite(0, 0, "player");
-    playerSprite.setSize(16, 16);
-    playerSprite.setDepth(2);
-
-    //creates enemy - lizard and scales the hitbox
-    const monster = this.physics.add.sprite(
-      0,
-      0,
-      "monster",
-      "lizard_m_idle_anim_f0.png"
-    );
-    monster.setSize(16, 16);
-
-    // this.cameras.main.startFollow(playerSprite);
-    this.cameras.main.startFollow(playerSprite);
-
-    //Style for our text boxes
-    const textStyle = {
-      fill: "#FFFFFF",
-      fontSize: "20px",
-      backgroundColor: "#000000",
-    };
-
-    //Group for the text boxes - may not need them grouped, but just in case it is useful later
-    this.textGroup = this.add.group();
-
-    //Player health text box, includes styling and scroll factor of 0 to make the box follow the camera dynamically
-    const healthText = this.add
-      .text(775, 15, `Player health: ${gameState.health}`, textStyle)
-      .setScrollFactor(0);
-
-    //Player score text box, includes styling and scroll factor of 0 to make the box follow the camera dynamically
-    const scoreText = this.add
-      .text(15, 15, `Player Score: ${gameState.score}`, textStyle)
-      .setScrollFactor(0);
-
-    //Add text boxes to group
-    this.textGroup.add(healthText);
-    this.textGroup.add(scoreText);
-
-    //Set textGroup to third layer
-    this.textGroup.setDepth(3);
-
-    const mainPlayer = new Player(playerSprite, 0, 29, 57);
     this.gridPhysics = new GridPhysics(
       //arguments for new Player are (spritesheet, characterIndex, startTilePosX, startTilePosY)
-      mainPlayer,
+      new Player(this.playerSprite, 0, 29, 57),
       dungeonMap
     );
     this.gridControls = new GridControls(this.input, this.gridPhysics);
-    Pathfinder.player = mainPlayer;
 
-    //gridphysics for enemy to spawn at particular spot
-    new GridPhysics(
-      //arguments for new Player are (spritesheet, characterIndex, startTilePosX, startTilePosY)
-      new Player(monster, 4, 28, 48), //coordinates where enemy spawns
-      dungeonMap
-    );
-    monster.setDepth(2);
+    //adds enemy to provided coordinates(function accepts: sprite, spriteIdx, posX, posY, map)
+    enemy(this.elf, 2, 8, 8, dungeonMap);
+    enemy(this.fairy, 3, 12, 8, dungeonMap);
+    enemy(this.goblin, 4, 16, 8, dungeonMap);
+    enemy(this.gnoll_shaman, 6, 47, 8, dungeonMap);
+    enemy(this.centaur, 7, 23, 18, dungeonMap);
+    enemy(this.bear, 8, 35, 25, dungeonMap);
+    enemy(this.wogol, 9, 48, 16, dungeonMap);
+    enemy(this.ogre, 10, 52, 30, dungeonMap);
+    enemy(this.masked_orc, 11, 40, 31, dungeonMap);
+    enemy(this.tree, 12, 29, 33, dungeonMap);
+    enemy(this.lizard, 13, 8, 35, dungeonMap);
+    enemy(this.skelet, 14, 8, 19, dungeonMap);
+    enemy(this.golem, 15, 48, 52, dungeonMap);
+    enemy(this.gnoll, 16, 4, 43, dungeonMap);
+    enemy(this.bird, 17, 13, 57, dungeonMap);
+    enemy(this.child_mushroom, 18, 29, 47, dungeonMap);
+    enemy(this.mushroom, 19, 32, 7, dungeonMap);
+    enemy(this.bandit, 20, 8, 50, dungeonMap);
 
-    //refactored animations to separate file - EnemyAnimations.tsx
-    createMonsterAnims(this.anims);
+    //creates animations for enemies
+    createSpriteAnims(this.anims);
 
-    monster.anims.play("lizard-run");
+    //loades animations for enemies
+    this.lizard.anims.play("lizard-idle");
+    this.bandit.anims.play("bandit-idle");
+    this.bear.anims.play("bear-idle");
+    this.centaur.anims.play("centaur-idle");
+    this.child_mushroom.anims.play("child-mushroom-idle");
+    this.gnoll.anims.play("gnoll-idle");
+    this.gnoll_shaman.anims.play("gnoll-shaman-idle");
+    this.goblin.anims.play("goblin-idle");
+    this.golem.anims.play("golem-idle");
+    this.masked_orc.anims.play("masked-orc-idle");
+    this.mushroom.anims.play("mushroom-idle");
+    this.ogre.anims.play("ogre-idle");
+    this.tree.anims.play("tree-idle");
+    this.wogol.anims.play("wogol-idle");
+    this.skelet.anims.play("skelet-idle");
+    this.bird.anims.play("bird-idle");
+    this.elf.anims.play("elf-idle");
+    this.fairy.anims.play("fairy-idle");
 
     // Create the hitbox and bring it to sprite layer
     const hitbox = this.physics.add.sprite(0, 0, "sword");
     hitbox.setDepth(2);
 
-    // Add the overlap physics to destroy an enemy
-    this.physics.add.collider(monster, hitbox, () => {
-      monster.destroy();
-      gameState.score += 1;
-      scoreText.setText(`Player Score: ${gameState.score}`);
-    });
+    //this loop handles collision between enemy and player, when player touches enemy - enemy explodes
+    //and player loses one life. TODO: add animations on explosion and make enemy movable with A* pathfinding
+    //TODO: Add explosion animation when enemy dies, and likewise when player dies.
+    const enemies = [
+      this.lizard,
+      this.golem,
+      this.mushroom,
+      this.ogre,
+      this.bandit,
+      this.bear,
+      this.bird,
+      this.centaur,
+      this.child_mushroom,
+      this.elf,
+      this.fairy,
+      this.gnoll,
+      this.gnoll_shaman,
+      this.goblin,
+      this.masked_orc,
+      this.tree,
+      this.wogol,
+      this.skelet,
+    ];
 
-    // Add collider physics between an enemy and player
-    this.physics.add.collider(
-      playerSprite,
-      monster,
-      this.collisionCheck(() => {
-        gameState.health -= 1;
-        healthText.setText(`Player Health: ${gameState.health}`);
+    for (let i = 0; i < enemies.length; i++) {
+      collision(
+        this.physics.add,
+        this.playerSprite,
+        enemies[i],
+        this.healthText
+        // this.death
+      );
+    }
 
-        if (gameState.health <= 0) {
-          this.death(); // Currently only turns off the physics for the player and doesn't stop player from moving.
-        }
-      })
-    );
+    //this loop handles collision between enemy and hitbox, once sword touches enemy, enemy dies, player gains +1 score
+    for (let i = 0; i < enemies.length; i++) {
+      hitboxCollision(this.physics.add, enemies[i], hitbox, scoreText);
+    }
 
     // Create the weapon functionality
     this.weapon = new Weapon(
       this.input,
       false,
       hitbox,
-      playerSprite,
+      this.playerSprite,
       this.gridPhysics
     );
 
@@ -271,27 +344,27 @@ export default class MainScene extends Phaser.Scene {
       grid.push(col);
     }
 
-    Pathfinder.setGrid(grid);
+    // Pathfinder.setGrid(grid);
 
-    const tileset = dungeonMap.tilesets[0];
-    const prop: any = tileset.tileProperties;
-    const acceptableTiles = [];
-    for (let i = tileset.firstgid - 1; i < tiles.total; i++) {
-      if (!prop.hasOwnProperty!(i)) {
-        acceptableTiles.push(i + 1);
-        continue;
-      }
-      if (!prop[i].collides) {
-        acceptableTiles.push(i + 1);
-        Pathfinder.setCost(i + 1, 1);
-      }
-    }
+    // const tileset = dungeonMap.tilesets[0];
+    // const prop: any = tileset.tileProperties;
+    // const acceptableTiles = [];
+    // for (let i = tileset.firstgid - 1; i < tiles.total; i++) {
+    //   if (!prop.hasOwnProperty!(i)) {
+    //     acceptableTiles.push(i + 1);
+    //     continue;
+    //   }
+    //   if (!prop[i].collides) {
+    //     acceptableTiles.push(i + 1);
+    //     Pathfinder.setCost(i + 1, 1);
+    //   }
+    // }
 
-    Pathfinder.setAcceptableTiles(acceptableTiles);
+    // Pathfinder.setAcceptableTiles(acceptableTiles);
 
-    this.placeHolderEnemy = new FollowPlayer(this, 34, 46);
-    this.add.existing(this.placeHolderEnemy);
-    this.placeHolderEnemy.setDepth(2);
+    // this.placeHolderEnemy = new FollowPlayer(this, 34, 46);
+    // this.add.existing(this.placeHolderEnemy);
+    // this.placeHolderEnemy.setDepth(2);
 
     while (this.queue.length) {
       const currentSong = this.queue.shift();
@@ -359,6 +432,11 @@ export default class MainScene extends Phaser.Scene {
     this.gridPhysics?.update(delta);
     this.weapon?.update();
     this.placeHolderEnemy?.moveEnemy();
+
+    if (gameState.health <= 0) {
+      this.physics.pause();
+      this.death(); // Currently only turns off the physics for the player and doesn't stop player from moving.
+    }
   }
 
   public delay(time: number): Promise<void> {
@@ -370,6 +448,7 @@ export default class MainScene extends Phaser.Scene {
   public death(): void {
     //pauses the game. TODO: add click button to start a new game.
     this.gameScene?.pause();
+
     this.add
       .text(325, 200, "YOU DIED", {
         fontSize: "80px",
@@ -384,19 +463,5 @@ export default class MainScene extends Phaser.Scene {
       .setDepth(3);
     // const deathScene = this.scene.get([MainScene]);
     // deathScene.scene.restart();
-  }
-
-  //this function makes sure callback on collider (enemy vs player) fires only once
-  //player loses one life
-  //TODO: define interface for function type and pass it to the below function - work in progress...
-  public collisionCheck(callback?: any, context = this): any {
-    let once = false;
-
-    return (...args: any[]) => {
-      if (!once) {
-        once = true;
-        callback?.apply(context, args);
-      }
-    };
   }
 }
