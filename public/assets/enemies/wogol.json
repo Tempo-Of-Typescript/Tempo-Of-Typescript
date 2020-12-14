@@ -1,191 +1,191 @@
 {
   "frames": {
-    "ForestGuardian_Idle_1.png": {
+    "wogol_run_anim_f2.png": {
       "frame": {
         "x": 0,
         "y": 0,
-        "w": 28,
-        "h": 30
+        "w": 10,
+        "h": 17
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 3,
+        "y": 3,
+        "w": 10,
+        "h": 17
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 20
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "wogol_run_anim_f1.png": {
+      "frame": {
+        "x": 0,
+        "y": 17,
+        "w": 12,
+        "h": 16
       },
       "rotated": false,
       "trimmed": true,
       "spriteSourceSize": {
         "x": 2,
         "y": 2,
-        "w": 28,
-        "h": 30
+        "w": 12,
+        "h": 16
       },
       "sourceSize": {
-        "w": 32,
-        "h": 32
+        "w": 16,
+        "h": 20
       },
       "pivot": {
         "x": 0.5,
         "y": 0.5
       }
     },
-    "ForestGuardian_walk_1.png": {
+    "wogol_idle_anim_f0.png": {
       "frame": {
-        "x": 0,
-        "y": 30,
-        "w": 28,
-        "h": 30
-      },
-      "rotated": false,
-      "trimmed": true,
-      "spriteSourceSize": {
-        "x": 2,
-        "y": 2,
-        "w": 28,
-        "h": 30
-      },
-      "sourceSize": {
-        "w": 32,
-        "h": 32
-      },
-      "pivot": {
-        "x": 0.5,
-        "y": 0.5
-      }
-    },
-    "ForestGuardian_walk_2.png": {
-      "frame": {
-        "x": 0,
-        "y": 60,
-        "w": 28,
-        "h": 30
-      },
-      "rotated": false,
-      "trimmed": true,
-      "spriteSourceSize": {
-        "x": 2,
+        "x": 10,
         "y": 0,
-        "w": 28,
-        "h": 30
-      },
-      "sourceSize": {
-        "w": 32,
-        "h": 32
-      },
-      "pivot": {
-        "x": 0.5,
-        "y": 0.5
-      }
-    },
-    "ForestGuardian_walk_3.png": {
-      "frame": {
-        "x": 0,
-        "y": 90,
-        "w": 28,
-        "h": 30
+        "w": 10,
+        "h": 16
       },
       "rotated": false,
       "trimmed": true,
       "spriteSourceSize": {
-        "x": 2,
-        "y": 1,
-        "w": 28,
-        "h": 30
-      },
-      "sourceSize": {
-        "w": 32,
-        "h": 32
-      },
-      "pivot": {
-        "x": 0.5,
-        "y": 0.5
-      }
-    },
-    "ForestGuardian_Idle_2.png": {
-      "frame": {
-        "x": 0,
-        "y": 120,
-        "w": 28,
-        "h": 29
-      },
-      "rotated": false,
-      "trimmed": true,
-      "spriteSourceSize": {
-        "x": 2,
-        "y": 3,
-        "w": 28,
-        "h": 29
-      },
-      "sourceSize": {
-        "w": 32,
-        "h": 32
-      },
-      "pivot": {
-        "x": 0.5,
-        "y": 0.5
-      }
-    },
-    "ForestGuardian_Idle_4.png": {
-      "frame": {
-        "x": 0,
-        "y": 149,
-        "w": 28,
-        "h": 29
-      },
-      "rotated": false,
-      "trimmed": true,
-      "spriteSourceSize": {
-        "x": 2,
-        "y": 3,
-        "w": 28,
-        "h": 29
-      },
-      "sourceSize": {
-        "w": 32,
-        "h": 32
-      },
-      "pivot": {
-        "x": 0.5,
-        "y": 0.5
-      }
-    },
-    "ForestGuardian_walk_4.png": {
-      "frame": {
-        "x": 0,
-        "y": 178,
-        "w": 28,
-        "h": 29
-      },
-      "rotated": false,
-      "trimmed": true,
-      "spriteSourceSize": {
-        "x": 2,
-        "y": 3,
-        "w": 28,
-        "h": 29
-      },
-      "sourceSize": {
-        "w": 32,
-        "h": 32
-      },
-      "pivot": {
-        "x": 0.5,
-        "y": 0.5
-      }
-    },
-    "ForestGuardian_Idle_3.png": {
-      "frame": {
-        "x": 0,
-        "y": 207,
-        "w": 28,
-        "h": 28
-      },
-      "rotated": false,
-      "trimmed": true,
-      "spriteSourceSize": {
-        "x": 2,
+        "x": 3,
         "y": 4,
-        "w": 28,
-        "h": 28
+        "w": 10,
+        "h": 16
       },
       "sourceSize": {
-        "w": 32,
-        "h": 32
+        "w": 16,
+        "h": 20
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "wogol_idle_anim_f1.png": {
+      "frame": {
+        "x": 0,
+        "y": 33,
+        "w": 10,
+        "h": 15
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 3,
+        "y": 5,
+        "w": 10,
+        "h": 15
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 20
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "wogol_run_anim_f0.png": {
+      "frame": {
+        "x": 0,
+        "y": 48,
+        "w": 10,
+        "h": 15
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 3,
+        "y": 4,
+        "w": 10,
+        "h": 15
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 20
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "wogol_idle_anim_f3.png": {
+      "frame": {
+        "x": 0,
+        "y": 63,
+        "w": 10,
+        "h": 14
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 3,
+        "y": 6,
+        "w": 10,
+        "h": 14
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 20
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "wogol_run_anim_f3.png": {
+      "frame": {
+        "x": 0,
+        "y": 77,
+        "w": 10,
+        "h": 14
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 3,
+        "y": 6,
+        "w": 10,
+        "h": 14
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 20
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "wogol_idle_anim_f2.png": {
+      "frame": {
+        "x": 0,
+        "y": 91,
+        "w": 10,
+        "h": 12
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 3,
+        "y": 8,
+        "w": 10,
+        "h": 12
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 20
       },
       "pivot": {
         "x": 0.5,
@@ -196,11 +196,11 @@
   "meta": {
     "app": "http://free-tex-packer.com",
     "version": "0.6.6",
-    "image": "yellow_boss.png",
+    "image": "wogol.png",
     "format": "RGBA8888",
     "size": {
-      "w": 28,
-      "h": 235
+      "w": 20,
+      "h": 103
     },
     "scale": 1
   }

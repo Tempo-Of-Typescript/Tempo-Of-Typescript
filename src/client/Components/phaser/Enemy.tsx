@@ -2,7 +2,7 @@ import Phaser from "phaser";
 import { GridPhysics } from "./GridPhysics";
 import { Player } from "./Player";
 
-//Handles enemy movements - in progress
+//Adds enemy to the map
 export const enemy = (
   sprite: Phaser.Physics.Arcade.Sprite,
   charIdx: number,

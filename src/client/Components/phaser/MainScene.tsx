@@ -2,7 +2,7 @@ import Phaser from "phaser";
 import { Player } from "./Player";
 import { GridControls } from "./GridControls";
 import { GridPhysics } from "./GridPhysics";
-import { createMonsterAnims } from "./EnemyAnimations";
+import { createSpriteAnims } from "./SpriteAnimations";
 import Weapon from "./Weapon";
 import { enemy } from "./Enemy";
 import { collision } from "./SpriteCollision";
@@ -65,21 +65,23 @@ export default class MainScene extends Phaser.Scene {
   public tree?: Phaser.Physics.Arcade.Sprite;
   public ogre?: Phaser.Physics.Arcade.Sprite;
   public bandit?: Phaser.Physics.Arcade.Sprite;
-
   public centaur?: Phaser.Physics.Arcade.Sprite;
-  public big_zombie?: Phaser.Physics.Arcade.Sprite;
   public mushroom?: Phaser.Physics.Arcade.Sprite;
   public masked_orc?: Phaser.Physics.Arcade.Sprite;
-  public orc_shaman?: Phaser.Physics.Arcade.Sprite;
   public gnoll?: Phaser.Physics.Arcade.Sprite;
   public goblin?: Phaser.Physics.Arcade.Sprite;
-  public yellow_boss?: Phaser.Physics.Arcade.Sprite;
   public golem?: Phaser.Physics.Arcade.Sprite;
   public gnoll_shaman?: Phaser.Physics.Arcade.Sprite;
   public child_mushroom?: Phaser.Physics.Arcade.Sprite;
+  public bear?: Phaser.Physics.Arcade.Sprite;
+  public wogol?: Phaser.Physics.Arcade.Sprite;
+  public skelet?: Phaser.Physics.Arcade.Sprite;
+  public bird?: Phaser.Physics.Arcade.Sprite;
+  public elf?: Phaser.Physics.Arcade.Sprite;
+  public fairy?: Phaser.Physics.Arcade.Sprite;
 
   constructor() {
-    super("main-scene");
+    super("mainscene");
     this.death = this.death.bind(this);
   }
 
@@ -97,24 +99,24 @@ export default class MainScene extends Phaser.Scene {
     }, msPerBeat);
 
     //working on refactoring this!!!!
-    setInterval(() => {
-      this.beat1!.x += 2.5;
-      if (this.beat1!.x >= 200) this.beat1!.x = 100;
-      this.beat2!.x += 2.5;
-      if (this.beat2!.x >= 300) this.beat2!.x = 200;
-      this.beat3!.x += 2.5;
-      if (this.beat3!.x >= 400) this.beat3!.x = 300;
-      this.beat4!.x += 2.5;
-      if (this.beat4!.x >= 500) this.beat4!.x = 400;
-      this.beat5!.x += 2.5;
-      if (this.beat5!.x >= 600) this.beat5!.x = 500;
-      this.beat6!.x += 2.5;
-      if (this.beat6!.x >= 700) this.beat6!.x = 600;
-      this.beat7!.x += 2.5;
-      if (this.beat7!.x >= 800) this.beat7!.x = 700;
-      this.beat8!.x += 2.5;
-      if (this.beat8!.x >= 900) this.beat8!.x = 800;
-    }, msForOneBeat);
+    // setInterval(() => {
+    //   this.beat1!.x += 2.5;
+    //   if (this.beat1!.x >= 200) this.beat1!.x = 100;
+    //   this.beat2!.x += 2.5;
+    //   if (this.beat2!.x >= 300) this.beat2!.x = 200;
+    //   this.beat3!.x += 2.5;
+    //   if (this.beat3!.x >= 400) this.beat3!.x = 300;
+    //   this.beat4!.x += 2.5;
+    //   if (this.beat4!.x >= 500) this.beat4!.x = 400;
+    //   this.beat5!.x += 2.5;
+    //   if (this.beat5!.x >= 600) this.beat5!.x = 500;
+    //   this.beat6!.x += 2.5;
+    //   if (this.beat6!.x >= 700) this.beat6!.x = 600;
+    //   this.beat7!.x += 2.5;
+    //   if (this.beat7!.x >= 800) this.beat7!.x = 700;
+    //   this.beat8!.x += 2.5;
+    //   if (this.beat8!.x >= 900) this.beat8!.x = 800;
+    // }, msForOneBeat);
   }
 
   public create(): void {
@@ -129,96 +131,48 @@ export default class MainScene extends Phaser.Scene {
       layer.scale = 3;
     }
 
-    //load character into game and scale hitbox
+    //load player into game and scale hitbox
     this.playerSprite = this.physics.add.sprite(0, 0, "player");
     this.playerSprite.setSize(16, 16);
     this.playerSprite.setDepth(2);
 
-    //creates enemies - lizard and scales the hitbox
-    this.lizard = this.physics.add.sprite(
-      0,
-      0,
-      "lizard",
-      "lizard_m_idle_anim_f0.png"
-    );
+    //Creates enemies
 
-    this.tree = this.physics.add.sprite(0, 0, "tree", "Ent_Idle_1.png");
+    this.lizard = this.physics.add.sprite(0, 0, "lizard");
 
-    this.bandit = this.physics.add.sprite(0, 0, "bandit", "Bandit_Idle_1.png");
+    this.tree = this.physics.add.sprite(0, 0, "tree");
 
-    this.ogre = this.physics.add.sprite(0, 0, "ogre", "ogre_run_anim_f1.png");
+    this.bandit = this.physics.add.sprite(0, 0, "bandit");
 
-    this.centaur = this.physics.add.sprite(
-      0,
-      0,
-      "centaur",
-      "Centaur_M_Idle_1.png"
-    );
+    this.ogre = this.physics.add.sprite(0, 0, "ogre");
 
-    this.gnoll = this.physics.add.sprite(
-      0,
-      0,
-      "gnoll",
-      "GnollOverseer_Idle_1.png"
-    );
+    this.centaur = this.physics.add.sprite(0, 0, "centaur");
 
-    this.big_zombie = this.physics.add.sprite(
-      0,
-      0,
-      "big_zombie",
-      "big_zombie_idle_anim_f0.png"
-    );
+    this.gnoll = this.physics.add.sprite(0, 0, "gnoll");
 
-    this.child_mushroom = this.physics.add.sprite(
-      0,
-      0,
-      "child_mushroom",
-      "NormalMushroom_Idle_1.png"
-    );
+    this.bear = this.physics.add.sprite(0, 0, "bear");
 
-    this.mushroom = this.physics.add.sprite(
-      0,
-      0,
-      "mushroom",
-      "LargeMushroom_Idle_2.png"
-    );
+    this.child_mushroom = this.physics.add.sprite(0, 0, "child_mushroom");
 
-    this.masked_orc = this.physics.add.sprite(
-      0,
-      0,
-      "masked_orc",
-      "masked_orc_idle_anim_f0.png"
-    );
+    this.mushroom = this.physics.add.sprite(0, 0, "mushroom");
 
-    this.orc_shaman = this.physics.add.sprite(
-      0,
-      0,
-      "orc_shaman",
-      "orc_shaman_idle_anim_f0.png"
-    );
+    this.masked_orc = this.physics.add.sprite(0, 0, "masked_orc");
 
-    this.goblin = this.physics.add.sprite(
-      0,
-      0,
-      "goblin",
-      "goblin_idle_anim_f0.png"
-    );
+    this.goblin = this.physics.add.sprite(0, 0, "goblin");
 
-    this.yellow_boss = this.physics.add.sprite(
-      0,
-      0,
-      "yellow_boss",
-      "ForestGuardian_Idle_1.png"
-    );
+    this.gnoll_shaman = this.physics.add.sprite(0, 0, "gnoll_shaman");
 
-    this.gnoll_shaman = this.physics.add.sprite(
-      0,
-      0,
-      "gnoll_shaman",
-      "GnollShaman_Idle_1.png"
-    );
+    this.golem = this.physics.add.sprite(0, 0, "golem");
 
-    this.golem = this.physics.add.sprite(0, 0, "golem", "Golem_Idle_1.png");
+    this.wogol = this.physics.add.sprite(0, 0, "wogol");
+
+    this.skelet = this.physics.add.sprite(0, 0, "skelet");
+
+    this.bird = this.physics.add.sprite(0, 0, "bird");
+
+    this.elf = this.physics.add.sprite(0, 0, "elf");
+
+    this.fairy = this.physics.add.sprite(0, 0, "fairy");
 
     //camera follows the player along the gameplay
     this.cameras.main.startFollow(this.playerSprite);
@@ -303,79 +257,48 @@ export default class MainScene extends Phaser.Scene {
     );
     this.gridControls = new GridControls(this.input, this.gridPhysics);
 
-    //adds enemy to provided coordinates. TODO: Add more enemies to different locations. TODO: needs refactoring - put into loop
-    // ENEMY LOCATIONS: TODO: Add more enemies and refactor to separate file
-    enemy(this.child_mushroom, 2, 8, 8, dungeonMap);
-    enemy(this.mushroom, 3, 4, 6, dungeonMap);
-    enemy(this.child_mushroom, 4, 8, 8, dungeonMap);
-    enemy(this.mushroom, 5, 4, 10, dungeonMap);
-    enemy(this.child_mushroom, 6, 12, 8, dungeonMap);
-    enemy(this.child_mushroom, 7, 16, 8, dungeonMap);
-    enemy(this.bandit, 8, 23, 10, dungeonMap);
-    enemy(this.big_zombie, 9, 27, 5, dungeonMap);
-    enemy(this.centaur, 10, 27, 10, dungeonMap);
-    enemy(this.centaur, 11, 34, 10, dungeonMap);
-    enemy(this.gnoll, 12, 34, 5, dungeonMap);
-    enemy(this.gnoll_shaman, 13, 43, 10, dungeonMap);
-    enemy(this.gnoll_shaman, 14, 43, 5, dungeonMap);
-    enemy(this.goblin, 15, 49, 10, dungeonMap);
-    enemy(this.gnoll_shaman, 16, 49, 5, dungeonMap);
-    enemy(this.goblin, 17, 55, 8, dungeonMap);
-    enemy(this.masked_orc, 18, 23, 18, dungeonMap);
-    enemy(this.masked_orc, 19, 17, 18, dungeonMap);
-    enemy(this.lizard, 20, 17, 22, dungeonMap);
-    enemy(this.lizard, 21, 17, 24, dungeonMap);
-    enemy(this.lizard, 22, 23, 24, dungeonMap);
-    enemy(this.tree, 23, 29, 26, dungeonMap);
-    enemy(this.tree, 24, 23, 18, dungeonMap);
-    enemy(this.ogre, 25, 23, 21, dungeonMap);
-    enemy(this.ogre, 26, 36, 19, dungeonMap);
-    enemy(this.golem, 27, 35, 25, dungeonMap);
-    enemy(this.bandit, 28, 40, 25, dungeonMap);
-    enemy(this.centaur, 29, 46, 23, dungeonMap);
-    enemy(this.mushroom, 30, 46, 26, dungeonMap);
-    enemy(this.child_mushroom, 31, 50, 25, dungeonMap);
-    enemy(this.orc_shaman, 32, 48, 16, dungeonMap);
-    enemy(this.orc_shaman, 33, 55, 17, dungeonMap);
-    enemy(this.gnoll, 34, 52, 30, dungeonMap);
-    enemy(this.big_zombie, 35, 55, 36, dungeonMap);
-    enemy(this.yellow_boss, 36, 48, 36, dungeonMap);
-    enemy(this.mushroom, 37, 41, 36, dungeonMap);
-    enemy(this.child_mushroom, 38, 40, 31, dungeonMap);
-    enemy(this.child_mushroom, 39, 37, 35, dungeonMap);
-    enemy(this.child_mushroom, 40, 29, 31, dungeonMap);
-    enemy(this.bandit, 41, 29, 37, dungeonMap);
-    enemy(this.bandit, 42, 17, 36, dungeonMap);
-    enemy(this.bandit, 43, 17, 31, dungeonMap);
-    enemy(this.goblin, 44, 8, 31, dungeonMap);
-    enemy(this.centaur, 45, 4, 36, dungeonMap);
-    enemy(this.golem, 46, 8, 19, dungeonMap);
-    enemy(this.orc_shaman, 47, 8, 25, dungeonMap);
-    enemy(this.ogre, 48, 29, 43, dungeonMap);
-    enemy(this.masked_orc, 49, 29, 47, dungeonMap);
-    enemy(this.golem, 50, 37, 46, dungeonMap);
-    enemy(this.masked_orc, 51, 46, 47, dungeonMap);
-    enemy(this.mushroom, 52, 45, 42, dungeonMap);
-    enemy(this.lizard, 53, 45, 54, dungeonMap);
-    enemy(this.tree, 54, 55, 57, dungeonMap);
-    enemy(this.golem, 55, 53, 47, dungeonMap);
-    enemy(this.ogre, 56, 51, 43, dungeonMap);
-    enemy(this.mushroom, 57, 45, 43, dungeonMap);
-    enemy(this.masked_orc, 58, 24, 47, dungeonMap);
-    enemy(this.orc_shaman, 59, 22, 47, dungeonMap);
-    enemy(this.goblin, 60, 12, 43, dungeonMap);
-    enemy(this.gnoll_shaman, 61, 4, 43, dungeonMap);
-    enemy(this.gnoll, 62, 8, 51, dungeonMap);
-    enemy(this.child_mushroom, 63, 5, 54, dungeonMap);
-    enemy(this.centaur, 64, 9, 56, dungeonMap);
-    enemy(this.big_zombie, 65, 13, 57, dungeonMap);
-    enemy(this.bandit, 66, 19, 55, dungeonMap);
-    enemy(this.lizard, 67, 29, 52, dungeonMap);
+    //adds enemy to provided coordinates(function accepts: sprite, spriteIdx, posX, posY, map)
+    enemy(this.elf, 2, 8, 8, dungeonMap);
+    enemy(this.fairy, 3, 12, 8, dungeonMap);
+    enemy(this.goblin, 4, 16, 8, dungeonMap);
+    enemy(this.gnoll_shaman, 6, 47, 8, dungeonMap);
+    enemy(this.centaur, 7, 23, 18, dungeonMap);
+    enemy(this.bear, 8, 35, 25, dungeonMap);
+    enemy(this.wogol, 9, 48, 16, dungeonMap);
+    enemy(this.ogre, 10, 52, 30, dungeonMap);
+    enemy(this.masked_orc, 11, 40, 31, dungeonMap);
+    enemy(this.tree, 12, 29, 33, dungeonMap);
+    enemy(this.lizard, 13, 8, 35, dungeonMap);
+    enemy(this.skelet, 14, 8, 19, dungeonMap);
+    enemy(this.golem, 15, 48, 52, dungeonMap);
+    enemy(this.gnoll, 16, 4, 43, dungeonMap);
+    enemy(this.bird, 17, 13, 57, dungeonMap);
+    enemy(this.child_mushroom, 18, 29, 47, dungeonMap);
+    enemy(this.mushroom, 19, 32, 7, dungeonMap);
+    enemy(this.bandit, 20, 8, 50, dungeonMap);
 
-    //adds animations to enemies
-    createMonsterAnims(this.anims);
+    //creates animations for enemies
+    createSpriteAnims(this.anims);
 
-    this.lizard.anims.play("lizard-run");
+    //loades animations for enemies
+    this.lizard.anims.play("lizard-idle");
+    this.bandit.anims.play("bandit-idle");
+    this.bear.anims.play("bear-idle");
+    this.centaur.anims.play("centaur-idle");
+    this.child_mushroom.anims.play("child-mushroom-idle");
+    this.gnoll.anims.play("gnoll-idle");
+    this.gnoll_shaman.anims.play("gnoll-shaman-idle");
+    this.goblin.anims.play("goblin-idle");
+    this.golem.anims.play("golem-idle");
+    this.masked_orc.anims.play("masked-orc-idle");
+    this.mushroom.anims.play("mushroom-idle");
+    this.ogre.anims.play("ogre-idle");
+    this.tree.anims.play("tree-idle");
+    this.wogol.anims.play("wogol-idle");
+    this.skelet.anims.play("skelet-idle");
+    this.bird.anims.play("bird-idle");
+    this.elf.anims.play("elf-idle");
+    this.fairy.anims.play("fairy-idle");
 
     // for (let i = 1; i <= 8; i++) {
     //   const alpha = 0.2;
@@ -396,15 +319,34 @@ export default class MainScene extends Phaser.Scene {
 
     //this loop handles collision between enemy and player, when player touches enemy - enemy explodes
     //and player loses one life. TODO: add animations on explosion and make enemy movable with A* pathfinding
-    const enemies = [this.lizard, this.golem, this.mushroom, this.ogre]; //TODO: add more enemies to array list
+    //TODO: Add explosion animation when enemy dies, and likewise when player dies.
+    const enemies = [
+      this.lizard,
+      this.golem,
+      this.mushroom,
+      this.ogre,
+      this.bandit,
+      this.bear,
+      this.bird,
+      this.centaur,
+      this.child_mushroom,
+      this.elf,
+      this.fairy,
+      this.gnoll,
+      this.gnoll_shaman,
+      this.goblin,
+      this.masked_orc,
+      this.tree,
+      this.wogol,
+    ];
 
     for (let i = 0; i < enemies.length; i++) {
       collision(
         this.physics.add,
         this.playerSprite,
         enemies[i],
-        this.healthText,
-        this.death
+        this.healthText
+        // this.death
       );
     }
     //this loop handles collision between enemy and hitbox, once sword touches enemy, enemy dies, player gains +1 score
@@ -429,11 +371,17 @@ export default class MainScene extends Phaser.Scene {
     this.gridControls?.update();
     this.gridPhysics?.update(delta);
     this.weapon?.update();
+
+    if (gameState.health <= 0) {
+      this.physics.pause();
+      this.death(); // Currently only turns off the physics for the player and doesn't stop player from moving.
+    }
   }
 
   public death(): void {
     //pauses the game. TODO: add click button to start a new game.
     this.gameScene?.pause();
+
     this.add
       .text(325, 200, "YOU DIED", {
         fontSize: "80px",

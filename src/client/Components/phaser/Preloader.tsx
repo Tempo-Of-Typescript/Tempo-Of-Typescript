@@ -3,7 +3,7 @@ import { Player } from "./Player";
 
 export default function preloader(load: Phaser.Loader.LoaderPlugin): void {
   //load map into the game (tile-sheet and JSON for collision info)
-  //using Phaser methods
+  //using Phaser methods - preloads all assets to the game
   load.image("tiles", "assets/ToTS-sheet.png");
   load.spritesheet("music", "assets/sprites/Treble_001.png", {
     frameWidth: 26,
@@ -51,12 +51,6 @@ export default function preloader(load: Phaser.Loader.LoaderPlugin): void {
   );
 
   load.atlas(
-    "big_zombie",
-    "assets/enemies/big_zombie.png",
-    "assets/enemies/big_zombie.json"
-  );
-
-  load.atlas(
     "mushroom",
     "assets/enemies/mushroom.png",
     "assets/enemies/mushroom.json"
@@ -75,18 +69,6 @@ export default function preloader(load: Phaser.Loader.LoaderPlugin): void {
   );
 
   load.atlas(
-    "orc_shaman",
-    "assets/enemies/orc_shaman.png",
-    "assets/enemies/orc_shaman.json"
-  );
-
-  load.atlas(
-    "yellow_boss",
-    "assets/enemies/yellow_boss.png",
-    "assets/enemies/yellow_boss.json"
-  );
-
-  load.atlas(
     "gnoll_shaman",
     "assets/enemies/gnoll_shaman.png",
     "assets/enemies/gnoll_shaman.json"
@@ -95,6 +77,22 @@ export default function preloader(load: Phaser.Loader.LoaderPlugin): void {
   load.atlas("golem", "assets/enemies/golem.png", "assets/enemies/golem.json");
 
   load.atlas("gnoll", "assets/enemies/gnoll.png", "assets/enemies/gnoll.json");
+
+  load.atlas("bear", "assets/enemies/bear.png", "assets/enemies/bear.json");
+
+  load.atlas("wogol", "assets/enemies/wogol.png", "assets/enemies/wogol.json");
+
+  load.atlas(
+    "skelet",
+    "assets/enemies/skelet.png",
+    "assets/enemies/skelet.json"
+  );
+
+  load.atlas("bird", "assets/enemies/bird.png", "assets/enemies/bird.json");
+
+  load.atlas("elf", "assets/enemies/elf.png", "assets/enemies/elf.json");
+
+  load.atlas("fairy", "assets/enemies/fairy.png", "assets/enemies/fairy.json");
 
   //load the sword into the map
   load.spritesheet("sword", "assets/sprites/smallSword.png", {

@@ -14,5 +14,6 @@ export function collisionCheck(
       once = true;
       callback?.apply(context, args);
     }
+    once = false;
   };
 }

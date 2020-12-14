@@ -8,14 +8,17 @@ export const hitboxCollision = (
   scoreText: Phaser.GameObjects.Text
 ): void => {
   add.collider(enemySprite, hitbox, () => {
-    //TODO: Fix bug with score loop, increment only once
-    enemySprite.setActive(false).setVisible(false);
+    //removes enemy from current position - aka destroys it
+    const enemyX = enemySprite.x;
+    const enemyY = enemySprite.y;
+    enemySprite.setPosition(-100, -100);
 
     gameState.score += 1;
     scoreText.setText(`Player Score: ${gameState.score}`);
 
     setTimeout(() => {
-      enemySprite.setActive(true).setVisible(true);
+      //respawns enemy after 5 seconds
+      enemySprite.setPosition(enemyX, enemyY);
     }, 5000);
   });
 };
