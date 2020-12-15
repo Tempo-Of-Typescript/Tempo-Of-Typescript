@@ -13,6 +13,7 @@ export const enemy = (
   new GridPhysics(
     //arguments for new Player are (spritesheet, characterIndex, startTilePosX, startTilePosY)
     new Player(sprite, charIdx, startTilePosX, startTilePosY), //coordinates where enemy spawns
-    map
+    map,
+    true
   );
 };
