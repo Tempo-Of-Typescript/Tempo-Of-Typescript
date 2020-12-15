@@ -2,8 +2,6 @@ import express, { Request, Response, NextFunction } from "express";
 import axios from "axios";
 import qs from "qs";
 import env from "dotenv";
-import { blue } from "chalk";
-import { User } from "../../../database/models";
 env.config();
 
 export const router = express.Router();
@@ -87,5 +85,13 @@ router.get(
     }
   }
 );
+
+router.get("/userToken", (req: Request, res: Response, next: NextFunction) => {
+  try {
+    res.send(req.currentUser.accessToken);
+  } catch (err) {
+    next(err);
+  }
+});
 
 export default router;
