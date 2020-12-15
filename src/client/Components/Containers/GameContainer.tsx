@@ -23,7 +23,6 @@ export const GameContainer = (): JSX.Element => {
   ]
     use that to test functionality, you should set it up to an anon function so
     it only gets called when you press the play button
-
     we may have to change this around once we start testing a few other things,
     lets get the basic functionality started though to make sure it works properly
   */

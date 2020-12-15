@@ -357,6 +357,8 @@ export default class MainScene extends Phaser.Scene {
       grid.push(col);
     }
 
+    //Pathfinding v v V v v
+
     // Pathfinder.setGrid(grid);
 
     // const tileset = dungeonMap.tilesets[0];
