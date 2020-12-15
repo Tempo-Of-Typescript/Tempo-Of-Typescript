@@ -10,6 +10,7 @@ import { enemy } from "./Enemy";
 import { collision } from "./SpriteCollision";
 import { hitboxCollision } from "./HitboxCollision";
 import preloader from "./Preloader";
+import { store } from "../../store/store";
 
 //declare the gameState globally
 interface looseObj {
@@ -31,12 +32,8 @@ export default class MainScene extends Phaser.Scene {
   //depends on the sprite map we are using
   static readonly TILE_SIZE = 48;
 
-  private queue = [
-    { timeInMS: 10000, BPM: 100 },
-    { timeInMS: 10000, BPM: 205 },
-    // {timeInMS:1500,BPM: 70},
-    // {timeInMS:9000,BPM: 155},
-  ];
+  private songQueue = store.getState().songQueue;
+  private queue = this.songQueue;
 
   private gridControls?: GridControls;
   private gridPhysics?: GridPhysics;
@@ -409,26 +406,46 @@ export default class MainScene extends Phaser.Scene {
       const beatTimer = this.time.addEvent({
         delay: msForOneBeat,
         callback: () => {
-          this.beat0!.x += 5.0;
-          if (this.beat0!.x >= 100) this.beat0!.x = 0;
-          this.beat1!.x += 5.0;
-          if (this.beat1!.x >= 200) this.beat1!.x = 100;
-          this.beat2!.x += 5.0;
-          if (this.beat2!.x >= 300) this.beat2!.x = 200;
-          this.beat3!.x += 5.0;
-          if (this.beat3!.x >= 400) this.beat3!.x = 300;
-          this.beat4!.x += 5.0;
-          if (this.beat4!.x >= 500) this.beat4!.x = 400;
-          this.beat5!.x += 5.0;
-          if (this.beat5!.x >= 600) this.beat5!.x = 500;
-          this.beat6!.x += 5.0;
-          if (this.beat6!.x >= 700) this.beat6!.x = 600;
-          this.beat7!.x += 5.0;
-          if (this.beat7!.x >= 800) this.beat7!.x = 700;
-          this.beat8!.x += 5.0;
-          if (this.beat8!.x >= 900) this.beat8!.x = 800;
-          this.beat9!.x += 5.0;
-          if (this.beat9!.x >= 1000) this.beat9!.x = 900;
+          if (this.beat0) {
+            this.beat0.x += 5.0;
+            if (this.beat0.x >= 100) this.beat0.x = 0;
+          }
+          if (this.beat1) {
+            this.beat1.x += 5.0;
+            if (this.beat1.x >= 200) this.beat1.x = 100;
+          }
+          if (this.beat2) {
+            this.beat2.x += 5.0;
+            if (this.beat2.x >= 300) this.beat2.x = 200;
+          }
+          if (this.beat3) {
+            this.beat3.x += 5.0;
+            if (this.beat3.x >= 400) this.beat3.x = 300;
+          }
+          if (this.beat4) {
+            this.beat4.x += 5.0;
+            if (this.beat4.x >= 500) this.beat4.x = 400;
+          }
+          if (this.beat5) {
+            this.beat5.x += 5.0;
+            if (this.beat5.x >= 600) this.beat5.x = 500;
+          }
+          if (this.beat6) {
+            this.beat6.x += 5.0;
+            if (this.beat6.x >= 700) this.beat6.x = 600;
+          }
+          if (this.beat7) {
+            this.beat7.x += 5.0;
+            if (this.beat7.x >= 800) this.beat7.x = 700;
+          }
+          if (this.beat8) {
+            this.beat8.x += 5.0;
+            if (this.beat8.x >= 900) this.beat8.x = 800;
+          }
+          if (this.beat9) {
+            this.beat9.x += 5.0;
+            if (this.beat9.x >= 1000) this.beat9.x = 900;
+          }
         },
         loop: true,
       });
