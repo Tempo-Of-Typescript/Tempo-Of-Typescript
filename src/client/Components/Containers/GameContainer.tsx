@@ -13,9 +13,6 @@ export const GameContainer: React.FC = (): JSX.Element => {
 
   return (
     <>
-      <div>
-        <SongPlayer />
-      </div>
       {showGame ? (
         <div className="game-container">
           <IonPhaser className="game-window" game={game} />
@@ -26,6 +23,9 @@ export const GameContainer: React.FC = (): JSX.Element => {
           <button onClick={() => startGame()}>Start Game!</button>
         </div>
       )}
+      <div>
+        <SongPlayer />
+      </div>
     </>
   );
 };
