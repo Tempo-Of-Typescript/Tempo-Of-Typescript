@@ -13,9 +13,14 @@ interface AppProps {
   fetchLoginStatus: () => void;
 }
 
-const mapStateToProps = ({ songQueue, loggedInStatus }: AppState) => ({
+const mapStateToProps = ({
   songQueue,
   loggedInStatus,
+  spotifySearch,
+}: AppState) => ({
+  songQueue,
+  loggedInStatus,
+  spotifySearch,
 });
 
 const mapDispatchToProps = (

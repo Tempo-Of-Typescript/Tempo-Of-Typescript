@@ -1,9 +1,25 @@
-// const intialState: Array<Object> = []
+import { ISearchActions, CURRENT_SEARCH, ISearchState } from "./types";
 
-// export const reducer:Array<any> = (state=intialState, action) => {
-//     switch(action.payload){
+const intialState: ISearchState = {
+  tracks: {
+    href: "",
+    items: [],
+    limit: 0,
+    next: "",
+    offset: 0,
+    previous: "",
+    total: 0,
+  },
+};
 
-//         default:
-//             return state;
-//     }
-// }
+export const searchReducer = (
+  state = intialState,
+  action: ISearchActions
+): ISearchState => {
+  switch (action.type) {
+    case CURRENT_SEARCH:
+      return { ...action.payload };
+    default:
+      return state;
+  }
+};

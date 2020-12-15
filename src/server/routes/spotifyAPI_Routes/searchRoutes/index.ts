@@ -4,43 +4,59 @@ import { blue } from "chalk";
 
 export const router = express.Router();
 
-router.get("/", async (req: Request, res: Response, next: NextFunction) => {
+router.post("/", async (req: Request, res: Response, next: NextFunction) => {
   try {
-    console.log(blue("WE IN IT BOI"));
-    const fakeBody = {
-      query: "ew",
-      type: "track,artist",
-      market: "US",
-      limit: 20,
-      offset: 0,
-    };
-
     const searchURI =
       "https://api.spotify.com/v1/search" +
       "?q=" +
-      encodeURIComponent(fakeBody.query) +
+      encodeURIComponent(req.body.query) +
       "&type=" +
-      encodeURIComponent(fakeBody.type) +
+      encodeURIComponent(req.body.type) +
       "&market=" +
-      encodeURIComponent(fakeBody.market) +
+      encodeURIComponent(req.body.market) +
       "&limit=" +
-      encodeURIComponent(fakeBody.limit) +
+      encodeURIComponent(req.body.limit) +
       "&offset=" +
-      encodeURIComponent(fakeBody.offset);
+      encodeURIComponent(req.body.offset);
 
     const authHeader = `Bearer ${req.currentUser.accessToken}`;
 
-    const data = await axios.get(searchURI, {
+    const { data } = await axios.get(searchURI, {
       headers: {
         "Content-type": "application/json",
         Authorization: authHeader,
       },
     });
 
-    console.log(data);
-
-    res.send(200);
+    res.send(data);
   } catch (err) {
     next(err);
   }
 });
+
+router.get(
+  "/getAudioFeature/:trackID",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { trackID } = req.params;
+      const searchURI =
+        "https://api.spotify.com/v1/audio-features/" +
+        encodeURIComponent(trackID);
+      const authHeader = `Bearer ${req.currentUser.accessToken}`;
+
+      console.log(searchURI);
+
+      const { data } = await axios.get(searchURI, {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: authHeader,
+        },
+      });
+
+      const sendBPM = { BPM: Math.floor(data.tempo) };
+      res.send(sendBPM);
+    } catch (err) {
+      next(err);
+    }
+  }
+);
