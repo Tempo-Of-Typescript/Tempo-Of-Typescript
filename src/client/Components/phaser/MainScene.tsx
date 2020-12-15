@@ -234,7 +234,8 @@ export default class MainScene extends Phaser.Scene {
     this.gridPhysics = new GridPhysics(
       //arguments for new Player are (spritesheet, characterIndex, startTilePosX, startTilePosY)
       new Player(this.playerSprite, 0, 29, 57),
-      dungeonMap
+      dungeonMap,
+      true
     );
     this.gridControls = new GridControls(this.input, this.gridPhysics);
 

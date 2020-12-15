@@ -43,7 +43,8 @@ export class GridPhysics {
 
   constructor(
     private player: Player,
-    private tileMap: Phaser.Tilemaps.Tilemap // public isAlive: boolean
+    private tileMap: Phaser.Tilemaps.Tilemap,
+    public isAlive: boolean
   ) {}
 
   //queue that holds the player's current and last direction
