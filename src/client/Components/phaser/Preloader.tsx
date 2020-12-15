@@ -101,8 +101,8 @@ export default function preloader(load: Phaser.Loader.LoaderPlugin): void {
   );
 
   //load the sword into the map
-  load.spritesheet("sword", "assets/sprites/smallSword.png", {
-    frameWidth: 48,
-    frameHeight: 48,
+  load.spritesheet("slash", "assets/sprites/smallSlash.png", {
+    frameWidth: 72,
+    frameHeight: 72,
   });
 }

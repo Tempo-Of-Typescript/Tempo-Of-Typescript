@@ -19,11 +19,10 @@ export const collision = (
       const portalX: number = enemyX;
       const portalY: number = enemyY;
 
-      enemySprite.setPosition(-100, -100);
+      enemySprite.setPosition(-250, -250);
+      portal?.setPosition(portalX, portalY);
       gameState.health -= 1;
       healthText?.setText(`Player Health: ${gameState.health}`);
-
-      portal?.setPosition(portalX, portalY);
 
       setTimeout(() => {
         portal?.setPosition(-100, -100);

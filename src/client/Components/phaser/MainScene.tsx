@@ -286,7 +286,8 @@ export default class MainScene extends Phaser.Scene {
     this.portal.anims.play("portal-spawn");
 
     // Create the hitbox and bring it to sprite layer
-    const hitbox = this.physics.add.sprite(0, 0, "sword");
+    const hitbox = this.physics.add.sprite(0, 0, "slash");
+    hitbox.setSize(48, 48);
     hitbox.setDepth(2);
 
     //this loop handles collision between enemy and player, when player touches enemy - enemy explodes
@@ -476,8 +477,7 @@ export default class MainScene extends Phaser.Scene {
     this.placeHolderEnemy?.moveEnemy();
 
     if (gameState.health <= 0) {
-      this.physics.pause();
-      this.death(); // Currently only turns off the physics for the player and doesn't stop player from moving.
+      this.gridPhysics?.pause();
     }
   }
 
