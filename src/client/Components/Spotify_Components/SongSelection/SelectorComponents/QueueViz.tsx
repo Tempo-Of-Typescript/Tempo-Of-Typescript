@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { IRootState as AppState } from "../../../store/Reducers";
+import { IRootState as AppState } from "../../../../store/Reducers";
 import { QueueItem } from "./QueueItem";
 
 export const QueueViz = (): JSX.Element => {

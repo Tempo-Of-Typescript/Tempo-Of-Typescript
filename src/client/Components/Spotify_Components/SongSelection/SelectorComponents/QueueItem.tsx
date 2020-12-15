@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { ISongQueueState } from "../../../store/Reducers/songQueueReducer/type";
-import { removeSongFromQueue } from "../../../store/Reducers/songQueueReducer/asyncActions";
+import { ISongQueueState } from "../../../../store/Reducers/songQueueReducer/type";
+import { removeSongFromQueue } from "../../../../store/Reducers/songQueueReducer/asyncActions";
 
 interface IqueueItemProps {
   qItem: ISongQueueState;

@@ -1,26 +1,16 @@
-import React, { useState } from "react";
-import { SearchBar } from "./SearchBar";
-import { useSelector } from "react-redux";
-import { DisplaySongs } from "./DisplaySongs";
-import { IRootState as AppState } from "../../../store/Reducers";
-import { QueueViz } from "./QueueViz";
+import React from "react";
+import { SearchBar } from "./SelectorComponents/SearchBar";
+import { DisplaySongs } from "./SelectorComponents/DisplaySongs";
+import { QueueViz } from "./SelectorComponents/QueueViz";
+import { ButtonToGame } from "./SelectorComponents/ButtonToGame";
 
-export const SongSelection = (): JSX.Element => {
-  //dont need?
-  const { loggedInStatus } = useSelector((state: AppState) => state);
-
-  /*
-        Search bar
-        results
-        queue (with go button)
-
-    */
-
+export const SongSelection: React.FC = (): JSX.Element => {
   return (
     <div>
       <SearchBar />
       <DisplaySongs />
       <QueueViz />
+      <ButtonToGame />
     </div>
   );
 };

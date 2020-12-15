@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { IindividualSongProps } from "../../../store/Reducers/searchReducer/types";
-import { addSongToQueue } from "../../../store/Reducers/songQueueReducer/asyncActions";
+import { IindividualSongProps } from "../../../../store/Reducers/searchReducer/types";
+import { addSongToQueue } from "../../../../store/Reducers/songQueueReducer/asyncActions";
 
 interface individualSongProps {
   song: IindividualSongProps;

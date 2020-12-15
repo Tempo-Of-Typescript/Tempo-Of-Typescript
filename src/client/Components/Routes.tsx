@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import { getLoginStatus } from "../store/Reducers/loginReducer/asyncActions";
 import { SongSelection } from "./Spotify_Components";
 import { LandingPage } from "./LandingPage/";
+import { GameContainer } from "./Containers/GameContainer";
 import Footer from "./Footer";
 
 interface AppProps {
@@ -40,6 +41,7 @@ class Routes extends React.Component<AppProps & AppState> {
         <Router>
           <Route exact path="/" component={LandingPage} />
           <Route path="/songQueue" component={SongSelection} />
+          <Route path="/playGame" component={GameContainer} />
         </Router>
         <Footer />
       </>

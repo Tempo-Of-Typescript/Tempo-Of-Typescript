@@ -4,7 +4,6 @@ import { GridControls } from "./GridControls";
 import { GridPhysics } from "./GridPhysics";
 import { createMonsterAnims } from "./EnemyAnimations";
 import Weapon from "./Weapon";
-import { BelongsToManyAssociation } from "sequelize-typescript";
 
 //declare the gameState globally
 interface looseObj {
