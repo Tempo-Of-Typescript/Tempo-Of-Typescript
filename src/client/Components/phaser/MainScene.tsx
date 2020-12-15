@@ -18,7 +18,7 @@ interface looseObj {
 }
 
 export const gameState: looseObj = {
-  health: 3, // TODO: Decrease every time an enemy collides with player && increase every time player walks over/attacks a heart
+  health: 20, // TODO: Decrease every time an enemy collides with player && increase every time player walks over/attacks a heart
   score: 0, // TODO: Increase every time an enemy collides with sword animation or walks over/attacks a gem
 };
 
@@ -321,8 +321,8 @@ export default class MainScene extends Phaser.Scene {
         this.playerSprite,
         enemies[i],
         this.healthText,
-        this.portal
-        // this.death
+        this.portal,
+        this.death
       );
     }
 

@@ -61,7 +61,7 @@ export class GridPhysics {
 
   //the main method for moving the character
   movePlayer(direction: Direction): void {
-    if (this.canMove) {
+    if (this.canMove && this.isAlive) {
       //if player is holding down the keys, keep going
       if (this.isMoving()) return;
 
