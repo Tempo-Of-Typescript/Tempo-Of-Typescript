@@ -43,7 +43,7 @@ export class GridPhysics {
 
   constructor(
     private player: Player,
-    private tileMap: Phaser.Tilemaps.Tilemap
+    private tileMap: Phaser.Tilemaps.Tilemap // public isAlive: boolean
   ) {}
 
   //queue that holds the player's current and last direction
@@ -211,5 +211,8 @@ export class GridPhysics {
     return this.movementDirectionVectors[
       this.movementDirection
     ]!.clone().multiply(new Vector2(speed));
+  }
+  public pause(): void {
+    this.isAlive = false;
   }
 }

@@ -433,6 +433,13 @@ const createSpriteAnims = (anims: Phaser.Animations.AnimationManager): void => {
     repeat: -1,
     frameRate: 10,
   });
+
+  anims.create({
+    key: "attack",
+    frames: anims.generateFrameNumbers("slash", { start: 3, end: 6 }),
+    frameRate: 10,
+    repeat: 0,
+  });
 };
 
 export { createSpriteAnims };
