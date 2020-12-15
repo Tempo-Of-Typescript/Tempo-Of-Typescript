@@ -16,7 +16,7 @@ export const hitboxCollision = (
     const portalY: number = enemyY;
 
     //removes enemy from current position, launches explosion animation, adds 1 to playerscore
-    enemySprite.setPosition(-100, -100);
+    enemySprite.setPosition(-250, -250);
     portal?.setPosition(portalX, portalY);
     gameState.score += 1;
     scoreText.setText(`Player Score: ${gameState.score}`);
