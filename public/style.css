@@ -14,11 +14,6 @@ body {
   );
 }
 
-img {
-  width: 200px;
-  height: 200px;
-}
-
 .game-container {
   display: flex;
   justify-content: center;
@@ -95,6 +90,11 @@ canvas {
   align-items: center;
 }
 
+.song-selection img {
+  width: 150px;
+  height: 150px;
+}
+
 .song-search {
   display: flex;
   justify-content: center;
@@ -112,11 +112,15 @@ canvas {
   right: 0;
   top: 5rem;
   max-height: 80rem;
-  max-width: 25rem;
+  max-width: 40rem;
   overflow-x: hidden;
   overflow-y: auto;
   border: 5px solid rgb(1, 169, 1);
   border-radius: 1rem 1rem;
+}
+
+.queue-song {
+  padding: 0 1rem 0 1rem;
 }
 
 .song-list {
@@ -145,7 +149,7 @@ canvas {
   flex-direction: column;
 }
 
-.all-queued-songs {
+.individal-queue-song {
   display: flex;
   padding: 1rem;
   border: 3px solid rgb(46, 46, 46);

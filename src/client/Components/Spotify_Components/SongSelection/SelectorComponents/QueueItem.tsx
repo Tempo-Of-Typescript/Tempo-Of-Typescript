@@ -13,7 +13,7 @@ export const QueueItem: React.FC<IqueueItemProps> = ({
   const dispatch = useDispatch();
 
   return (
-    <div className="all-queued-songs">
+    <div className="individal-queue-song">
       <img src={qItem.img} />
       <div className="queue-song">
         Name: {qItem.name} <br />
