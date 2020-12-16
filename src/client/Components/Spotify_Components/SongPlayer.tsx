@@ -35,6 +35,15 @@ export const SongPlayer: React.FC<ISongPlayer> = ({
           uris={uriList}
           play={isPlaying}
           autoPlay={false}
+          styles={{
+            activeColor: "#000000",
+            bgColor: "#e17501",
+            color: "#e17501",
+            loaderColor: "#70e034",
+            sliderColor: "#70e034",
+            trackArtistColor: "#000000",
+            trackNameColor: "#000000",
+          }}
         />
       </div>
     );

@@ -7,7 +7,7 @@ interface IqueueItemProps {
   qItem: ISongQueueState;
 }
 
-export const QueueItem: React.FC<IqueueItemProps> = ({
+export const inGameSongs: React.FC<IqueueItemProps> = ({
   qItem,
 }): JSX.Element => {
   const dispatch = useDispatch();
