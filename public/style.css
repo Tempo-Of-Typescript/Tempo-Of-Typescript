@@ -104,6 +104,8 @@ canvas {
 .song-search input {
   background-color: white;
   color: black;
+  width: 60rem;
+  margin: 1rem;
 }
 
 .song-queue {
@@ -135,10 +137,9 @@ canvas {
   display: flex;
   align-items: flex-start;
   flex-direction: column;
-  padding: 1rem;
-  margin: auto;
+  margin: 2rem;
   width: 80rem;
-  height: 50rem;
+  height: 70rem;
   overflow-x: hidden;
   overflow-y: auto;
   border: 5px solid rgb(1, 169, 1);
@@ -147,6 +148,14 @@ canvas {
 
 .individual-song {
   display: flex;
+  border: 3px solid rgb(0, 0, 0);
+  border-radius: 1rem 1rem;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(9, 19, 4, 1) 32%,
+    rgba(0, 34, 18, 1) 81%
+  );
 }
 
 .add-song {
@@ -159,7 +168,7 @@ canvas {
 .individal-queue-song {
   display: flex;
   padding: 1rem;
-  border: 3px solid rgb(46, 46, 46);
+  border: 3px solid rgb(0, 0, 0);
   border-radius: 1rem 1rem;
   background: linear-gradient(
     90deg,
