@@ -221,8 +221,8 @@ ul {
 }
 
 .in-game-queue img {
-  width: 80px;
-  height: 90px;
+  width: 100px;
+  height: 100px;
 }
 
 .game-page #instructions {
@@ -289,15 +289,11 @@ ul {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 1rem;
+  padding: 0.3rem;
+  font-size: 0.8rem;
   border: 3px solid rgb(0, 0, 0);
   border-radius: 1rem 1rem;
-  background: linear-gradient(
-    90deg,
-    rgba(0, 0, 0, 1) 0%,
-    rgba(9, 19, 4, 1) 32%,
-    rgba(0, 34, 18, 1) 81%
-  );
+  background-color: rgb(1, 72, 1);
   -webkit-animation: flip-horizontal-bottom 0.2s
     cubic-bezier(0.455, 0.03, 0.515, 0.955) reverse both;
   animation: flip-horizontal-bottom 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955)
