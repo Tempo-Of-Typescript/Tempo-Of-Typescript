@@ -2,8 +2,6 @@ import express, { Request, Response, NextFunction } from "express";
 import axios from "axios";
 import qs from "qs";
 import env from "dotenv";
-import { blue } from "chalk";
-import { User } from "../../../database/models";
 env.config();
 
 export const router = express.Router();
@@ -12,10 +10,6 @@ router.get(
   "/loginStatus",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      // console.log(req.currentUser)
-      // req.currentUser.accessToken = 'asdasdgdsfgadsfg'
-      await req.currentUser.save();
-      // console.log(req.currentUser)
       if (req.currentUser.accessToken !== "not logged in") {
         res.send(true);
       } else {
@@ -33,7 +27,8 @@ router.get("/login", (req: Request, res: Response, next: NextFunction) => {
       throw new Error("process env redirectURI missing");
     }
     const envRedirectURI: string = process.env.REDIRECT_URI;
-    const scopes = "user-read-private user-read-email";
+    const scopes =
+      "streaming user-read-private user-read-email user-read-playback-state user-modify-playback-state";
     const redirectUri =
       "https://accounts.spotify.com/authorize" +
       "?response_type=code" +
@@ -90,5 +85,13 @@ router.get(
     }
   }
 );
+
+router.get("/userToken", (req: Request, res: Response, next: NextFunction) => {
+  try {
+    res.send(req.currentUser.accessToken);
+  } catch (err) {
+    next(err);
+  }
+});
 
 export default router;

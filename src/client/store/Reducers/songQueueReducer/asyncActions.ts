@@ -1,32 +1,38 @@
 import { Action, Dispatch } from "redux";
 import { ThunkAction } from "redux-thunk";
-import { _addSongToQueue } from "./actions";
+import { _addSongToQueue, _removeSongFromQueue } from "./actions";
 import { IRootState } from "../index";
+import { IindividualSongProps } from "../searchReducer/types";
+import { ISongQueueState } from "./type";
 import axios from "axios";
 
-export const getLoginStatus = (): ThunkAction<
-  Promise<void>,
-  IRootState,
-  null,
-  Action
-> => {
+export const addSongToQueue = (
+  song: IindividualSongProps
+): ThunkAction<Promise<void>, IRootState, null, Action> => {
   return async (dispatch: Dispatch): Promise<void> => {
-    //make axios call to get song info
+    console.log(song);
 
-    //fake data for now so we can test feature for game
+    const { data } = await axios.get(
+      `api/spotify/search/getAudioFeature/${song.id}`
+    );
 
-    // const fakeDispatch = [
-    //     {timeInMS:120000,BPM: 85},
-    //     {timeInMS:180000,BPM: 125},
-    //     {timeInMS:150000,BPM: 70},
-    //     {timeInMS:90000,BPM: 155},
-    // ]
-
-    const fakeDispatch = {
-      timeInMS: 120000,
-      BPM: 85,
+    const songObjForDispatch = {
+      name: song.name,
+      img: song.album.images[2].url,
+      playbackURI: song.uri,
+      timeInMS: song.duration_ms,
+      BPM: data.BPM,
+      id: song.id,
     };
 
-    dispatch(_addSongToQueue(fakeDispatch));
+    dispatch(_addSongToQueue(songObjForDispatch));
+  };
+};
+
+export const removeSongFromQueue = (
+  songToRemove: ISongQueueState
+): ThunkAction<void, IRootState, null, Action> => {
+  return (dispatch: Dispatch): void => {
+    dispatch(_removeSongFromQueue(songToRemove));
   };
 };
