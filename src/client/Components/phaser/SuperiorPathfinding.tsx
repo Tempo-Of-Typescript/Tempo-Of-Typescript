@@ -31,9 +31,9 @@ export class SuperiorPathfinding {
         }
       } else {
         if (deltaY > 0) {
-          this.enemyPhysics.movePlayer(Direction.DOWN);
-        } else if (deltaY < 0) {
           this.enemyPhysics.movePlayer(Direction.UP);
+        } else if (deltaY < 0) {
+          this.enemyPhysics.movePlayer(Direction.DOWN);
         }
       }
     }

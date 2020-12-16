@@ -14,6 +14,7 @@ export const enemy = (
     //arguments for new Player are (spritesheet, characterIndex, startTilePosX, startTilePosY)
     new Player(sprite, charIdx, startTilePosX, startTilePosY), //coordinates where enemy spawns
     map,
-    true
+    true,
+    false
   );
 };

@@ -238,6 +238,7 @@ export default class MainScene extends Phaser.Scene {
       //arguments for new Player are (spritesheet, characterIndex, startTilePosX, startTilePosY)
       new Player(this.playerSprite, 0, 29, 57),
       dungeonMap,
+      true,
       true
     );
     this.gridControls = new GridControls(this.input, this.gridPhysics);
@@ -268,7 +269,7 @@ export default class MainScene extends Phaser.Scene {
     this.superiorPathfinding = new SuperiorPathfinding(
       this.child_mushroom,
       this.playerSprite,
-      mushroom
+      this.enemyPhysics
     );
 
     //creates animations for enemies
@@ -420,7 +421,7 @@ export default class MainScene extends Phaser.Scene {
         callback: () => {
           this.gridPhysics?.moveToBeat();
           this.enemyPhysics?.moveToBeat();
-          this.moveEnemy();
+          // this.moveEnemy();
         },
         loop: true,
       });
@@ -488,7 +489,8 @@ export default class MainScene extends Phaser.Scene {
     this.gridControls?.update();
     this.gridPhysics?.update(delta);
     this.weapon?.update();
-    this.placeHolderEnemy?.moveEnemy();
+    // this.placeHolderEnemy?.moveEnemy()
+    this.enemyPhysics?.update(delta);
     this.superiorPathfinding?.update();
 
     if (gameState.health <= 0) {
@@ -496,12 +498,12 @@ export default class MainScene extends Phaser.Scene {
     }
   }
 
-  public moveEnemy(): void {
-    const sprite = this.child_mushroom;
-    if (sprite) {
-      sprite.y += 8;
-    }
-  }
+  // public moveEnemy(): void {
+  //   const sprite = this.child_mushroom;
+  //   if (sprite) {
+  //     sprite.y += 8;
+  //   }
+  // }
   public delay(time: number): Promise<void> {
     return new Promise((resolve) => {
       setTimeout(resolve, time);
