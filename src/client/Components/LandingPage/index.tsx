@@ -2,6 +2,8 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { IRootState as AppState } from "../../store/store";
+import { LoginInstructions } from "./instructions";
+import { GameInstructions } from "./gameInstructions";
 
 const landingPage: React.FC<RouteComponentProps> = ({
   history,
@@ -22,6 +24,8 @@ const landingPage: React.FC<RouteComponentProps> = ({
           </a>
         )}
       </div>
+      <LoginInstructions />
+      <GameInstructions />
     </div>
   );
 };
