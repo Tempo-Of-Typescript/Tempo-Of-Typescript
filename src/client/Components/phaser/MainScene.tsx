@@ -11,6 +11,7 @@ import { collision } from "./SpriteCollision";
 import { hitboxCollision } from "./HitboxCollision";
 import preloader from "./Preloader";
 import { store } from "../../store/store";
+import { SuperiorPathfinding } from "./SuperiorPathfinding";
 
 //declare the gameState globally
 interface looseObj {
@@ -37,6 +38,8 @@ export default class MainScene extends Phaser.Scene {
 
   private gridControls?: GridControls;
   private gridPhysics?: GridPhysics;
+  private enemyPhysics?: GridPhysics;
+  private superiorPathfinding?: SuperiorPathfinding;
 
   private beat0?: Phaser.GameObjects.Image;
   private beat1?: Phaser.GameObjects.Image;
@@ -254,10 +257,18 @@ export default class MainScene extends Phaser.Scene {
     enemy(this.golem, 15, 48, 52, dungeonMap);
     enemy(this.gnoll, 16, 4, 43, dungeonMap);
     enemy(this.bird, 17, 13, 57, dungeonMap);
-    enemy(this.child_mushroom, 18, 29, 47, dungeonMap);
+    const mushroom = enemy(this.child_mushroom, 18, 29, 47, dungeonMap);
     enemy(this.mushroom, 19, 32, 7, dungeonMap);
     enemy(this.bandit, 20, 8, 50, dungeonMap);
     enemy(this.portal, 21, -100, -100, dungeonMap);
+
+    //add gridPhysics for a single enemy - TODO: group the enemies
+    this.enemyPhysics = mushroom;
+    this.superiorPathfinding = new SuperiorPathfinding(
+      this.child_mushroom,
+      this.playerSprite,
+      mushroom
+    );
 
     //creates animations for enemies
     createSpriteAnims(this.anims);
@@ -400,6 +411,7 @@ export default class MainScene extends Phaser.Scene {
         delay: msPerBeat,
         callback: () => {
           this.gridPhysics?.moveToBeat();
+          this.enemyPhysics?.moveToBeat();
         },
         loop: true,
       });
@@ -466,6 +478,7 @@ export default class MainScene extends Phaser.Scene {
     this.gridPhysics?.update(delta);
     this.weapon?.update();
     this.placeHolderEnemy?.moveEnemy();
+    this.superiorPathfinding?.update();
 
     if (gameState.health <= 0) {
       this.gridPhysics?.pause();
