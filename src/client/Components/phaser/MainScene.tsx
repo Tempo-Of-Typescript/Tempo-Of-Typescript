@@ -39,8 +39,6 @@ export default class MainScene extends Phaser.Scene {
 
   private gridControls?: GridControls;
   private gridPhysics?: GridPhysics;
-  private enemyPhysics?: GridPhysics;
-  private superiorPathfinding?: SuperiorPathfinding;
 
   private beat0?: Phaser.GameObjects.Image;
   private beat1?: Phaser.GameObjects.Image;
@@ -81,8 +79,47 @@ export default class MainScene extends Phaser.Scene {
   public bird?: Phaser.Physics.Arcade.Sprite;
   public elf?: Phaser.Physics.Arcade.Sprite;
   public fairy?: Phaser.Physics.Arcade.Sprite;
-
   public portal?: Phaser.Physics.Arcade.Sprite;
+
+  private lizardPhysics?: GridPhysics;
+  private treePhysics?: GridPhysics;
+  private ogrePhysics?: GridPhysics;
+  private banditPhysics?: GridPhysics;
+  private centaurPhysics?: GridPhysics;
+  private mushroomPhysics?: GridPhysics;
+  private masked_orcPhysics?: GridPhysics;
+  private gnollPhysics?: GridPhysics;
+  private goblinPhysics?: GridPhysics;
+  private golemPhysics?: GridPhysics;
+  private gnoll_shamanPhysics?: GridPhysics;
+  private child_mushroomPhysics?: GridPhysics;
+  private bearPhysics?: GridPhysics;
+  private wogolPhysics?: GridPhysics;
+  private skeletPhysics?: GridPhysics;
+  private birdPhysics?: GridPhysics;
+  private elfPhysics?: GridPhysics;
+  private fairyPhysics?: GridPhysics;
+  private portalPhysics?: GridPhysics;
+
+  private lizardPathfinding?: SuperiorPathfinding;
+  private treePathfinding?: SuperiorPathfinding;
+  private ogrePathfinding?: SuperiorPathfinding;
+  private banditPathfinding?: SuperiorPathfinding;
+  private centaurPathfinding?: SuperiorPathfinding;
+  private mushroomPathfinding?: SuperiorPathfinding;
+  private masked_orcPathfinding?: SuperiorPathfinding;
+  private gnollPathfinding?: SuperiorPathfinding;
+  private goblinPathfinding?: SuperiorPathfinding;
+  private golemPathfinding?: SuperiorPathfinding;
+  private gnoll_shamanPathfinding?: SuperiorPathfinding;
+  private child_mushroomPathfinding?: SuperiorPathfinding;
+  private bearPathfinding?: SuperiorPathfinding;
+  private wogolPathfinding?: SuperiorPathfinding;
+  private skeletPathfinding?: SuperiorPathfinding;
+  private birdPathfinding?: SuperiorPathfinding;
+  private elfPathfinding?: SuperiorPathfinding;
+  private fairyPathfinding?: SuperiorPathfinding;
+  private portalPathfinding?: SuperiorPathfinding;
 
   constructor() {
     super("mainscene");
@@ -244,32 +281,127 @@ export default class MainScene extends Phaser.Scene {
     this.gridControls = new GridControls(this.input, this.gridPhysics);
 
     //adds enemy to provided coordinates(function accepts: sprite, spriteIdx, posX, posY, map)
-    enemy(this.elf, 2, 8, 8, dungeonMap);
-    enemy(this.fairy, 3, 12, 8, dungeonMap);
-    enemy(this.goblin, 4, 16, 8, dungeonMap);
-    enemy(this.gnoll_shaman, 6, 47, 8, dungeonMap);
-    enemy(this.centaur, 7, 23, 18, dungeonMap);
-    enemy(this.bear, 8, 35, 25, dungeonMap);
-    enemy(this.wogol, 9, 48, 16, dungeonMap);
-    enemy(this.ogre, 10, 52, 30, dungeonMap);
-    enemy(this.masked_orc, 11, 40, 31, dungeonMap);
-    enemy(this.tree, 12, 29, 33, dungeonMap);
-    enemy(this.lizard, 13, 8, 35, dungeonMap);
-    enemy(this.skelet, 14, 8, 19, dungeonMap);
-    enemy(this.golem, 15, 48, 52, dungeonMap);
-    enemy(this.gnoll, 16, 4, 43, dungeonMap);
-    enemy(this.bird, 17, 13, 57, dungeonMap);
-    const mushroom = enemy(this.child_mushroom, 18, 29, 47, dungeonMap);
-    enemy(this.mushroom, 19, 32, 7, dungeonMap);
-    enemy(this.bandit, 20, 8, 50, dungeonMap);
-    enemy(this.portal, 21, -100, -100, dungeonMap);
+    this.elfPhysics = enemy(this.elf, 2, 8, 8, dungeonMap);
+    this.fairyPhysics = enemy(this.fairy, 3, 12, 8, dungeonMap);
+    this.goblinPhysics = enemy(this.goblin, 4, 16, 8, dungeonMap);
+    this.gnoll_shamanPhysics = enemy(this.gnoll_shaman, 6, 47, 8, dungeonMap);
+    this.centaurPhysics = enemy(this.centaur, 7, 23, 18, dungeonMap);
+    this.bearPhysics = enemy(this.bear, 8, 35, 25, dungeonMap);
+    this.wogolPhysics = enemy(this.wogol, 9, 48, 16, dungeonMap);
+    this.ogrePhysics = enemy(this.ogre, 10, 52, 30, dungeonMap);
+    this.masked_orcPhysics = enemy(this.masked_orc, 11, 40, 31, dungeonMap);
+    this.treePhysics = enemy(this.tree, 12, 29, 33, dungeonMap);
+    this.lizardPhysics = enemy(this.lizard, 13, 8, 35, dungeonMap);
+    this.skeletPhysics = enemy(this.skelet, 14, 8, 19, dungeonMap);
+    this.golemPhysics = enemy(this.golem, 15, 48, 52, dungeonMap);
+    this.gnollPhysics = enemy(this.gnoll, 16, 4, 43, dungeonMap);
+    this.birdPhysics = enemy(this.bird, 17, 13, 57, dungeonMap);
+    this.child_mushroomPhysics = enemy(
+      this.child_mushroom,
+      18,
+      29,
+      47,
+      dungeonMap
+    );
+    this.mushroomPhysics = enemy(this.mushroom, 19, 32, 7, dungeonMap);
+    this.banditPhysics = enemy(this.bandit, 20, 8, 50, dungeonMap);
+    this.portalPhysics = enemy(this.portal, 21, -100, -100, dungeonMap);
 
     //add gridPhysics for a single enemy - TODO: group the enemies
-    this.enemyPhysics = mushroom;
-    this.superiorPathfinding = new SuperiorPathfinding(
+    this.elfPathfinding = new SuperiorPathfinding(
+      this.elf,
+      this.playerSprite,
+      this.elfPhysics
+    );
+    this.lizardPathfinding = new SuperiorPathfinding(
+      this.lizard,
+      this.playerSprite,
+      this.lizardPhysics
+    );
+    this.treePathfinding = new SuperiorPathfinding(
+      this.tree,
+      this.playerSprite,
+      this.treePhysics
+    );
+    this.ogrePathfinding = new SuperiorPathfinding(
+      this.ogre,
+      this.playerSprite,
+      this.ogrePhysics
+    );
+    this.banditPathfinding = new SuperiorPathfinding(
+      this.bandit,
+      this.playerSprite,
+      this.banditPhysics
+    );
+    this.centaurPathfinding = new SuperiorPathfinding(
+      this.centaur,
+      this.playerSprite,
+      this.centaurPhysics
+    );
+    this.mushroomPathfinding = new SuperiorPathfinding(
+      this.mushroom,
+      this.playerSprite,
+      this.mushroomPhysics
+    );
+    this.masked_orcPathfinding = new SuperiorPathfinding(
+      this.masked_orc,
+      this.playerSprite,
+      this.masked_orcPhysics
+    );
+    this.gnollPathfinding = new SuperiorPathfinding(
+      this.gnoll,
+      this.playerSprite,
+      this.gnollPhysics
+    );
+    this.goblinPathfinding = new SuperiorPathfinding(
+      this.goblin,
+      this.playerSprite,
+      this.goblinPhysics
+    );
+    this.golemPathfinding = new SuperiorPathfinding(
+      this.golem,
+      this.playerSprite,
+      this.golemPhysics
+    );
+    this.gnoll_shamanPathfinding = new SuperiorPathfinding(
+      this.gnoll_shaman,
+      this.playerSprite,
+      this.gnoll_shamanPhysics
+    );
+    this.child_mushroomPathfinding = new SuperiorPathfinding(
       this.child_mushroom,
       this.playerSprite,
-      this.enemyPhysics
+      this.child_mushroomPhysics
+    );
+    this.bearPathfinding = new SuperiorPathfinding(
+      this.bear,
+      this.playerSprite,
+      this.bearPhysics
+    );
+    this.wogolPathfinding = new SuperiorPathfinding(
+      this.wogol,
+      this.playerSprite,
+      this.wogolPhysics
+    );
+    this.skeletPathfinding = new SuperiorPathfinding(
+      this.skelet,
+      this.playerSprite,
+      this.skeletPhysics
+    );
+    this.birdPathfinding = new SuperiorPathfinding(
+      this.bird,
+      this.playerSprite,
+      this.birdPhysics
+    );
+    this.fairyPathfinding = new SuperiorPathfinding(
+      this.fairy,
+      this.playerSprite,
+      this.fairyPhysics
+    );
+    this.portalPathfinding = new SuperiorPathfinding(
+      this.portal,
+      this.playerSprite,
+      this.portalPhysics
     );
 
     //creates animations for enemies
@@ -420,8 +552,26 @@ export default class MainScene extends Phaser.Scene {
         delay: msPerBeat,
         callback: () => {
           this.gridPhysics?.moveToBeat();
-          this.enemyPhysics?.moveToBeat();
-          // this.moveEnemy();
+
+          this.elfPhysics?.moveToBeat();
+          this.fairyPhysics?.moveToBeat();
+          this.goblinPhysics?.moveToBeat();
+          this.gnoll_shamanPhysics?.moveToBeat();
+          this.centaurPhysics?.moveToBeat();
+          this.bearPhysics?.moveToBeat();
+          this.wogolPhysics?.moveToBeat();
+          this.ogrePhysics?.moveToBeat();
+          this.masked_orcPhysics?.moveToBeat();
+          this.treePhysics?.moveToBeat();
+          this.lizardPhysics?.moveToBeat();
+          this.skeletPhysics?.moveToBeat();
+          this.golemPhysics?.moveToBeat();
+          this.gnollPhysics?.moveToBeat();
+          this.birdPhysics?.moveToBeat();
+          this.child_mushroomPhysics?.moveToBeat();
+          this.mushroomPhysics?.moveToBeat();
+          this.banditPhysics?.moveToBeat();
+          this.portalPhysics?.moveToBeat();
         },
         loop: true,
       });
@@ -489,21 +639,58 @@ export default class MainScene extends Phaser.Scene {
     this.gridControls?.update();
     this.gridPhysics?.update(delta);
     this.weapon?.update();
-    // this.placeHolderEnemy?.moveEnemy()
-    this.enemyPhysics?.update(delta);
-    this.superiorPathfinding?.update();
+    this.placeHolderEnemy?.moveEnemy();
+    this.elfPhysics?.update(delta);
+    this.elfPathfinding?.update();
+    this.lizardPhysics?.update(delta);
+    this.lizardPathfinding?.update();
+    this.treePhysics?.update(delta);
+    this.treePathfinding?.update();
+    this.ogrePhysics?.update(delta);
+    this.ogrePathfinding?.update();
+    this.banditPhysics?.update(delta);
+    this.banditPathfinding?.update();
+    this.centaurPhysics?.update(delta);
+    this.centaurPathfinding?.update();
+    this.mushroomPhysics?.update(delta);
+    this.mushroomPathfinding?.update();
+    this.masked_orcPhysics?.update(delta);
+    this.masked_orcPathfinding?.update();
+    this.gnollPhysics?.update(delta);
+    this.gnollPathfinding?.update();
+    this.goblinPhysics?.update(delta);
+    this.goblinPathfinding?.update();
+    this.golemPhysics?.update(delta);
+    this.golemPathfinding?.update();
+    this.gnoll_shamanPhysics?.update(delta);
+    this.gnoll_shamanPathfinding?.update();
+
+    this.child_mushroomPhysics?.update(delta);
+    this.child_mushroomPathfinding?.update();
+    this.bearPhysics?.update(delta);
+    this.bearPathfinding?.update();
+    this.wogolPhysics?.update(delta);
+    this.wogolPathfinding?.update();
+    this.skeletPhysics?.update(delta);
+    this.skeletPathfinding?.update();
+    this.birdPhysics?.update(delta);
+    this.birdPathfinding?.update();
+    this.fairyPhysics?.update(delta);
+    this.fairyPathfinding?.update();
+    this.portalPhysics?.update(delta);
+    this.portalPathfinding?.update();
 
     if (gameState.health <= 0) {
       this.gridPhysics?.pause();
     }
   }
 
-  // public moveEnemy(): void {
-  //   const sprite = this.child_mushroom;
-  //   if (sprite) {
-  //     sprite.y += 8;
-  //   }
-  // }
+  public moveEnemy(): void {
+    const sprite = this.child_mushroom;
+    if (sprite) {
+      sprite.y += 8;
+    }
+  }
   public delay(time: number): Promise<void> {
     return new Promise((resolve) => {
       setTimeout(resolve, time);
