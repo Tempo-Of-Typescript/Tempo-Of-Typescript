@@ -4,6 +4,7 @@ import { game } from "../phaser/game";
 import { SongPlayer } from "../Spotify_Components/SongPlayer";
 import { ButtonToQueue } from "./buttonToQueue";
 import { GameInstructions } from "../LandingPage/gameInstructions";
+import { InGameSongQueue } from "../Spotify_Components/";
 
 export const GameContainer: React.FC = (): JSX.Element => {
   const [showGame, setGame] = useState(false);
@@ -29,6 +30,9 @@ export const GameContainer: React.FC = (): JSX.Element => {
           </button>
         </div>
       )}
+      <div>
+        <InGameSongQueue />
+      </div>
       <div>
         <ButtonToQueue />
       </div>
