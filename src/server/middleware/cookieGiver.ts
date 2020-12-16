@@ -31,7 +31,9 @@ cookieGiver.use(async (req: Request, res: Response, next: NextFunction) => {
       });
       const newSession = await Sessions.create({ sessionUUID: newUserUUID });
       await newUser.$add("Sessions", newSession);
-      res.cookie("sessionId", newUserUUID);
+      res.cookie("sessionId", newUserUUID, {
+        maxAge: 3600000,
+      });
       req.currentUser = newUser;
       next();
     }

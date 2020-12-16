@@ -7,6 +7,10 @@ export interface ISongQueueActions {
 }
 
 export interface ISongQueueState {
+  name: string;
+  img: string;
+  playbackURI: string;
   timeInMS: number;
   BPM: number;
+  id: string;
 }
