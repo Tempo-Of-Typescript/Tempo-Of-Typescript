@@ -16,11 +16,14 @@ export const SearchBar: React.FC = (): JSX.Element => {
     e.preventDefault();
   };
 
-  console.log("search term is", searchTerm);
   return (
-    <div>
+    <div className="song-search">
       <form onSubmit={(e) => handleSubmit(e)}>
-        <input type="text" onChange={(e) => handleChange(e)} />
+        <input
+          className="nes-input is-success"
+          type="text"
+          onChange={(e) => handleChange(e)}
+        />
       </form>
     </div>
   );

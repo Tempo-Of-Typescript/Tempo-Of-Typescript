@@ -13,13 +13,20 @@ export const QueueItem: React.FC<IqueueItemProps> = ({
   const dispatch = useDispatch();
 
   return (
-    <>
+    <div className="all-queued-songs">
       <img src={qItem.img} />
-      Name: {qItem.name} <br />
-      BPM: {qItem.BPM} <br />
-      <button onClick={() => dispatch(removeSongFromQueue(qItem))}>
-        Remove Song
-      </button>
-    </>
+      <div className="queue-song">
+        Name: {qItem.name} <br />
+        BPM: {qItem.BPM} <br />
+        <div>
+          <button
+            className="nes-btn is-error"
+            onClick={() => dispatch(removeSongFromQueue(qItem))}
+          >
+            Remove Song
+          </button>
+        </div>
+      </div>
+    </div>
   );
 };

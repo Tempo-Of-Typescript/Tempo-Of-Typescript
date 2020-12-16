@@ -6,7 +6,8 @@ import { ButtonToGame } from "./SelectorComponents/ButtonToGame";
 
 export const SongSelection: React.FC = (): JSX.Element => {
   return (
-    <div>
+    <div className="song-selection">
+      <h1>Search for songs and add them to your queue:</h1>
       <SearchBar />
       <DisplaySongs />
       <QueueViz />

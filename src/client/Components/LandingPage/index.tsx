@@ -24,7 +24,7 @@ const landingPage: React.FC<RouteComponentProps> = ({
           </button>
         ) : (
           <a href={linkTo}>
-            <button>{buttonText}</button>
+            <button className="nes-btn is-success">{buttonText}</button>
           </a>
         )}
       </div>
