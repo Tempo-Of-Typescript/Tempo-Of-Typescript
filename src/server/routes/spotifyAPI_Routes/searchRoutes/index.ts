@@ -1,6 +1,5 @@
 import express, { Request, Response, NextFunction } from "express";
 import axios from "axios";
-import { blue } from "chalk";
 
 export const router = express.Router();
 
