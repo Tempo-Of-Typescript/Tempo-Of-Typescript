@@ -8,7 +8,7 @@ export const QueueViz = (): JSX.Element => {
 
   if (songQueue.length > 0) {
     return (
-      <div>
+      <div className="song-queue">
         {songQueue.map((ele) => {
           return (
             <div key={`songQ_${ele.id}`}>

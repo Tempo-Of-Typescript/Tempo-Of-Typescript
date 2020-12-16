@@ -18,7 +18,7 @@ export const addSongToQueue = (
 
     const songObjForDispatch = {
       name: song.name,
-      img: song.album.images[2].url,
+      img: song.album.images[1].url,
       playbackURI: song.uri,
       timeInMS: song.duration_ms,
       BPM: data.BPM,
