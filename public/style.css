@@ -18,13 +18,15 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 3rem;
+  margin-top: 2rem;
 }
 
 .game-container {
   display: flex;
   justify-content: center;
-  margin-bottom: 5rem;
+  margin-bottom: 2rem;
+  -webkit-animation: flip-scale-2-hor-top 0.5s linear reverse both;
+  animation: flip-scale-2-hor-top 0.5s linear reverse both;
 }
 
 .game-page h1 {
@@ -40,9 +42,12 @@ body {
 }
 
 .game-window {
-  padding-top: 5rem;
+  padding-top: 2rem;
   display: flex;
   justify-content: center;
+  -webkit-animation: slide-fwd-center 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+    both;
+  animation: slide-fwd-center 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
 
 canvas {
@@ -137,7 +142,7 @@ canvas {
 
 ul {
   text-align: start;
-  padding-top: 5rem;
+  padding-top: 2rem;
   -webkit-animation: text-focus-in 1s cubic-bezier(0.55, 0.085, 0.68, 0.53) 0.6s
     both;
   animation: text-focus-in 1s cubic-bezier(0.55, 0.085, 0.68, 0.53) 0.6s both;
@@ -185,6 +190,14 @@ ul {
   border-radius: 1rem 1rem;
 }
 
+.in-game-song-queue {
+  display: flex;
+  overflow-x: hidden;
+  overflow-y: auto;
+  border: 5px solid rgb(1, 169, 1);
+  border-radius: 1rem 1rem;
+}
+
 .queue-song {
   padding: 0 1rem 0 1rem;
 }
@@ -192,12 +205,35 @@ ul {
 .queue-with-start-butt {
   display: flex;
   flex-direction: column;
+  align-items: center;
   padding: 1rem;
   position: fixed;
   right: 0;
-  top: 5rem;
-  max-height: 80rem;
+  top: 8rem;
+  max-height: 82rem;
   max-width: 40rem;
+}
+
+.in-game-queue {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+  bottom: 5rem;
+  max-height: 30rem;
+  max-width: 100rem;
+}
+
+.in-game-queue img {
+  width: 100px;
+  height: 100px;
+}
+
+.game-page #instructions {
+  display: flex;
+  text-align: start;
+  width: 120rem;
 }
 
 .song-list {
@@ -248,6 +284,21 @@ ul {
     rgba(9, 19, 4, 1) 32%,
     rgba(0, 34, 18, 1) 81%
   );
+  -webkit-animation: flip-horizontal-bottom 0.2s
+    cubic-bezier(0.455, 0.03, 0.515, 0.955) reverse both;
+  animation: flip-horizontal-bottom 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955)
+    reverse both;
+}
+
+.game-queue-song {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.3rem;
+  font-size: 0.8rem;
+  border: 3px solid rgb(0, 0, 0);
+  border-radius: 1rem 1rem;
+  background-color: rgb(1, 72, 1);
   -webkit-animation: flip-horizontal-bottom 0.2s
     cubic-bezier(0.455, 0.03, 0.515, 0.955) reverse both;
   animation: flip-horizontal-bottom 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955)
@@ -410,5 +461,67 @@ ul {
     -webkit-filter: blur(0px);
     filter: blur(0px);
     opacity: 1;
+  }
+}
+
+@-webkit-keyframes flip-scale-2-hor-top {
+  0% {
+    -webkit-transform: translateY(0) rotateX(0) scale(1);
+    transform: translateY(0) rotateX(0) scale(1);
+    -webkit-transform-origin: 50% 0%;
+    transform-origin: 50% 0%;
+  }
+  50% {
+    -webkit-transform: translateY(-50%) rotateX(-90deg) scale(2);
+    transform: translateY(-50%) rotateX(-90deg) scale(2);
+    -webkit-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+  }
+  100% {
+    -webkit-transform: translateY(-100%) rotateX(-180deg) scale(1);
+    transform: translateY(-100%) rotateX(-180deg) scale(1);
+    -webkit-transform-origin: 50% 100%;
+    transform-origin: 50% 100%;
+  }
+}
+@keyframes flip-scale-2-hor-top {
+  0% {
+    -webkit-transform: translateY(0) rotateX(0) scale(1);
+    transform: translateY(0) rotateX(0) scale(1);
+    -webkit-transform-origin: 50% 0%;
+    transform-origin: 50% 0%;
+  }
+  50% {
+    -webkit-transform: translateY(-50%) rotateX(-90deg) scale(2);
+    transform: translateY(-50%) rotateX(-90deg) scale(2);
+    -webkit-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+  }
+  100% {
+    -webkit-transform: translateY(-100%) rotateX(-180deg) scale(1);
+    transform: translateY(-100%) rotateX(-180deg) scale(1);
+    -webkit-transform-origin: 50% 100%;
+    transform-origin: 50% 100%;
+  }
+}
+
+@-webkit-keyframes slide-fwd-center {
+  0% {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+  }
+  100% {
+    -webkit-transform: translateZ(160px);
+    transform: translateZ(160px);
+  }
+}
+@keyframes slide-fwd-center {
+  0% {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+  }
+  100% {
+    -webkit-transform: translateZ(160px);
+    transform: translateZ(160px);
   }
 }

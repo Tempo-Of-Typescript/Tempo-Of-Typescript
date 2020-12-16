@@ -8,10 +8,9 @@ export const InGameSongQueue: React.FC = (): JSX.Element => {
 
   if (songQueue.length > 0) {
     return (
-      <div className="queue-with-start-butt">
-        <h1>Player's Queue:</h1>
-        <h2>{`(${songQueue.length} songs)`}</h2>
-        <div className="song-queue">
+      <div className="in-game-queue">
+        <h3>{`Current Queue (${songQueue.length} Songs):`}</h3>
+        <div className="in-game-song-queue">
           {songQueue.map((ele) => {
             return (
               <div key={`songQ_${ele.id}`}>
