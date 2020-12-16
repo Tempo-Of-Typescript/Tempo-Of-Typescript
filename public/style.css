@@ -50,6 +50,10 @@ body {
   animation: slide-fwd-center 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
 
+.game-with-instructions {
+  background-color: green;
+}
+
 canvas {
   border: solid rgb(53, 53, 53) 0.25rem;
   border-radius: 1rem 1rem;
