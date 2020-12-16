@@ -10,7 +10,7 @@ export const DisplaySongs = (): JSX.Element => {
 
   if (trackArr.length > 0) {
     return (
-      <div>
+      <div className="song-list">
         {trackArr.map((ele) => {
           return (
             <div key={`individualsong_${ele.id}`}>

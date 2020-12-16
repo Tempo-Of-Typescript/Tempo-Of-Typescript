@@ -12,16 +12,23 @@ export const IndividualSong: React.FC<individualSongProps> = ({
 }): JSX.Element => {
   const { album, name } = song;
   //change this to 1 for slightly larger image (0=>largest, 2=>smallest)
-  const imageURL = album.images[2].url;
+  const imageURL = album.images[1].url;
   const dispatch = useDispatch();
 
   return (
-    <div>
+    <div className="individual-song">
       <img src={imageURL}></img>
-      {name}
-      <button onClick={() => dispatch(addSongToQueue(song))}>
-        Add To Queue
-      </button>
+      <div className="add-song">
+        {name}
+        <div>
+          <button
+            className="nes-btn is-warning"
+            onClick={() => dispatch(addSongToQueue(song))}
+          >
+            Add To Queue
+          </button>
+        </div>
+      </div>
     </div>
   );
 };
