@@ -14,13 +14,33 @@ body {
   );
 }
 
+.game-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 3rem;
+}
+
 .game-container {
   display: flex;
   justify-content: center;
+  margin-bottom: 5rem;
+}
+
+.game-page h1 {
+  color: #e17501;
+  font-size: 5rem;
+  text-shadow: 5px 10px #5e1e03;
+}
+
+.game-page h2 {
+  color: #ffffff;
+  font-size: 3rem;
+  text-shadow: 10px 10px #000000;
 }
 
 .game-window {
-  padding-top: 10rem;
+  padding-top: 5rem;
   display: flex;
   justify-content: center;
 }
@@ -47,12 +67,42 @@ canvas {
   background-color: rgba(0, 0, 0, 0.25);
 }
 
+.login-page {
+  display: flex;
+  padding: 20rem;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  min-height: 92rem;
+  background: radial-gradient(
+    circle,
+    rgba(34, 193, 195, 1) 0%,
+    rgba(253, 187, 45, 1) 100%
+  );
+}
+
 .landing-page {
   display: flex;
   padding: 20rem;
   flex-direction: column;
   align-items: center;
   text-align: center;
+  min-height: 92rem;
+  background: radial-gradient(
+    circle,
+    rgba(33, 30, 30, 1) 0%,
+    rgba(3, 2, 2, 1) 100%
+  );
+}
+
+.login-page h1 {
+  color: #e17501;
+  font-size: 5rem;
+  text-shadow: 5px 10px #5e1e03;
+  -webkit-animation: tracking-in-contract-bck 1s
+    cubic-bezier(0.215, 0.61, 0.355, 1) both;
+  animation: tracking-in-contract-bck 1s cubic-bezier(0.215, 0.61, 0.355, 1)
+    both;
 }
 
 .landing-page h1 {
@@ -65,6 +115,16 @@ canvas {
     both;
 }
 
+.login-page h2 {
+  color: #ffffff;
+  font-size: 3rem;
+  text-shadow: 10px 10px #000000;
+  -webkit-animation: tracking-in-contract-bck-bottom 2s
+    cubic-bezier(0.215, 0.61, 0.355, 1) 500ms both;
+  animation: tracking-in-contract-bck-bottom 2s
+    cubic-bezier(0.215, 0.61, 0.355, 1) 500ms both;
+}
+
 .landing-page h2 {
   color: #ffffff;
   font-size: 3rem;
@@ -73,6 +133,14 @@ canvas {
     cubic-bezier(0.215, 0.61, 0.355, 1) 500ms both;
   animation: tracking-in-contract-bck-bottom 2s
     cubic-bezier(0.215, 0.61, 0.355, 1) 500ms both;
+}
+
+ul {
+  text-align: start;
+  padding-top: 5rem;
+  -webkit-animation: text-focus-in 1s cubic-bezier(0.55, 0.085, 0.68, 0.53) 0.6s
+    both;
+  animation: text-focus-in 1s cubic-bezier(0.55, 0.085, 0.68, 0.53) 0.6s both;
 }
 
 .pick-songs-button {
@@ -85,6 +153,7 @@ canvas {
 }
 
 .song-selection {
+  padding: 5rem 0 2rem 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -103,16 +172,13 @@ canvas {
 .song-search input {
   background-color: white;
   color: black;
+  width: 60rem;
+  margin: 1rem;
 }
 
 .song-queue {
   display: flex;
   flex-direction: column;
-  position: fixed;
-  right: 0;
-  top: 5rem;
-  max-height: 80rem;
-  max-width: 40rem;
   overflow-x: hidden;
   overflow-y: auto;
   border: 5px solid rgb(1, 169, 1);
@@ -123,15 +189,25 @@ canvas {
   padding: 0 1rem 0 1rem;
 }
 
+.queue-with-start-butt {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  position: fixed;
+  right: 0;
+  top: 5rem;
+  max-height: 80rem;
+  max-width: 40rem;
+}
+
 .song-list {
   background-color: rgb(48, 48, 48);
   display: flex;
   align-items: flex-start;
   flex-direction: column;
-  padding: 1rem;
-  margin: auto;
+  margin: 2rem;
   width: 80rem;
-  height: 50rem;
+  height: 70rem;
   overflow-x: hidden;
   overflow-y: auto;
   border: 5px solid rgb(1, 169, 1);
@@ -140,6 +216,18 @@ canvas {
 
 .individual-song {
   display: flex;
+  border: 3px solid rgb(0, 0, 0);
+  border-radius: 1rem 1rem;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(9, 19, 4, 1) 32%,
+    rgba(0, 34, 18, 1) 81%
+  );
+  -webkit-animation: flip-horizontal-bottom 0.2s
+    cubic-bezier(0.455, 0.03, 0.515, 0.955) reverse both;
+  animation: flip-horizontal-bottom 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955)
+    reverse both;
 }
 
 .add-song {
@@ -152,8 +240,24 @@ canvas {
 .individal-queue-song {
   display: flex;
   padding: 1rem;
-  border: 3px solid rgb(46, 46, 46);
+  border: 3px solid rgb(0, 0, 0);
   border-radius: 1rem 1rem;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(9, 19, 4, 1) 32%,
+    rgba(0, 34, 18, 1) 81%
+  );
+  -webkit-animation: flip-horizontal-bottom 0.2s
+    cubic-bezier(0.455, 0.03, 0.515, 0.955) reverse both;
+  animation: flip-horizontal-bottom 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955)
+    reverse both;
+}
+
+.music-player {
+  width: 100%;
+  position: fixed;
+  bottom: 2.5rem;
 }
 
 /* Animations */
@@ -259,6 +363,52 @@ canvas {
   100% {
     -webkit-transform: translateZ(0) translateY(0);
     transform: translateZ(0) translateY(0);
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes flip-horizontal-bottom {
+  0% {
+    -webkit-transform: rotateX(0);
+    transform: rotateX(0);
+  }
+  100% {
+    -webkit-transform: rotateX(-180deg);
+    transform: rotateX(-180deg);
+  }
+}
+@keyframes flip-horizontal-bottom {
+  0% {
+    -webkit-transform: rotateX(0);
+    transform: rotateX(0);
+  }
+  100% {
+    -webkit-transform: rotateX(-180deg);
+    transform: rotateX(-180deg);
+  }
+}
+
+@-webkit-keyframes text-focus-in {
+  0% {
+    -webkit-filter: blur(12px);
+    filter: blur(12px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-filter: blur(0px);
+    filter: blur(0px);
+    opacity: 1;
+  }
+}
+@keyframes text-focus-in {
+  0% {
+    -webkit-filter: blur(12px);
+    filter: blur(12px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-filter: blur(0px);
+    filter: blur(0px);
     opacity: 1;
   }
 }
