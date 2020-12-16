@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { IonPhaser } from "@ion-phaser/react";
 import { game } from "../phaser/game";
 import { SongPlayer } from "../Spotify_Components/SongPlayer";
+import { ButtonToQueue } from "./buttonToQueue";
 
 export const GameContainer: React.FC = (): JSX.Element => {
   const [showGame, setGame] = useState(false);
@@ -24,6 +25,9 @@ export const GameContainer: React.FC = (): JSX.Element => {
           <button onClick={() => startGame()}>Start Game!</button>
         </div>
       )}
+      <div>
+        <ButtonToQueue />
+      </div>
       <div>
         <SongPlayer isPlaying={isPlaying} />
       </div>
