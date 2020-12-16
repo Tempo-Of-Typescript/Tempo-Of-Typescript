@@ -18,6 +18,15 @@ export const SongPlayer: React.FC = (): JSX.Element => {
           token={authToken}
           uris={["spotify:artist:6HQYnRM4OzToCYPpVBInuU"]}
           autoPlay={false}
+          styles={{
+            activeColor: "#000000",
+            bgColor: "#000000",
+            color: "#000000",
+            loaderColor: "#000000",
+            sliderColor: "#000000",
+            trackArtistColor: "#000000",
+            trackNameColor: "#000000",
+          }}
         />
       </div>
     );

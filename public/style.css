@@ -85,6 +85,7 @@ canvas {
 }
 
 .song-selection {
+  padding: 5rem 0 2rem 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -108,11 +109,6 @@ canvas {
 .song-queue {
   display: flex;
   flex-direction: column;
-  position: fixed;
-  right: 0;
-  top: 5rem;
-  max-height: 80rem;
-  max-width: 40rem;
   overflow-x: hidden;
   overflow-y: auto;
   border: 5px solid rgb(1, 169, 1);
@@ -121,6 +117,17 @@ canvas {
 
 .queue-song {
   padding: 0 1rem 0 1rem;
+}
+
+.queue-with-start-butt {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  position: fixed;
+  right: 0;
+  top: 5rem;
+  max-height: 80rem;
+  max-width: 40rem;
 }
 
 .song-list {
@@ -154,6 +161,12 @@ canvas {
   padding: 1rem;
   border: 3px solid rgb(46, 46, 46);
   border-radius: 1rem 1rem;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(9, 19, 4, 1) 32%,
+    rgba(0, 34, 18, 1) 81%
+  );
 }
 
 /* Animations */
