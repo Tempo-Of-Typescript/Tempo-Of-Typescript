@@ -9,11 +9,12 @@ export const enemy = (
   startTilePosX: number,
   startTilePosY: number,
   map: Phaser.Tilemaps.Tilemap
-): void => {
-  new GridPhysics(
+) => {
+  return new GridPhysics(
     //arguments for new Player are (spritesheet, characterIndex, startTilePosX, startTilePosY)
     new Player(sprite, charIdx, startTilePosX, startTilePosY), //coordinates where enemy spawns
     map,
-    true
+    true,
+    false
   );
 };

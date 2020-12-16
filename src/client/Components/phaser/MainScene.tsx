@@ -11,6 +11,7 @@ import { collision } from "./SpriteCollision";
 import { hitboxCollision } from "./HitboxCollision";
 import preloader from "./Preloader";
 import { store } from "../../store/store";
+import { SuperiorPathfinding } from "./SuperiorPathfinding";
 
 //declare the gameState globally
 interface looseObj {
@@ -38,6 +39,8 @@ export default class MainScene extends Phaser.Scene {
 
   private gridControls?: GridControls;
   private gridPhysics?: GridPhysics;
+  private enemyPhysics?: GridPhysics;
+  private superiorPathfinding?: SuperiorPathfinding;
 
   private beat0?: Phaser.GameObjects.Image;
   private beat1?: Phaser.GameObjects.Image;
@@ -235,6 +238,7 @@ export default class MainScene extends Phaser.Scene {
       //arguments for new Player are (spritesheet, characterIndex, startTilePosX, startTilePosY)
       new Player(this.playerSprite, 0, 29, 57),
       dungeonMap,
+      true,
       true
     );
     this.gridControls = new GridControls(this.input, this.gridPhysics);
@@ -255,10 +259,18 @@ export default class MainScene extends Phaser.Scene {
     enemy(this.golem, 15, 48, 52, dungeonMap);
     enemy(this.gnoll, 16, 4, 43, dungeonMap);
     enemy(this.bird, 17, 13, 57, dungeonMap);
-    enemy(this.child_mushroom, 18, 29, 47, dungeonMap);
+    const mushroom = enemy(this.child_mushroom, 18, 29, 47, dungeonMap);
     enemy(this.mushroom, 19, 32, 7, dungeonMap);
     enemy(this.bandit, 20, 8, 50, dungeonMap);
     enemy(this.portal, 21, -100, -100, dungeonMap);
+
+    //add gridPhysics for a single enemy - TODO: group the enemies
+    this.enemyPhysics = mushroom;
+    this.superiorPathfinding = new SuperiorPathfinding(
+      this.child_mushroom,
+      this.playerSprite,
+      this.enemyPhysics
+    );
 
     //creates animations for enemies
     createSpriteAnims(this.anims);
@@ -408,7 +420,8 @@ export default class MainScene extends Phaser.Scene {
         delay: msPerBeat,
         callback: () => {
           this.gridPhysics?.moveToBeat();
-          this.moveEnemy();
+          this.enemyPhysics?.moveToBeat();
+          // this.moveEnemy();
         },
         loop: true,
       });
@@ -476,19 +489,21 @@ export default class MainScene extends Phaser.Scene {
     this.gridControls?.update();
     this.gridPhysics?.update(delta);
     this.weapon?.update();
-    this.placeHolderEnemy?.moveEnemy();
+    // this.placeHolderEnemy?.moveEnemy()
+    this.enemyPhysics?.update(delta);
+    this.superiorPathfinding?.update();
 
     if (gameState.health <= 0) {
       this.gridPhysics?.pause();
     }
   }
 
-  public moveEnemy(): void {
-    const sprite = this.child_mushroom;
-    if (sprite) {
-      sprite.y += 8;
-    }
-  }
+  // public moveEnemy(): void {
+  //   const sprite = this.child_mushroom;
+  //   if (sprite) {
+  //     sprite.y += 8;
+  //   }
+  // }
   public delay(time: number): Promise<void> {
     return new Promise((resolve) => {
       setTimeout(resolve, time);

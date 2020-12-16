@@ -44,7 +44,8 @@ export class GridPhysics {
   constructor(
     private player: Player,
     private tileMap: Phaser.Tilemaps.Tilemap,
-    public isAlive: boolean
+    public isAlive: boolean,
+    public isPlayer: boolean
   ) {}
 
   //queue that holds the player's current and last direction
@@ -65,11 +66,14 @@ export class GridPhysics {
       //if player is holding down the keys, keep going
       if (this.isMoving()) return;
 
-      //if player encounters and obstacle, stop and stand
       if (this.isBlockingDirection(direction)) {
-        this.player.setStandingFrame(direction);
+        if (this.isPlayer) {
+          this.player.setStandingFrame(direction);
+          console.log("issue is here...");
+        }
       } else {
         this.startMoving(direction);
+        console.log("...or here");
 
         //since the sprite only faces left or right, we change the queue to record current direction
         if (direction === "left" || direction === "right") {
@@ -88,6 +92,8 @@ export class GridPhysics {
           this.player.directionToFrameRow[Direction.DOWN] = 1;
         }
       }
+
+      //if player encounters and obstacle, stop and stand
     }
   }
 
