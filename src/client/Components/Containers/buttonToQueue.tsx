@@ -6,10 +6,10 @@ const buttonToQueue: React.FC<RouteComponentProps> = ({
 }): JSX.Element => {
   return (
     <button
-      className="nes-btn is-success"
+      className="nes-btn is-warning"
       onClick={() => history.push("/songQueue")}
     >
-      Choose New Songs!
+      Return to Queue!
     </button>
   );
 };

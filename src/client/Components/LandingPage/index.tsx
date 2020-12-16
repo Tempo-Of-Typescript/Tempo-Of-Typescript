@@ -13,25 +13,31 @@ const landingPage: React.FC<RouteComponentProps> = ({
   const buttonText = loggedInStatus ? "Pick your songs!" : "Login To Spotify!";
 
   return (
-    <div className="landing-page">
+    <div className={loggedInStatus ? "landing-page" : "login-page"}>
       <h1>Rhythm Overflow</h1>
       <h2>Tempo of TypeScript</h2>
-      <div className="pick-songs-button">
-        {loggedInStatus ? (
-          <button
-            className="nes-btn is-primary"
-            onClick={() => history.push(linkTo)}
-          >
-            {buttonText}
-          </button>
-        ) : (
-          <a href={linkTo}>
-            <button className="nes-btn is-success">{buttonText}</button>
-          </a>
-        )}
-      </div>
-      <LoginInstructions />
-      <GameInstructions />
+      {loggedInStatus ? (
+        <>
+          <div className="pick-songs-button">
+            <button
+              className="nes-btn is-primary"
+              onClick={() => history.push(linkTo)}
+            >
+              {buttonText}
+            </button>
+          </div>
+          <GameInstructions />
+        </>
+      ) : (
+        <>
+          <div className="pick-songs-button">
+            <a href={linkTo}>
+              <button className="nes-btn is-success">{buttonText}</button>
+            </a>
+          </div>
+          <LoginInstructions />
+        </>
+      )}
     </div>
   );
 };

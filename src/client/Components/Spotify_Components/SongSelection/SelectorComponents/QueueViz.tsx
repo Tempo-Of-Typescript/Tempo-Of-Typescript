@@ -10,6 +10,8 @@ export const QueueViz = (): JSX.Element => {
   if (songQueue.length > 0) {
     return (
       <div className="queue-with-start-butt">
+        <h1>Player's Queue:</h1>
+        <h2>{`(${songQueue.length} songs)`}</h2>
         <div className="song-queue">
           {songQueue.map((ele) => {
             return (

@@ -37,10 +37,10 @@ export const SongPlayer: React.FC<ISongPlayer> = ({
           autoPlay={false}
           styles={{
             activeColor: "#000000",
-            bgColor: "#000000",
-            color: "#000000",
-            loaderColor: "#000000",
-            sliderColor: "#000000",
+            bgColor: "#e17501",
+            color: "#e17501",
+            loaderColor: "#70e034",
+            sliderColor: "#70e034",
             trackArtistColor: "#000000",
             trackNameColor: "#000000",
           }}

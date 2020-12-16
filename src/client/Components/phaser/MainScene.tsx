@@ -408,6 +408,7 @@ export default class MainScene extends Phaser.Scene {
         delay: msPerBeat,
         callback: () => {
           this.gridPhysics?.moveToBeat();
+          this.moveEnemy();
         },
         loop: true,
       });
@@ -482,6 +483,12 @@ export default class MainScene extends Phaser.Scene {
     }
   }
 
+  public moveEnemy(): void {
+    const sprite = this.child_mushroom;
+    if (sprite) {
+      sprite.y += 8;
+    }
+  }
   public delay(time: number): Promise<void> {
     return new Promise((resolve) => {
       setTimeout(resolve, time);
