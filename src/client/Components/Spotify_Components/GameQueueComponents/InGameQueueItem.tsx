@@ -9,10 +9,9 @@ export const InGameQueueItem: React.FC<IqueueItemProps> = ({
   qItem,
 }): JSX.Element => {
   return (
-    <div className="individal-queue-song">
+    <div className="game-queue-song">
       <img src={qItem.img} />
-      <div className="queue-song">
-        Name: {qItem.name} <br />
+      <div>
         BPM: {qItem.BPM} <br />
       </div>
     </div>

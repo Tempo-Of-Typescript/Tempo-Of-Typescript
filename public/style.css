@@ -18,13 +18,13 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 3rem;
+  margin-top: 2rem;
 }
 
 .game-container {
   display: flex;
   justify-content: center;
-  margin-bottom: 5rem;
+  margin-bottom: 2rem;
 }
 
 .game-page h1 {
@@ -40,7 +40,7 @@ body {
 }
 
 .game-window {
-  padding-top: 5rem;
+  padding-top: 2rem;
   display: flex;
   justify-content: center;
 }
@@ -137,7 +137,7 @@ canvas {
 
 ul {
   text-align: start;
-  padding-top: 5rem;
+  padding-top: 2rem;
   -webkit-animation: text-focus-in 1s cubic-bezier(0.55, 0.085, 0.68, 0.53) 0.6s
     both;
   animation: text-focus-in 1s cubic-bezier(0.55, 0.085, 0.68, 0.53) 0.6s both;
@@ -185,6 +185,14 @@ ul {
   border-radius: 1rem 1rem;
 }
 
+.in-game-song-queue {
+  display: flex;
+  overflow-x: hidden;
+  overflow-y: auto;
+  border: 5px solid rgb(1, 169, 1);
+  border-radius: 1rem 1rem;
+}
+
 .queue-song {
   padding: 0 1rem 0 1rem;
 }
@@ -192,12 +200,35 @@ ul {
 .queue-with-start-butt {
   display: flex;
   flex-direction: column;
+  align-items: center;
   padding: 1rem;
   position: fixed;
   right: 0;
-  top: 5rem;
-  max-height: 80rem;
+  top: 8rem;
+  max-height: 82rem;
   max-width: 40rem;
+}
+
+.in-game-queue {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+  bottom: 5rem;
+  max-height: 30rem;
+  max-width: 100rem;
+}
+
+.in-game-queue img {
+  width: 80px;
+  height: 90px;
+}
+
+.game-page #instructions {
+  display: flex;
+  text-align: start;
+  width: 120rem;
 }
 
 .song-list {
@@ -239,6 +270,25 @@ ul {
 
 .individal-queue-song {
   display: flex;
+  padding: 1rem;
+  border: 3px solid rgb(0, 0, 0);
+  border-radius: 1rem 1rem;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(9, 19, 4, 1) 32%,
+    rgba(0, 34, 18, 1) 81%
+  );
+  -webkit-animation: flip-horizontal-bottom 0.2s
+    cubic-bezier(0.455, 0.03, 0.515, 0.955) reverse both;
+  animation: flip-horizontal-bottom 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955)
+    reverse both;
+}
+
+.game-queue-song {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding: 1rem;
   border: 3px solid rgb(0, 0, 0);
   border-radius: 1rem 1rem;
