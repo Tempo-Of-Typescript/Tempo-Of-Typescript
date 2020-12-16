@@ -33,6 +33,7 @@ export default class MainScene extends Phaser.Scene {
   //depends on the sprite map we are using
   static readonly TILE_SIZE = 48;
 
+  //gets the playlist from the Spotify components and assigns them to Phaser
   private songQueue = store.getState().songQueue;
   private queue = this.songQueue;
 
@@ -369,6 +370,8 @@ export default class MainScene extends Phaser.Scene {
       grid.push(col);
     }
 
+    //Pathfinding v v V v v
+
     // Pathfinder.setGrid(grid);
 
     // const tileset = dungeonMap.tilesets[0];
@@ -391,6 +394,7 @@ export default class MainScene extends Phaser.Scene {
     // this.add.existing(this.placeHolderEnemy);
     // this.placeHolderEnemy.setDepth(2);
 
+    //creates a loop which runs indefinitely but only if a playlist is present
     while (this.queue.length) {
       const currentSong = this.queue.shift();
       let songDuration;
@@ -400,9 +404,13 @@ export default class MainScene extends Phaser.Scene {
       if (currentSong) {
         songDuration = currentSong.timeInMS;
         const songBPM = currentSong.BPM;
+
         //converts the song's BPM to milliseconds
         msPerBeat = (60 / songBPM) * 1000;
+        //ms needed to move one beat note 100px if moving 5px each cycle
         msForOneBeat = (msPerBeat * 5.0) / 100;
+
+        //pushes the current song at the end of the queue once it is over
         this.queue.push(currentSong);
       }
 
@@ -412,6 +420,7 @@ export default class MainScene extends Phaser.Scene {
         callback: () => {
           this.gridPhysics?.moveToBeat();
           this.enemyPhysics?.moveToBeat();
+          this.moveEnemy();
         },
         loop: true,
       });
@@ -464,7 +473,9 @@ export default class MainScene extends Phaser.Scene {
         loop: true,
       });
 
+      //utilizes a promise which delays the loops from iterating until the song is over
       if (songDuration) await this.delay(songDuration);
+      //pauses the older phaser timers once a new song begins to play
       beatTimer.paused = true;
       playerTimer.paused = true;
     }
@@ -485,6 +496,12 @@ export default class MainScene extends Phaser.Scene {
     }
   }
 
+  public moveEnemy(): void {
+    const sprite = this.child_mushroom;
+    if (sprite) {
+      sprite.y += 8;
+    }
+  }
   public delay(time: number): Promise<void> {
     return new Promise((resolve) => {
       setTimeout(resolve, time);
