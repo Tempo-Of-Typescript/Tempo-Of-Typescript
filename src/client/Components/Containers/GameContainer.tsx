@@ -5,9 +5,10 @@ import { SongPlayer } from "../Spotify_Components/SongPlayer";
 
 export const GameContainer: React.FC = (): JSX.Element => {
   const [showGame, setGame] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   const startGame = () => {
-    //make it so song starts playing
+    setIsPlaying(true);
     setGame(true);
   };
 
@@ -24,7 +25,7 @@ export const GameContainer: React.FC = (): JSX.Element => {
         </div>
       )}
       <div>
-        <SongPlayer />
+        <SongPlayer isPlaying={isPlaying} />
       </div>
     </>
   );

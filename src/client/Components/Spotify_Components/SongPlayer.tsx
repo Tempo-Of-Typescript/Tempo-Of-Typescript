@@ -1,9 +1,25 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import SpotifyPlayer from "react-spotify-web-playback";
+import { IRootState } from "../../store/Reducers";
 import { tokenForSpotifyPlayer } from "../../utils";
 
-export const SongPlayer: React.FC = (): JSX.Element => {
+interface ISongPlayer {
+  isPlaying: boolean;
+}
+
+export const SongPlayer: React.FC<ISongPlayer> = ({
+  isPlaying,
+}): JSX.Element => {
   const [authToken, setAuthToken] = useState("");
+
+  const { songQueue } = useSelector((state: IRootState) => state);
+
+  const uriList: Array<string> = [];
+
+  songQueue.forEach((ele) => {
+    uriList.push(ele.playbackURI);
+  });
 
   useEffect(() => {
     tokenForSpotifyPlayer().then((value) => {
@@ -16,7 +32,8 @@ export const SongPlayer: React.FC = (): JSX.Element => {
       <div>
         <SpotifyPlayer
           token={authToken}
-          uris={["spotify:artist:6HQYnRM4OzToCYPpVBInuU"]}
+          uris={uriList}
+          play={isPlaying}
           autoPlay={false}
         />
       </div>
